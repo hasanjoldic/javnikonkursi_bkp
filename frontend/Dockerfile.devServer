@@ -1,0 +1,17 @@
+FROM node:14
+
+USER node
+RUN mkdir -p /home/node/code/frontend
+
+WORKDIR /home/node/code
+COPY --chown=node:node frontend/package*.json ./frontend/
+
+WORKDIR /home/node/code/frontend
+RUN npm install
+
+WORKDIR /home/node/code
+COPY --chown=node:node . ./
+
+WORKDIR /home/node/code/frontend
+
+CMD ["npm", "start"]

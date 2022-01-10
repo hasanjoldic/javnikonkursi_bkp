@@ -1,0 +1,115 @@
+import { Request, ServerRoute } from "@hapi/hapi";
+import joi from "@hapi/joi";
+import pg from "../../db/index";
+
+enum ECompanyKey {
+  "title" = "title",
+  "url" = "url",
+}
+
+interface ICreateCompanyPayload {
+  title: string;
+  url: string;
+}
+
+const allowedKeys = Object.values(ECompanyKey);
+const sanitize = (payload: any): ICreateCompanyPayload => {
+  return allowedKeys
+    .filter((key) => payload[key] !== undefined)
+    .reduce((prev: any, current) => {
+      prev[current] = payload[current];
+      return prev;
+    }, {});
+};
+
+const routes: ServerRoute[] = [
+  {
+    method: "POST",
+    path: "/api/v1/companies",
+    handler: async function (request: Request, h) {
+      const { title, url } = request.payload as ICreateCompanyPayload;
+      console.log("Creating company...", request.payload);
+      try {
+        const company = await pg("companies")
+          .insert({
+            title,
+            url,
+          })
+          .returning("*");
+
+        return h.response(company as any).code(201);
+      } catch (err) {
+        console.log(err);
+        if (err.code === "23505") {
+          return h.response("Ustanova vec postoji").code(403);
+        }
+        return h.response(err).code(400);
+      }
+    },
+    options: {
+      validate: {
+        payload: joi.object({
+          title: joi.string(),
+          url: joi.string().uri(),
+        }),
+      },
+    },
+  },
+  {
+    method: "GET",
+    path: "/api/v1/companies",
+    handler: async function (request: Request, h) {
+      try {
+        const companies = await pg.select().from("companies");
+
+        return h.response(companies).code(201);
+      } catch (err) {
+        return h.response(err).code(400);
+      }
+    },
+    options: {
+      auth: false,
+    },
+  },
+  {
+    method: "PATCH",
+    path: "/api/v1/companies/{id}",
+    handler: async function (request: Request, h) {
+      try {
+        const id = request.params.id;
+        console.log("Updating company: ", id);
+        const company = await pg("companies")
+          .where({ id })
+          .update({
+            ...sanitize(request.payload),
+            updated_at: new Date().toISOString(),
+          })
+          .select("*");
+
+        return h.response(company).code(201);
+      } catch (err) {
+        return h.response(err).code(400);
+      }
+    },
+  },
+  {
+    method: "DELETE",
+    path: "/api/v1/companies/{id}",
+    handler: async function (request: Request, h) {
+      try {
+        const id = request.params.id;
+        console.log("Deleting company: ", id);
+        const deletedRows = await pg("companies").where({ id }).del();
+        if (deletedRows > 0) {
+          return h.response({ id }).code(201);
+        } else {
+          return h.response("Company delete failed").code(400);
+        }
+      } catch (err) {
+        return h.response(err).code(400);
+      }
+    },
+  },
+];
+
+export default routes;
