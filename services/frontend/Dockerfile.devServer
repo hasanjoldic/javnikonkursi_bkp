@@ -1,0 +1,15 @@
+FROM node:14
+
+USER node
+RUN mkdir -p /home/node/code
+
+# WORKDIR /home/node/code
+# WORKDIR /home/node/code
+# COPY --chown=node:node package.json yarn.lock ./
+# COPY --chown=node:node services/frontend/package.json services/frontend/tsconfig.json services/frontend/
+
+# WORKDIR /home/node/code/frontend
+# RUN npm install
+
+WORKDIR /home/node/code
+COPY --chown=node:node . ./

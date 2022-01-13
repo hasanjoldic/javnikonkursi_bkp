@@ -1,0 +1,13 @@
+{
+  "name": "javnikonkursi",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "services/*"
+    ],
+    "nohoist": [
+      "**"
+    ]
+  }
+}

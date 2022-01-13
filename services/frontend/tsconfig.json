@@ -1,0 +1,17 @@
+{
+  "references": [{ "path": "../backend" }],
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "target": "es2017",
+    "jsx": "react",
+    "lib": ["es2020", "dom"],
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"],
+    "baseUrl": "src/",
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  }
+}

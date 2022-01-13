@@ -18,7 +18,7 @@ services:
       # - ../backend/node_modules:/home/node/code/backend/node_modules
     build:
       context: ..
-      dockerfile: ./backend/Dockerfile
+      dockerfile: ./services/backend/Dockerfile
       args:
         ENV: development
     expose:
@@ -35,12 +35,13 @@ services:
       - ..:/home/node/code/
     build:
       context: ..
-      dockerfile: ./frontend/Dockerfile
+      dockerfile: ./services/frontend/Dockerfile
     expose:
       - 8080
     restart: always
     env_file:
       - ../.env
+    command: ["yarn", "--cwd", "services/frontend", "start"]
   proxy:
     image: nginx
     depends_on:

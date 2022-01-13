@@ -1,7 +1,7 @@
 .devcontainer
 Dockerfile
 docker-compose*.yml
-lib
-build
-dist
-node_modules
+# lib
+# build
+# dist
+# node_modules
