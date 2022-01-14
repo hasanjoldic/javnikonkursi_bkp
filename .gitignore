@@ -119,3 +119,4 @@ dist
 env
 lib/**/*
 
+tsconfig.tsbuildinfo
