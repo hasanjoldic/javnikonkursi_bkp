@@ -1,14 +1,16 @@
 import React from "react";
-import { createStyles, makeStyles, useTheme, Theme } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import ListItemText from "@material-ui/core/ListItemText";
+import { FieldConfig } from "formik";
+
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  ListItemText,
+  Checkbox,
+  Chip,
+} from "@material-ui/core";
 import Select, { SelectProps } from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
-import Chip from "@material-ui/core/Chip";
-import { FormHelperText } from "@material-ui/core";
-import { FieldConfig, useField } from "formik";
 
 // const ITEM_HEIGHT = 48;
 // const ITEM_PADDING_TOP = 8;
@@ -32,13 +34,15 @@ type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &
   FieldConfig<any>;
 
-type TMultipleSelectInputProps = TInputProps & { selectFieldProps: SelectProps } & {
+type TProps = TInputProps & {
+  selectFieldProps: SelectProps;
+} & {
   options: string[];
   isCheckedFn: (value: string[], option: string) => boolean;
   // compareFn: (value: IMultipleSelectInputProps["value"], option: ISelectOption) => boolean;
 };
 
-const MultipleSelectInput = (props: TMultipleSelectInputProps) => {
+export const MultipleSelectInput = (props: TProps) => {
   const { options, isCheckedFn } = props;
   const classes = useStyles();
 
@@ -67,9 +71,14 @@ const MultipleSelectInput = (props: TMultipleSelectInputProps) => {
         // MenuProps={MenuProps}
       >
         {options.map((option) => {
-          const isChecked = isCheckedFn ? isCheckedFn(value, option) : value.includes(option);
+          const isChecked = isCheckedFn
+            ? isCheckedFn(value, option)
+            : value.includes(option);
           return (
-            <MenuItem key={option} value={option} /*style={getStyles(name, personName, theme)}*/>
+            <MenuItem
+              key={option}
+              value={option} /*style={getStyles(name, personName, theme)}*/
+            >
               <Checkbox checked={isChecked} />
               <ListItemText primary={option} />
             </MenuItem>
@@ -99,5 +108,3 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-export default MultipleSelectInput;

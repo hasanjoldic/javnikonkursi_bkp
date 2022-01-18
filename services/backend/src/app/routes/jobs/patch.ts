@@ -3,7 +3,7 @@ import { json } from "body-parser";
 import { StatusCodes } from "http-status-codes";
 import { body, validationResult } from "express-validator";
 
-import { Job, JobField } from "@javnikonkursi/shared";
+import { JobField, updateJobBodyType } from "@javnikonkursi/shared";
 
 import { client } from "../../../db";
 
@@ -11,18 +11,6 @@ import { jobsReturnFields, jobsReturnType } from "./utils";
 
 const router = Router();
 const jsonParser = json();
-
-export type updateJobBodyType = Pick<
-  Job,
-  | JobField.company_id
-  | JobField.job_type_id
-  | JobField.title
-  | JobField.location
-  | JobField.start_date
-  | JobField.end_date
-  | JobField.external_url
-  | JobField.internal_url
->;
 
 router.patch(
   "/api/v1/jobs/:id",

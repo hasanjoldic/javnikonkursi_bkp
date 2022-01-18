@@ -1,5 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
@@ -9,11 +10,10 @@ import * as Yup from "yup";
 
 import { Company, CompanyField, locations } from "@javnikonkursi/shared";
 
-import TextInput from "components/forms/inputs/TextInput";
-import { createCompany } from "store/companies/actions";
-import { useHistory } from "react-router-dom";
-import { SearchSelectFormikInput } from "components/forms/inputs/SearchSelectInput";
 import { useApiClient } from "api";
+import { createCompany } from "store";
+
+import { TextInput, SearchSelectFormikInput } from "components";
 
 const Button = (props) => {
   const classes = useStyles(props);

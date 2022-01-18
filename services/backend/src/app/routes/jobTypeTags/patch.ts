@@ -3,7 +3,10 @@ import { json } from "body-parser";
 import { StatusCodes } from "http-status-codes";
 import { body, validationResult } from "express-validator";
 
-import { JobTypeTag, JobTypeTagField } from "@javnikonkursi/shared";
+import {
+  JobTypeTagField,
+  updateJobTypeTagBodyType,
+} from "@javnikonkursi/shared";
 
 import { client } from "../../../db";
 
@@ -11,11 +14,6 @@ import { jobTypeTagReturnFields, jobTypeTagReturnType } from "./utils";
 
 const router = Router();
 const jsonParser = json();
-
-export type updateJobTypeTagBodyType = Pick<
-  JobTypeTag,
-  JobTypeTagField.title | JobTypeTagField.notes
->;
 
 router.patch(
   "/api/v1/job_type_tags/:id",

@@ -6,11 +6,11 @@ type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &
   FieldConfig<any>;
 
-type TDateInputProps = TInputProps & {
+type IProps = TInputProps & {
   datePickerProps: Omit<DatePickerProps, "value" | "onChange">;
 };
 
-const DateInput = (props: TDateInputProps) => {
+export const DateInput = (props: IProps) => {
   const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
   const hasError = meta.touched === true && meta.error != null;
@@ -31,5 +31,3 @@ const DateInput = (props: TDateInputProps) => {
     />
   );
 };
-
-export default DateInput;

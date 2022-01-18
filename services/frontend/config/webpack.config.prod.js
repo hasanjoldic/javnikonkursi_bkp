@@ -57,6 +57,11 @@ module.exports = function (env) {
                       { loose: true },
                     ],
                     [
+                      "@babel/plugin-proposal-private-property-in-object",
+                      { loose: true },
+                    ],
+                    ["@babel/plugin-proposal-private-methods", { loose: true }],
+                    [
                       "babel-plugin-import",
                       {
                         libraryName: "@material-ui/core",

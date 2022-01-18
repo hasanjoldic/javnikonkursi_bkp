@@ -7,12 +7,12 @@ import SearchSelect, {
   ReactSelectMaterialUiProps,
 } from "react-select-material-ui";
 
-interface IMultipleSearchSelectInputProps extends ReactSelectMaterialUiProps {}
+interface IProps extends ReactSelectMaterialUiProps {}
 
-const MultipleSearchSelectInput = ({
+export const MultipleSearchSelectInput = ({
   SelectProps,
   ...props
-}: IMultipleSearchSelectInputProps) => {
+}: IProps) => {
   const classes = useStyles();
 
   return (
@@ -44,5 +44,3 @@ const useStyles = makeStyles(() =>
     },
   })
 );
-
-export default MultipleSearchSelectInput;

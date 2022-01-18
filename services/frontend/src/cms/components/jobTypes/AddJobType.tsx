@@ -7,11 +7,12 @@ import * as Yup from "yup";
 import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import { createJobTypeBodyType } from "@javnikonkursi/backend";
-import { createJobType } from "store";
-import { useApiClient } from "api";
+import { createJobTypeBodyType } from "@javnikonkursi/shared";
 
-import TextInput from "components/forms/inputs/TextInput";
+import { useApiClient } from "api";
+import { createJobType } from "store";
+
+import { TextInput } from "components";
 
 const initialValues: createJobTypeBodyType = {
   title: "",

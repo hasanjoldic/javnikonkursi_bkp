@@ -1,21 +1,20 @@
 import React from "react";
 import clsx from "clsx";
-
-import { makeStyles, Theme } from "@material-ui/core/styles";
-
 import SearchSelect, {
   ReactSelectMaterialUiProps,
 } from "react-select-material-ui";
 import { FieldConfig, useField, useFormikContext } from "formik";
+
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { grey } from "@material-ui/core/colors";
 
 interface ISearchSelectInputProps extends ReactSelectMaterialUiProps {}
 
-const SearchSelectInput = ({
+export const SearchSelectInput = ({
   SelectProps,
   ...props
 }: ISearchSelectInputProps) => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <SearchSelect
@@ -40,11 +39,11 @@ type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &
   FieldConfig<any>;
 
-type TTextInputProps = TInputProps & {
+type IProps = TInputProps & {
   searchSelectProps: Omit<ISearchSelectInputProps, "value" | "onChange">;
 };
 
-export const SearchSelectFormikInput = (props: TTextInputProps) => {
+export const SearchSelectFormikInput = (props: IProps) => {
   const classes = useStyles(props);
 
   const [field, meta] = useField(props);
@@ -71,5 +70,3 @@ export const SearchSelectFormikInput = (props: TTextInputProps) => {
     />
   );
 };
-
-export default SearchSelectInput;

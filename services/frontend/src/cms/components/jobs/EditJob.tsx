@@ -7,15 +7,17 @@ import * as Yup from "yup";
 import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import { locations } from "@javnikonkursi/shared";
-import { updateJobBodyType } from "@javnikonkursi/backend";
-import { IApplicationState, updateJob, deleteJob } from "store";
-import { useApiClient } from "api";
+import { locations, updateJobBodyType } from "@javnikonkursi/shared";
 
-import TextInput from "components/forms/inputs/TextInput";
-import { SearchSelectFormikInput } from "components/forms/inputs/SearchSelectInput";
-import DateInput from "components/forms/inputs/DateInput";
-import FileUpload from "components/forms/inputs/FileUpload";
+import { useApiClient } from "api";
+import { IApplicationState, updateJob, deleteJob } from "store";
+
+import {
+  TextInput,
+  SearchSelectFormikInput,
+  DateInput,
+  FileUpload,
+} from "components";
 
 const Button = (props) => {
   const classes = useStyles(props);

@@ -3,18 +3,12 @@ import { json } from "body-parser";
 import { StatusCodes } from "http-status-codes";
 import { body, validationResult } from "express-validator";
 
-import { Company, CompanyField } from "@javnikonkursi/shared";
-
 import { client } from "../../../db";
 
 import { companiesReturnFields, companiesReturnType } from "./utils";
 
 const router = Router();
 const jsonParser = json();
-
-export type updateCompanyBodyType = Partial<
-  Pick<Company, CompanyField.url | CompanyField.title | CompanyField.location>
->;
 
 router.patch(
   "/api/v1/companies/:id",

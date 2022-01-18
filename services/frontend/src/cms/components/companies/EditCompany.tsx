@@ -1,19 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { updateCompanyBodyType } from "@javnikonkursi/shared";
 
-import TextInput from "components/forms/inputs/TextInput";
-import { updateCompany, deleteCompany } from "store/companies/actions";
-import { useParams, useHistory } from "react-router-dom";
-import { IApplicationState } from "store";
-import { Company } from "@javnikonkursi/shared";
-import { updateCompanyBodyType } from "@javnikonkursi/backend";
+import { IApplicationState, updateCompany, deleteCompany } from "store";
 import { useApiClient } from "api";
+
+import { TextInput } from "components";
 
 const validationSchema = Yup.object({
   title: Yup.string().min(5).required("Obavezno polje"),

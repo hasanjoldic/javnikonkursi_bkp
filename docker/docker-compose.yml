@@ -1,21 +1,6 @@
 version: "3.7"
 services:
-  db:
-    image: postgres:13
-    volumes:
-      - db_volume:/var/lib/postgresql/data
-    expose:
-      - 5432
-    restart: always
-    env_file:
-      - ../.env
-
   backend:
-    depends_on:
-      - db
-    volumes:
-      - ..:/home/node/code
-      # - ../backend/node_modules:/home/node/code/backend/node_modules
     build:
       context: ..
       dockerfile: ./services/backend/Dockerfile
@@ -29,10 +14,7 @@ services:
 
   frontend:
     depends_on:
-      - db
       - backend
-    volumes:
-      - ..:/home/node/code/
     build:
       context: ..
       dockerfile: ./services/frontend/Dockerfile
@@ -41,12 +23,12 @@ services:
     restart: always
     env_file:
       - ../.env
-    command: ["yarn", "--cwd", "services/frontend", "start"]
+
   proxy:
     image: nginx
     depends_on:
       - backend
-      - frontend
+      # - frontend
     volumes:
       - ../nginx/templates:/etc/nginx/templates
     ports:
@@ -54,6 +36,3 @@ services:
     restart: always
     env_file:
       - ../.env
-
-volumes:
-  db_volume: {}

@@ -6,7 +6,7 @@ import { Company, TAnyVoidFunction } from "@javnikonkursi/shared";
 import {
   createCompanyBodyType,
   updateCompanyBodyType,
-} from "@javnikonkursi/backend";
+} from "@javnikonkursi/shared";
 
 import { TApiClient, useApiClient } from "api";
 

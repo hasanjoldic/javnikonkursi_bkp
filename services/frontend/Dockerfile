@@ -4,25 +4,23 @@ FROM node:14 as build
 ARG ENV
 
 USER node
-RUN mkdir -p /home/node/code/frontend
+RUN mkdir -p /home/node/code
 
-WORKDIR /home/node/code
-COPY --chown=node:node services/frontend/scripts frontend/scripts/
-COPY --chown=node:node services/frontend/package*.json frontend/
-
-WORKDIR /home/node/code/frontend
-RUN scripts/Dockerfile/install.sh
+# WORKDIR /home/node/code
+# COPY --chown=node:node . ./
 
 WORKDIR /home/node/code
 COPY --chown=node:node . ./
+RUN rm -rf services/backend
+RUN yarn install
 
-WORKDIR /home/node/code/frontend
-RUN scripts/Dockerfile/build.sh 
+RUN yarn workspace @javnikonkursi/shared run build
+RUN services/frontend/scripts/Dockerfile/build.sh
 
 # deploy stage
 
 FROM nginx
 
-COPY frontend/nginx/templates /etc/nginx/templates/
+COPY services/frontend/nginx/templates /etc/nginx/templates/
 
-COPY --from=build /home/node/code/frontend/build /usr/share/nginx/html
+COPY --from=build /home/node/code/services/frontend/build /usr/share/nginx/html

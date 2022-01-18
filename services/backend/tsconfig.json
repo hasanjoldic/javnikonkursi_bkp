@@ -1,13 +1,11 @@
 {
   "references": [{ "path": "../../packages/shared" }],
   "compilerOptions": {
-    "composite": true,
-    "target": "es5",
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
-    "skipLibCheck": true
-    // "declaration": true
+    "skipLibCheck": true,
+    "lib": ["ESNext"]
   },
   "include": ["src"]
   // "compilerOptions": {

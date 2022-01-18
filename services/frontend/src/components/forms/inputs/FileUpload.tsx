@@ -14,11 +14,11 @@ type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &
   FieldConfig<any>;
 
-type TFileUploadProps = TInputProps & {
+type TProps = TInputProps & {
   label: string;
 };
 
-const FileUpload = (props: TFileUploadProps) => {
+export const FileUpload = (props: TProps) => {
   const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
   const hasError = meta.touched === true && meta.error != null;
@@ -55,5 +55,3 @@ const FileUpload = (props: TFileUploadProps) => {
     </FormControl>
   );
 };
-
-export default FileUpload;

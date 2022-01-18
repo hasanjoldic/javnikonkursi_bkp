@@ -6,27 +6,12 @@ import { body, validationResult } from "express-validator";
 import multer from "multer";
 import AWS from "aws-sdk";
 
-import { Job, JobField } from "@javnikonkursi/shared";
-
-import { client } from "../../../db";
-
-import { jobsReturnFields, jobsReturnType } from "./utils";
+import { createJobBodyType } from "@javnikonkursi/shared";
 
 const router = Router();
 const jsonParser = json();
 const upload = multer();
 const s3 = new AWS.S3();
-
-export type createJobBodyType = Pick<
-  Job,
-  | JobField.company_id
-  | JobField.job_type_id
-  | JobField.title
-  | JobField.location
-  | JobField.start_date
-  | JobField.end_date
-  | JobField.external_url
-> & { internalFile: File };
 
 router.post(
   "/api/v1/jobs",

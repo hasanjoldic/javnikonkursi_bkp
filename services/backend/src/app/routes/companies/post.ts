@@ -3,7 +3,7 @@ import { json } from "body-parser";
 import { StatusCodes } from "http-status-codes";
 import { body, validationResult } from "express-validator";
 
-import { Company, CompanyField } from "@javnikonkursi/shared";
+import { createCompanyBodyType } from "@javnikonkursi/shared";
 
 import { client } from "../../../db";
 
@@ -11,11 +11,6 @@ import { companiesReturnFields, companiesReturnType } from "./utils";
 
 const router = Router();
 const jsonParser = json();
-
-export type createCompanyBodyType = Pick<
-  Company,
-  CompanyField.url | CompanyField.title | CompanyField.location
->;
 
 router.post(
   "/api/v1/companies",

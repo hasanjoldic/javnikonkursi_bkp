@@ -1,6 +1,6 @@
 #!/bin/bash
 
 if [ ${ENV} = "development" ];
-  then npm run build:dev;
-  else npm run build;
+  then yarn workspace @javnikonkursi/frontend run build:dev;
+  else yarn workspace @javnikonkursi/frontend run build;
 fi

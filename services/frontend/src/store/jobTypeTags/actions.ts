@@ -6,7 +6,7 @@ import { TAnyVoidFunction, JobTypeTag } from "@javnikonkursi/shared";
 import {
   createJobTypeTagBodyType,
   updateJobTypeTagBodyType,
-} from "@javnikonkursi/backend";
+} from "@javnikonkursi/shared";
 
 import { TApiClient, useApiClient } from "api";
 

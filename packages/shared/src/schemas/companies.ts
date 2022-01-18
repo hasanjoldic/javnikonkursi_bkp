@@ -12,3 +12,12 @@ export interface Company extends Timestamp {
   [CompanyField.url]: string;
   [CompanyField.location]?: Location;
 }
+
+export type createCompanyBodyType = Pick<
+  Company,
+  CompanyField.url | CompanyField.title | CompanyField.location
+>;
+
+export type updateCompanyBodyType = Partial<
+  Pick<Company, CompanyField.url | CompanyField.title | CompanyField.location>
+>;

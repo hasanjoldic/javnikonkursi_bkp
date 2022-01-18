@@ -14,6 +14,16 @@ export interface JobTypeTag extends Timestamp {
   [JobTypeTagField.job_types]: JobTypeTag[];
 }
 
+export type createJobTypeTagBodyType = Pick<
+  JobTypeTag,
+  JobTypeTagField.title | JobTypeTagField.notes
+>;
+
+export type updateJobTypeTagBodyType = Pick<
+  JobTypeTag,
+  JobTypeTagField.title | JobTypeTagField.notes
+>;
+
 export enum JobTypeField {
   title = "title",
   notes = "notes",
@@ -25,6 +35,16 @@ export interface JobType extends Timestamp {
   [JobTypeField.notes]: string;
   [JobTypeField.tags]: JobTypeTag[];
 }
+
+export type createJobTypeBodyType = Pick<
+  JobTypeTag,
+  JobTypeTagField.title | JobTypeTagField.notes
+>;
+
+export type updateJobTypeBodyType = Pick<
+  JobTypeTag,
+  JobTypeTagField.title | JobTypeTagField.notes
+>;
 
 export enum JobField {
   company_id = "company_id",
@@ -68,3 +88,26 @@ export interface Job extends Timestamp {
 //   "BH Telecom" = "BH Telecom",
 //   "Elektroprivreda BiH" = "Elektroprivreda BiH",
 // }
+
+export type createJobBodyType = Pick<
+  Job,
+  | JobField.company_id
+  | JobField.job_type_id
+  | JobField.title
+  | JobField.location
+  | JobField.start_date
+  | JobField.end_date
+  | JobField.external_url
+> & { internalFile: any };
+
+export type updateJobBodyType = Pick<
+  Job,
+  | JobField.company_id
+  | JobField.job_type_id
+  | JobField.title
+  | JobField.location
+  | JobField.start_date
+  | JobField.end_date
+  | JobField.external_url
+  | JobField.internal_url
+>;

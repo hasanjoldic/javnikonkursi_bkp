@@ -4,6 +4,8 @@ require("core-js/stable");
 require("regenerator-runtime/runtime");
 
 const { migrate } = require("postgres-migrations");
+require("dotenv").config();
+const path = require("path");
 
 const {
   POSTGRES_HOST,
@@ -15,7 +17,7 @@ const {
 
 (async function migrateUp() {
   const dbConfig = {
-    host: POSTGRES_HOST || "172.19.0.2",
+    host: POSTGRES_HOST || "172.0.0.1",
     port: Number.parseInt(POSTGRES_PORT || "5432"),
     user: POSTGRES_USER || "postgres",
     password: POSTGRES_PASSWORD || "postgres",
@@ -30,5 +32,5 @@ const {
     defaultDatabase: "postgres",
   };
 
-  await migrate(dbConfig, "./up");
+  await migrate(dbConfig, path.resolve(__dirname, "./up"));
 })();

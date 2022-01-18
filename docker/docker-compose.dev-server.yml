@@ -4,7 +4,6 @@ services:
     build:
       args:
         ENV: dev-server
-    command: ["yarn", "--cwd", "services/backend", "start:watch"]
     ports:
       - 3000:3000
   frontend:

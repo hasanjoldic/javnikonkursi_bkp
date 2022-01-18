@@ -4,12 +4,13 @@ USER node
 RUN mkdir -p /home/node/code
 
 # WORKDIR /home/node/code
-# WORKDIR /home/node/code
-# COPY --chown=node:node package.json yarn.lock ./
-# COPY --chown=node:node services/frontend/package.json services/frontend/tsconfig.json services/frontend/
-
-# WORKDIR /home/node/code/frontend
-# RUN npm install
+# COPY --chown=node:node . ./
 
 WORKDIR /home/node/code
 COPY --chown=node:node . ./
+RUN rm -rf services/backend
+RUN yarn install
+
+RUN yarn workspace @javnikonkursi/shared run build
+
+CMD ["yarn", "workspace", "@javnikonkursi/frontend", "run", "start"]

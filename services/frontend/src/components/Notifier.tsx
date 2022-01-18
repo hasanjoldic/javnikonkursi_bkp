@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { useSnackbar, SnackbarKey } from "notistack";
 
-import { IApplicationState } from "store";
-import { removeSnackbar } from "store/notifications/actions";
+import { IApplicationState, removeSnackbar } from "store";
 
 let displayed: SnackbarKey[] = [];
 
-const Notifier = () => {
+export const Notifier: React.FC = () => {
   const dispatch = useDispatch();
-  const notifications = useSelector((store: IApplicationState) => store.notifications.notifications);
+  const notifications = useSelector(
+    (store: IApplicationState) => store.notifications.notifications
+  );
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const storeDisplayed = (id) => {

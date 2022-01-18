@@ -2,8 +2,12 @@ import { useEffect } from "react";
 import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
 
-import { Job, TAnyVoidFunction } from "@javnikonkursi/shared";
-import { createJobBodyType, updateJobBodyType } from "@javnikonkursi/backend";
+import {
+  Job,
+  TAnyVoidFunction,
+  updateJobBodyType,
+  createJobBodyType,
+} from "@javnikonkursi/shared";
 
 import { TApiClient, useApiClient } from "api";
 

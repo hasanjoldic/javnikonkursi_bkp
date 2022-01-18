@@ -7,7 +7,6 @@
   "license": "ISC",
   "dependencies": {
     "@date-io/moment": "^1.3.13",
-    "@javnikonkursi/backend": "1.0.0",
     "@javnikonkursi/shared": "1.0.0",
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
@@ -36,8 +35,9 @@
     "yup": "^0.29.1"
   },
   "scripts": {
-    "build": "webpack --config ./config/webpack.config.prod.js",
-    "build:dev": "webpack --config ./config/webpack.config.dev.js",
+    "clean": "rm -rf build",
+    "build": "yarn clean && webpack --config ./config/webpack.config.prod.js",
+    "build:dev": "yarn clean && webpack --config ./config/webpack.config.dev.js",
     "start": "webpack-dev-server --config ./config/webpackDevServer.config.dev.js --hot --inline",
     "start:prod": "webpack-dev-server --config ./config/webpack.config.local-prod.js --hot --inline",
     "graphql-codegen": "graphql-codegen --config codegen.yml",
@@ -70,7 +70,6 @@
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",
     "svg-sprite-loader": "^5.0.0",
-    "typescript": "^3.9.5",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",

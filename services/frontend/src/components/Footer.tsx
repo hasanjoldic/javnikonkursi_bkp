@@ -5,7 +5,7 @@ import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 
 import { Canton, Regija, SpecialLocation } from "@javnikonkursi/shared";
 
-const Footer = () => {
+export const Footer = () => {
   const classes = useStyles();
 
   return (
@@ -129,5 +129,3 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-export default Footer;

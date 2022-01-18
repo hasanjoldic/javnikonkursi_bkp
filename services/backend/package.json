@@ -7,10 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc --build",
-    "build:watch": "npm run clean && tsc --build --watch",
+    "build": "yarn clean && tsc --build",
     "start": "node dist/app/index.js",
-    "start:watch": "DEBUG=express:* nodemon dist/app/index.js",
     "pm2:start": "NODE_ENV=production pm2 start dist/app/index.js --name konkursi-backend --log pm2.log",
     "pm2:restart": "NODE_ENV=production pm2 restart konkursi-backend --log pm2.log",
     "migrate:latest": "knex --cwd=./dist/db/migrations --knexfile=../knexfile.js migrate:latest"
@@ -28,8 +26,6 @@
   "homepage": "https://github.com/HasanJoldic/career-backend#readme",
   "dependencies": {
     "@javnikonkursi/shared": "1.0.0",
-    "@types/cors": "^2.8.12",
-    "@types/multiparty": "0.0.32",
     "aws-sdk": "^2.1015.0",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -52,6 +48,8 @@
     "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.5",
+    "@types/cors": "^2.8.12",
+    "@types/multiparty": "0.0.32",
     "@types/multer": "^1.4.7",
     "@types/node": "^14.0.13",
     "@types/pg": "^8.6.1",
@@ -60,7 +58,6 @@
     "npm-run-all": "^4.1.5",
     "regenerator-runtime": "^0.13.9",
     "rimraf": "^3.0.2",
-    "typescript": "^3.9.5",
     "postgres-migrations": "^5.3.0"
   }
 }

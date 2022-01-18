@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
 import {
   CssBaseline,
@@ -25,19 +26,14 @@ import {
   Theme,
   createStyles,
 } from "@material-ui/core/styles";
+import { grey } from "@material-ui/core/colors";
 
 import { locations, Location } from "@javnikonkursi/shared";
 
-import MultipleSearchSelectInput from "components/forms/inputs/MultipleSearchSelectInput";
-import { grey } from "@material-ui/core/colors";
-import { IApplicationState } from "store";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { updateFilters } from "store/filters/actions";
-import { getJobs } from "store/jobs/actions";
-import { getCompanies } from "store/companies/actions";
-import { Link } from "react-router-dom";
-import Footer from "components/Footer";
 import { useApiClient } from "api";
+import { IApplicationState, updateFilters, getJobs, getCompanies } from "store";
+
+import { MultipleSearchSelectInput, Footer } from "components";
 
 const drawerWidth = 400;
 

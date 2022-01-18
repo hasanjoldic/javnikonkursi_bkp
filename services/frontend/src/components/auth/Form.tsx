@@ -1,16 +1,15 @@
 import React from "react";
-
 import { useDispatch } from "react-redux";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
 
 import { Grid, Avatar, Typography, Button, Link } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
 
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import { register, login } from "store";
 
-import TextInput from "components/forms/inputs/TextInput";
-import { register, login } from "store/auth/actions";
+import { TextInput } from "components";
 
 export enum EAuthFormTab {
   LOGIN = 0,

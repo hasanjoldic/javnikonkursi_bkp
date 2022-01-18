@@ -4,7 +4,6 @@ services:
     build:
       args:
         ENV: development
-    command: ["yarn", "--cwd", "services/backend", "start"]
   frontend:
     build:
       args:

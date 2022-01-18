@@ -1,22 +1,24 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { Grid, Button as MuiButton, Select } from "@material-ui/core";
+import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import TextInput from "components/forms/inputs/TextInput";
-import { useHistory } from "react-router-dom";
-import { IApplicationState } from "store";
-import { locations } from "@javnikonkursi/shared";
-import { createJob } from "store/jobs/actions";
-import { SearchSelectFormikInput } from "components/forms/inputs/SearchSelectInput";
-import DateInput from "components/forms/inputs/DateInput";
-import FileUpload from "components/forms/inputs/FileUpload";
+import { locations, createJobBodyType } from "@javnikonkursi/shared";
+
 import { useApiClient } from "api";
-import { createJobBodyType } from "@javnikonkursi/backend";
+import { IApplicationState, createJob } from "store";
+
+import {
+  TextInput,
+  SearchSelectFormikInput,
+  DateInput,
+  FileUpload,
+} from "components";
 
 const initialValues: createJobBodyType = {
   title: null,

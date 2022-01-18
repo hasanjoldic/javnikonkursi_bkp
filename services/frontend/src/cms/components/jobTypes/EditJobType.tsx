@@ -7,11 +7,12 @@ import * as Yup from "yup";
 import { Grid, Button as MuiButton } from "@material-ui/core";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 
-import { updateJobTypeBodyType } from "@javnikonkursi/backend";
+import { updateJobTypeBodyType } from "@javnikonkursi/shared";
+
 import { IApplicationState, updateJobType, deleteJobType } from "store";
 import { useApiClient } from "api";
 
-import TextInput from "components/forms/inputs/TextInput";
+import { TextInput } from "components";
 
 const EditJobType: React.FC = () => {
   const classes = useStyles();
