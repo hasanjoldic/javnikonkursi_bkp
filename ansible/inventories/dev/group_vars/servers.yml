@@ -1,7 +1,14 @@
 ---
 ENV: development
 
+POSTGRES_HOST: dev-db.c24kxwoyvc7t.eu-central-1.rds.amazonaws.com
+POSTGRES_PORT: 5432
+POSTGRES_USER: postgres
+POSTGRES_PASSWORD: 0208cbdfc722e97f2e264087bcfca0b085bdeddb7469b11facb31bc069196d5d
+POSTGRES_DB: postgres
+
 WEBSITE_PATH: /var/www/javnikonkursi.com
+BACKEND_PATH: http://localhost:3000/api/v1
 BACKEND_PORT: 3000
 FRONTEND_PORT: 80
 

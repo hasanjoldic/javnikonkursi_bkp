@@ -4,49 +4,75 @@
   vars:
     server_name: "{{ ansible_host }}"
   tasks:
+    - name: Add "node" user
+      user:
+        name: node
+
     - name: Update and upgrade apt packages
       apt:
         update_cache: yes
         cache_valid_time: 86400
 
+    - name: Install ACL
+      apt:
+        name: acl
+
     - name: Git checkout
-      ansible.builtin.git:
+      git:
         repo: "https://github.com/HasanJoldic/javnikonkursi.com.git"
-        dest: {{ PROJECT_ROOT }}
+        dest: "{{ PROJECT_ROOT }}"
         version: "{{ GIT_BRANCH }}"
+      become_user: node
 
     - name: Install Nginx
       apt:
-        name: nginx=1.18.0
+        name: nginx
 
     - name: Install node and npm
-      apt:
-        name: "{{ item }}"
-      loop:
-        - node=16.*
-        - npm=8.*
+      shell:
+        cmd: curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash - && sudo apt-get install -y nodejs
+        warn: false
 
     - name: Install yarn
-      community.general.npm:
-        name: yarn=1.*
+      npm:
+        name: yarn
         global: yes
         version: "1.22.5"
 
     - name: Install node modules
-      community.general.yarn:
-        path: {{ PROJECT_ROOT }}
+      yarn:
+        path: "{{ PROJECT_ROOT }}"
         production: "{{ 'yes' if ENV == 'production' else 'no' }}"
+      become_user: node
 
     - name: Build packages
-      ansible.builtin.shell:
-        cmd: yarn workspaces run build
-        chdir: {{ PROJECT_ROOT }}
+      shell:
+        cmd: NODE_OPTIONS="--max-old-space-size=1024" yarn workspaces run build
+        chdir: "{{ PROJECT_ROOT }}"
+      become_user: node
+
+    - name: Generate backend .env files
+      template:
+        src: templates/.env.backend
+        dest: "{{ PROJECT_ROOT }}/services/backend"
+
+    - name: Generate frontend .env files
+      template:
+        src: templates/.env.frontend
+        dest: "{{ PROJECT_ROOT }}/services/frontend"
+
+    # - name: Start backend server
+    #   shell:
+    #     cmd: yarn workspace @javnikonkursi/backend run start
+    #     chdir: "{{ PROJECT_ROOT }}"
+    #   become_user: node
 
     - name: Copy website files to the server's document root
       copy:
-        src: {{ PROJECT_ROOT }}/services/build
-        dest: {{ WEBSITE_PATH }}
+        src: "{{ PROJECT_ROOT }}/services/frontend/build"
+        dest: "{{ WEBSITE_PATH }}"
         mode: preserve
+      become_user: www-data
 
     - name: Apply Nginx template
       template:
