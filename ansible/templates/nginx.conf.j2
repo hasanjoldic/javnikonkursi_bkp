@@ -20,8 +20,8 @@ server {
     proxy_set_header X-Real-IP $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto https;
 
-    proxy_set_header Host localhost;
-    proxy_pass http://localhost:{{ FRONTEND_PORT }};
+    default_type "text/html";
+    try_files $uri.html $uri $uri/ =404;
 
     break;
   }

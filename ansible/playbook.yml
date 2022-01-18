@@ -13,17 +13,6 @@
         update_cache: yes
         cache_valid_time: 86400
 
-    - name: Install ACL
-      apt:
-        name: acl
-
-    - name: Git checkout
-      git:
-        repo: "https://github.com/HasanJoldic/javnikonkursi.com.git"
-        dest: "{{ PROJECT_ROOT }}"
-        version: "{{ GIT_BRANCH }}"
-      become_user: node
-
     - name: Install Nginx
       apt:
         name: nginx
@@ -39,6 +28,17 @@
         global: yes
         version: "1.22.5"
 
+    - name: Install ACL # needed for git
+      apt:
+        name: acl
+
+    - name: Git checkout
+      git:
+        repo: "https://github.com/HasanJoldic/javnikonkursi.com.git"
+        dest: "{{ PROJECT_ROOT }}"
+        version: "{{ GIT_BRANCH }}"
+      become_user: node
+
     - name: Install node modules
       yarn:
         path: "{{ PROJECT_ROOT }}"
@@ -53,13 +53,15 @@
 
     - name: Generate backend .env files
       template:
-        src: templates/.env.backend
-        dest: "{{ PROJECT_ROOT }}/services/backend"
+        src: templates/.env.backend.j2
+        dest: "{{ PROJECT_ROOT }}/services/backend/.env"
+      become_user: node
 
     - name: Generate frontend .env files
       template:
-        src: templates/.env.frontend
-        dest: "{{ PROJECT_ROOT }}/services/frontend"
+        src: templates/.env.frontend.j2
+        dest: "{{ PROJECT_ROOT }}/services/frontend/.env"
+      become_user: node
 
     # - name: Start backend server
     #   shell:
@@ -70,9 +72,10 @@
     - name: Copy website files to the server's document root
       copy:
         src: "{{ PROJECT_ROOT }}/services/frontend/build"
+        remote_src: yes
         dest: "{{ WEBSITE_PATH }}"
-        mode: preserve
-      become_user: www-data
+        mode: "644"
+        owner: www-data
 
     - name: Apply Nginx template
       template:
