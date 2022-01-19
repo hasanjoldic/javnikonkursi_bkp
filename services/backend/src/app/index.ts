@@ -21,9 +21,10 @@ routes.forEach(({ path, routers }) => {
   });
 });
 
+const host = process.env.APP_HOST || "localhost";
 const port = process.env.PORT || 3000;
 
-const server = app.listen(port, () => {
+const server = app.listen(port, host, () => {
   console.info(`Server listening at http://localhost:${port}`);
 });
 
