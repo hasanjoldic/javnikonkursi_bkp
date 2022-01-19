@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { enqueueSnackbar } from "store/notifications/actions";
 import { logout } from "store/auth/actions";
 
-import { API_FULL_PATH } from "env";
+import env from "env";
 
 export const sendRequest = async <T>({
   dispatch,
@@ -21,7 +21,7 @@ export const sendRequest = async <T>({
 }) => {
   let err;
   try {
-    const response = await fetch(`${API_FULL_PATH}${url}`, request);
+    const response = await fetch(`${env.API_FULL_PATH}${url}`, request);
     // const response = await fetch(url, request);
     if (response.status === 401) {
       dispatch(
