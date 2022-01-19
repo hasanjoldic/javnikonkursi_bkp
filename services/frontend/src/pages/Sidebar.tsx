@@ -15,18 +15,14 @@ import {
   Switch,
   FormGroup,
   FormControlLabel,
-} from "@material-ui/core";
+  Theme,
+} from "@mui/material";
+import { makeStyles, createStyles } from "@mui/styles";
 import {
   Menu as MenuIcon,
   ExpandMore as ExpandMoreIcon,
-} from "@material-ui/icons";
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
+} from "@mui/icons-material";
+import { grey } from "@mui/material/colors";
 
 import { locations, Location } from "@javnikonkursi/shared";
 
@@ -37,24 +33,21 @@ import { MultipleSearchSelectInput, Footer } from "components";
 
 const drawerWidth = 400;
 
-interface ISidebarProps {}
-
-const selector = (state: IApplicationState) => ({
-  companies: state.companies.data,
-
-  companiesFilter: state.filters.companies,
-  locationsFilter: state.filters.locations,
-  shouldIncludeExpired: state.filters.shouldIncludeExpired,
-});
-
-const Sidebar = (props: React.PropsWithChildren<ISidebarProps>) => {
+export const Sidebar: React.FC = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
   const client = useApiClient();
 
   const dispatch = useDispatch();
   const { companies, companiesFilter, locationsFilter, shouldIncludeExpired } =
-    useSelector(selector, shallowEqual);
+    useSelector(
+      (state: IApplicationState) => ({
+        companies: state.companies.data,
+        companiesFilter: state.filters.companies,
+        locationsFilter: state.filters.locations,
+        shouldIncludeExpired: state.filters.shouldIncludeExpired,
+      }),
+      shallowEqual
+    );
 
   const companyOptions = companies.map((c) => ({
     value: c.id,
@@ -235,7 +228,6 @@ const Sidebar = (props: React.PropsWithChildren<ISidebarProps>) => {
         <Hidden smUp implementation="css">
           <Drawer
             variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -338,5 +330,3 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
-
-export default Sidebar;

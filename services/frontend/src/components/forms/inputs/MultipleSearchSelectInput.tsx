@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Chip } from "@material-ui/core";
-import { createStyles, makeStyles } from "@material-ui/core/styles";
+import { Chip } from "@mui/material";
+import { createStyles, makeStyles } from "@mui/styles";
 
 import SearchSelect, {
   ReactSelectMaterialUiProps,

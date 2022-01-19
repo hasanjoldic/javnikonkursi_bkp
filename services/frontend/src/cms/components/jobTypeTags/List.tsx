@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import {
   Paper,
   Table as MuiTable,
@@ -13,9 +13,9 @@ import {
   TablePagination,
   TableRow,
   Button,
-} from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
-import { TableCellProps } from "@material-ui/core/TableCell";
+} from "@mui/material";
+import { Add as AddIcon } from "@mui/icons-material";
+import { TableCellProps } from "@mui/material/TableCell";
 
 import { IApplicationState } from "store";
 
@@ -130,7 +130,7 @@ const Table = () => {
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
       <Button

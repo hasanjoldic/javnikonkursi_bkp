@@ -1,21 +1,22 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper,
-  Table as MuiTable,
+  Table,
   TableBody,
   TableCell,
+  TableCellProps,
   TableContainer,
   TableHead,
   TablePagination,
   TableRow,
   Button,
-} from "@material-ui/core";
-import { Add as AddIcon } from "@material-ui/icons";
-import { TableCellProps } from "@material-ui/core/TableCell";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+import { Add as AddIcon } from "@mui/icons-material";
 
 import { IApplicationState } from "store";
 
@@ -55,7 +56,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Table = () => {
+export const Companies: React.FC = () => {
   const history = useHistory();
 
   const companies = useSelector(
@@ -81,7 +82,7 @@ const Table = () => {
     <>
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
-          <MuiTable stickyHeader>
+          <Table stickyHeader>
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -122,7 +123,7 @@ const Table = () => {
                   );
                 })}
             </TableBody>
-          </MuiTable>
+          </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
@@ -131,7 +132,7 @@ const Table = () => {
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
       <Button
@@ -146,5 +147,3 @@ const Table = () => {
     </>
   );
 };
-
-export default Table;

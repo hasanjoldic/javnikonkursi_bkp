@@ -1,7 +1,7 @@
 import React from "react";
 import { useField, FieldConfig } from "formik";
 
-import { TextField, TextFieldProps } from "@material-ui/core";
+import { TextField, TextFieldProps } from "@mui/material";
 
 type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &

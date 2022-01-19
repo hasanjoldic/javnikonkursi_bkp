@@ -5,12 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { SnackbarProvider } from "notistack";
 
-import { IApplicationState } from "store";
-
-import App from "App";
-import { enqueueSnackbar } from "store/notifications/actions";
+import { IApplicationState, enqueueSnackbar, loginFailure } from "store";
 import { createApiClient, ApiProvider } from "api";
-import { loginFailure } from "store/auth/actions";
+
+import { App } from "App";
 
 const AppContainer = () => {
   const dispatch = useDispatch();

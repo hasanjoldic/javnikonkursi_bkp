@@ -1,7 +1,7 @@
 import React from "react";
 import { FieldConfig } from "formik";
 
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@mui/styles";
 import {
   InputLabel,
   MenuItem,
@@ -9,8 +9,9 @@ import {
   ListItemText,
   Checkbox,
   Chip,
-} from "@material-ui/core";
-import Select, { SelectProps } from "@material-ui/core/Select";
+  Theme,
+} from "@mui/material";
+import Select, { SelectProps } from "@mui/material/Select";
 
 // const ITEM_HEIGHT = 48;
 // const ITEM_PADDING_TOP = 8;

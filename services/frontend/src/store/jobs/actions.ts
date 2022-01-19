@@ -9,7 +9,8 @@ import {
   createJobBodyType,
 } from "@javnikonkursi/shared";
 
-import { TApiClient, useApiClient } from "api";
+import { useApiClient } from "api";
+import { TApiClient } from "api/client";
 
 import { IJobsState, EJobsActionType } from "./types";
 

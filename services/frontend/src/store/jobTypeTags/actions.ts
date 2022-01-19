@@ -8,7 +8,8 @@ import {
   updateJobTypeTagBodyType,
 } from "@javnikonkursi/shared";
 
-import { TApiClient, useApiClient } from "api";
+import { useApiClient } from "api";
+import { TApiClient } from "api/client";
 
 import { IJobTypeTagsState, EJobTypeTagsActionType } from "./types";
 

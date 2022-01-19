@@ -3,8 +3,6 @@ import { json } from "body-parser";
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import { body, validationResult } from "express-validator";
 
-import { User } from "@javnikonkursi/shared";
-
 import { compareHash } from "../../utils";
 import { client } from "../../../db";
 

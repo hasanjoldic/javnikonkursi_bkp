@@ -4,8 +4,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { Grid, Button as MuiButton } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Grid, Button as MuiButton, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { updateJobTypeBodyType } from "@javnikonkursi/shared";
 

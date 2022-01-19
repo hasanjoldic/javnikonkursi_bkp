@@ -86,7 +86,7 @@ export function createApiClient({
     urlStr: string,
     params?: TRestUrlParams<T>
   ) => {
-    const url = new URL([API_FULL_PATH, urlStr].join("/"));
+    const url = new URL([env.API_FULL_PATH, urlStr].join("/"));
     if (params)
       Object.keys(params).forEach((key) =>
         url.searchParams.append(key, params[key])

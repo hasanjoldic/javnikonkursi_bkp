@@ -3,9 +3,9 @@ import { Route } from "react-router-dom";
 
 import { ENavTab } from "../navTabs";
 
-import Companies from "./List";
-import AddCompany from "./AddCompany";
-import EditCompany from "./EditCompany";
+import { Companies } from "./List";
+import { AddCompany } from "./AddCompany";
+import { EditCompany } from "./EditCompany";
 
 export const CompanyRoutes: React.FC = () => (
   <>

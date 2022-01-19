@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
     "build": "yarn clean && tsc --build",
+    "build:watch": "yarn clean && tsc --build --watch",
     "start": "node dist/app/index.js",
+    "start:watch": "nodemon dist/app/index.js",
     "pm2:start": "NODE_ENV=production pm2 start dist/app/index.js --name konkursi-backend --log pm2.log",
     "pm2:restart": "NODE_ENV=production pm2 restart konkursi-backend --log pm2.log",
     "migrate:latest": "knex --cwd=./dist/db/migrations --knexfile=../knexfile.js migrate:latest"

@@ -5,8 +5,9 @@ import SearchSelect, {
 } from "react-select-material-ui";
 import { FieldConfig, useField, useFormikContext } from "formik";
 
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { grey } from "@material-ui/core/colors";
+import { makeStyles } from "@mui/styles";
+import { grey } from "@mui/material/colors";
+import { Theme } from "@mui/material";
 
 interface ISearchSelectInputProps extends ReactSelectMaterialUiProps {}
 

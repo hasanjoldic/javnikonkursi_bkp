@@ -8,14 +8,14 @@ import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
-import MomentUtils from "@date-io/moment";
-import "reset-css";
-
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 import reducers from "store";
 
+import { theme } from "./theme";
 import AppContainer from "./AppContainer";
 
 import "index.css";
@@ -42,15 +42,17 @@ const store = createStore(
 const persistor = persistStore(store);
 
 ReactDOM.render(
-  <MuiThemeProvider theme={createTheme()}>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
-          <AppContainer />
-        </MuiPickersUtilsProvider>
-      </PersistGate>
-    </Provider>
-  </MuiThemeProvider>,
+  <ThemeProvider theme={theme}>
+    <CssBaseline>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <AppContainer />
+          </LocalizationProvider>
+        </PersistGate>
+      </Provider>
+    </CssBaseline>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 

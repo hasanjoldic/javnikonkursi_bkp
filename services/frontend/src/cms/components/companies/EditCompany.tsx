@@ -4,8 +4,8 @@ import { useParams, useHistory } from "react-router-dom";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { Grid, Button as MuiButton } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Grid, Button as MuiButton, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { updateCompanyBodyType } from "@javnikonkursi/shared";
 
@@ -21,9 +21,7 @@ const validationSchema = Yup.object({
     .required("Obavezno polje"),
 });
 
-interface IEditCompanyProps {}
-
-const EditCompany = (props: IEditCompanyProps) => {
+export const EditCompany: React.FC = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -153,5 +151,3 @@ const useStyles = makeStyles<Theme>((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-export default EditCompany;

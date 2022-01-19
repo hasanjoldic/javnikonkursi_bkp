@@ -1,12 +1,12 @@
 import React from "react";
 
-import { Grid, Box, AppBar, Tabs, Tab, Paper } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Grid, Box, AppBar, Tabs, Tab, Paper, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import SwipeableViews from "react-swipeable-views";
 
 import AuthForm, { EAuthFormTab, authFormTitles } from "./Form";
-import { teal, blue } from "@material-ui/core/colors";
+import { blue } from "@mui/material/colors";
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-const Auth = () => {
+export const Auth: React.FC = () => {
   const classes = useStyles();
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
@@ -38,7 +38,7 @@ const Auth = () => {
     <Grid
       className={classes.root}
       container
-      justify="center"
+      justifyContent="center"
       alignItems="center"
     >
       <Grid item xs={12} md={6} lg={4}>
@@ -121,5 +121,3 @@ const useStyles = makeStyles<Theme>((theme) => ({
     justifyContent: "center",
   },
 }));
-
-export default Auth;

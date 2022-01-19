@@ -1,5 +1,6 @@
 import React from "react";
-import Auth from "components/auth/Auth";
+
+import { Auth } from "components";
 
 const LoggedOut = () => {
   return <Auth />;

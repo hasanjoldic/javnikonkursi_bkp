@@ -1,12 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
-import { Grid, Button as MuiButton } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-
-import { Formik, Form, useField, useFormik } from "formik";
+import { Formik, Form, useFormik } from "formik";
 import * as Yup from "yup";
+
+import { Grid, Button as MuiButton, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import { Company, CompanyField, locations } from "@javnikonkursi/shared";
 
@@ -51,9 +50,7 @@ const locationOptions = locations.map((o) => ({
   label: o,
 }));
 
-interface IProps {}
-
-const AddCompany = (props: IProps) => {
+export const AddCompany: React.FC = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -159,5 +156,3 @@ const useStyles = makeStyles<Theme>((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-export default AddCompany;

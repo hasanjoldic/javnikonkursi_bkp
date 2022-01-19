@@ -1,9 +1,9 @@
 import React from "react";
 import { useRouteMatch, useParams, useLocation } from "react-router-dom";
 
-import { Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
-const VerifyEmail = () => {
+export const VerifyEmail: React.FC = () => {
   let { search } = useLocation();
 
   const query = new URLSearchParams(search);
@@ -20,5 +20,3 @@ const VerifyEmail = () => {
     </>
   );
 };
-
-export default VerifyEmail;

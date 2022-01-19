@@ -1,27 +1,24 @@
 import React from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import moment from "moment";
 import _orderBy from "lodash/orderBy";
 
-import Sidebar from "./Sidebar";
-import Job from "./Job";
-import { makeStyles } from "@material-ui/core/styles";
-import { useSelector, shallowEqual } from "react-redux";
+import { Box } from "@mui/material";
+
 import { IApplicationState } from "store";
 
-const selector = (state: IApplicationState) => ({
-  locationsFilter: state.filters.locations,
-  companiesFilter: state.filters.companies,
-  shouldIncludeExpired: state.filters.shouldIncludeExpired,
-});
+import { Sidebar } from "./Sidebar";
+import { Job } from "./Job";
 
-const Main = () => {
-  const classes = useStyles();
-
-  const jobs = useSelector((state: IApplicationState) => state.jobs.data);
-
-  const { locationsFilter, companiesFilter, shouldIncludeExpired } =
-    useSelector<IApplicationState, ReturnType<typeof selector>>(
-      selector,
+export const Main: React.FC = () => {
+  const { jobs, locationsFilter, companiesFilter, shouldIncludeExpired } =
+    useSelector(
+      (state: IApplicationState) => ({
+        jobs: state.jobs.data,
+        locationsFilter: state.filters.locations,
+        companiesFilter: state.filters.companies,
+        shouldIncludeExpired: state.filters.shouldIncludeExpired,
+      }),
       shallowEqual
     );
 
@@ -51,25 +48,18 @@ const Main = () => {
   return (
     <div>
       <Sidebar>
-        <div className={classes.content}>
+        <Box
+          sx={{
+            width: 960,
+            maxWidth: "100vw",
+            // padding: "4rem 2rem",
+          }}
+        >
           {filteredJobs.map((job) => (
             <Job key={job.id} job={job} />
           ))}
-        </div>
+        </Box>
       </Sidebar>
     </div>
   );
 };
-
-const useStyles = makeStyles(() => ({
-  content: {
-    width: 960,
-    maxWidth: "100vw",
-    // padding: "4rem 2rem",
-  },
-  chip: {
-    marginRight: 20,
-  },
-}));
-
-export default Main;

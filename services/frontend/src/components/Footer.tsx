@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Typography } from "@material-ui/core";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { Typography, Theme } from "@mui/material";
+import { makeStyles, createStyles } from "@mui/styles";
 
 import { Canton, Regija, SpecialLocation } from "@javnikonkursi/shared";
 

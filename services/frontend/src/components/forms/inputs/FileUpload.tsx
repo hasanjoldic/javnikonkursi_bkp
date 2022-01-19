@@ -6,9 +6,9 @@ import {
   FormHelperText,
   InputLabel,
   FormLabel,
-} from "@material-ui/core";
+} from "@mui/material";
 
-import { grey } from "@material-ui/core/colors";
+import { grey } from "@mui/material/colors";
 
 type TInputProps = React.ClassAttributes<HTMLInputElement> &
   React.InputHTMLAttributes<HTMLInputElement> &

@@ -1,14 +1,15 @@
 import React from "react";
 import { useLocation, useHistory, Switch } from "react-router-dom";
 
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Drawer,
   CssBaseline,
   List,
   ListItem,
   ListItemText,
-} from "@material-ui/core";
+  Theme,
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
 import {
   useGetCompanies,
@@ -71,7 +72,7 @@ const LoggedIn = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles<Theme>((theme) => ({
   root: {
     display: "flex",
   },

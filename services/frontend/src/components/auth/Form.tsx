@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
-import { Grid, Avatar, Typography, Button, Link } from "@material-ui/core";
-import { makeStyles, Theme } from "@material-ui/core/styles";
-import { LockOutlined as LockOutlinedIcon } from "@material-ui/icons";
+import { Grid, Avatar, Typography, Button, Link, Theme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 
 import { register, login } from "store";
 
