@@ -88,5 +88,10 @@ const server = app.listen(port, () => {
 
 // init();
 
+process.on("unhandledRejection", (err) => {
+  console.log(err);
+  // process.exit(1);
+});
+
 export * from "./routes";
 export * from "./utils";
