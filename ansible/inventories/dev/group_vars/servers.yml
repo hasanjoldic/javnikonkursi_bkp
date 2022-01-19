@@ -15,3 +15,5 @@ GIT_BRANCH: develop
 
 PROJECT_ROOT: /home/node/code/javnikonkursi.com
 WEBSITE_PATH: /home/node/code/javnikonkursi.com/services/frontend/build
+
+JWT_SECRET: a678a8596c1c8dfb06cca39774ca914808b252e00163f2186260c55e257213c2
