@@ -157,12 +157,9 @@ module.exports = function (options) {
         template: "./public/index.html",
         inject: true,
       }),
-      new webpack.DefinePlugin({
-        ENV: JSON.stringify("development"),
-        LOCAL: false,
-      }),
       new CleanWebpackPlugin(),
       new SpriteLoaderPlugin(),
+      new Dotenv(),
     ],
     optimization: {
       splitChunks: {
