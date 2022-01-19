@@ -2,6 +2,8 @@ import { Dispatch } from "redux";
 import { enqueueSnackbar } from "store/notifications/actions";
 import { logout } from "store/auth/actions";
 
+const API_FULL_PATH = process.env.API_FULL_PATH;
+
 export const sendRequest = async <T>({
   dispatch,
   url,
@@ -19,7 +21,7 @@ export const sendRequest = async <T>({
 }) => {
   let err;
   try {
-    const response = await fetch(`${process.env.BACKEND_PATH}${url}`, request);
+    const response = await fetch(`${API_FULL_PATH}${url}`, request);
     // const response = await fetch(url, request);
     if (response.status === 401) {
       dispatch(
@@ -67,8 +69,6 @@ export type TRestUrlParams<T> = {
   "createdAt<"?: string;
 };
 
-const BACKEND_PATH = process.env.BACKEND_PATH || "http://localhost:3000/api/v1";
-
 export const resource = ["companies", "job_type_tags", "job_types", "jobs"];
 
 export function createApiClient({
@@ -86,7 +86,7 @@ export function createApiClient({
     urlStr: string,
     params?: TRestUrlParams<T>
   ) => {
-    const url = new URL([BACKEND_PATH, urlStr].join("/"));
+    const url = new URL([API_FULL_PATH, urlStr].join("/"));
     if (params)
       Object.keys(params).forEach((key) =>
         url.searchParams.append(key, params[key])
