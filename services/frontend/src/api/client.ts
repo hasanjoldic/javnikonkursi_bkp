@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { enqueueSnackbar } from "store/notifications/actions";
 import { logout } from "store/auth/actions";
 
-const API_FULL_PATH = process.env.API_FULL_PATH;
+import { API_FULL_PATH } from "env";
 
 export const sendRequest = async <T>({
   dispatch,
