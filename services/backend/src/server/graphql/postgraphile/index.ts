@@ -1,5 +1,5 @@
 import postgraphile from "postgraphile";
-import { makePgSmartTagsFromFilePlugin } from "postgraphile/plugins";
+// import { makePgSmartTagsFromFilePlugin } from "postgraphile/plugins";
 import PgSimplifyInflectorPlugin from "@graphile-contrib/pg-simplify-inflector";
 import ConnectionFilterPlugin from "postgraphile-plugin-connection-filter";
 import PgManyToManyPlugin from "@graphile-contrib/pg-many-to-many";
@@ -56,7 +56,7 @@ export default postgraphile(
     appendPlugins: [
       PgSimplifyInflectorPlugin,
       ConnectionFilterPlugin,
-      makePgSmartTagsFromFilePlugin(),
+      // makePgSmartTagsFromFilePlugin(),
       // simplifyManyToManyPlugin,
       PgManyToManyPlugin,
     ],

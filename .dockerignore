@@ -1,0 +1,11 @@
+.devcontainer
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+node_modules
+tsconfig.tsbuildinfo
+
+lib
+build
+dist

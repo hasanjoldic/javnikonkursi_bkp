@@ -6,7 +6,8 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "moduleResolution": "node"
   },
   "include": ["src"]
   // "compilerOptions": {
