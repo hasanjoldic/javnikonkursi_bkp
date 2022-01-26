@@ -23,6 +23,8 @@ RUN rm -rf services/frontend
 
 RUN yarn install --production
 
+COPY --from=build /home/node/code/services/backend/dist ./services/backend/dist/
+
 EXPOSE 3000
 
 WORKDIR /home/node/code/services/backend
