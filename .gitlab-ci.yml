@@ -42,7 +42,6 @@ publish:
 
     - docker build --cache-from $PROXY_TAG_LATEST -t $PROXY_TAG_COMMIT -t $PROXY_TAG_LATEST proxy
 
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $API_BUILD_TAG_COMMIT
     - docker push $API_BUILD_TAG_LATEST
     - docker push $API_TAG_COMMIT
