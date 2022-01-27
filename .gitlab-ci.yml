@@ -3,7 +3,7 @@ stages:
   - deploy
 
 variables:
-  API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:$CI_COMMIT_SHORT_SHA
+  # API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:$CI_COMMIT_SHORT_SHA
   API_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:latest
   FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
   FRONTEND_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
@@ -36,7 +36,7 @@ publish:
 
     # - docker build --cache-from $PROXY_TAG_LATEST -t $PROXY_TAG_COMMIT -t $PROXY_TAG_LATEST proxy
 
-    - docker push $API_TAG_COMMIT
+    # - docker push $API_TAG_COMMIT
     - docker push $API_TAG_LATEST
     # - docker push $FRONTEND_TAG_COMMIT
     # - docker push $FRONTEND_TAG_LATEST
@@ -53,9 +53,9 @@ deploy:
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
 
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $API_TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $API_TAG_LATEST"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-api || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 3000:3000 --name javnikonkursi-api $API_TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 3000:3000 --name javnikonkursi-api $API_TAG_LATEST"
 
     # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $FRONTEND_TAG_COMMIT"
     # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-frontend || true"
