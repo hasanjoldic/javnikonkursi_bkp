@@ -5,7 +5,7 @@ stages:
 variables:
   API_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-api:latest
   API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-api:$CI_COMMIT_SHORT_SHA
-  FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-frontend:$CI_COMMIT_SHORT_SHA
+  FRONTEND_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-frontend:$CI_COMMIT_SHORT_SHA
   FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-frontend:$CI_COMMIT_SHORT_SHA
 
 publish:
@@ -28,8 +28,8 @@ publish:
 
     - echo "API_FULL_PATH"=$API_FULL_PATH >> "services/frontend/.env"
     
-    - docker build -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
-    - docker build -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_COMMIT -f services/frontend/Dockerfile  .
+    - docker build --cache-from $API_TAG_LATEST -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
+    - docker build --cache-from $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_COMMIT -f services/frontend/Dockerfile  .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $API_TAG_COMMIT
     - docker push $API_TAG_LATEST
