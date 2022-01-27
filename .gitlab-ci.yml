@@ -29,6 +29,7 @@ publish:
     - echo "AWS_SECRET_ACCESS_KEY"=$AWS_SECRET_ACCESS_KEY >> "services/backend/.env"
     - echo "AWS_S3_BUCKET_NAME"=$AWS_S3_BUCKET_NAME >> "services/backend/.env"
     - echo "AWS_S3_PUBLIC_URL"=$AWS_S3_PUBLIC_URL >> "services/backend/.env"
+    - docker pull $API_TAG_LATEST || true
     - docker build --cache-from $API_TAG_LATEST -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
 
     # - echo "API_FULL_PATH"=$API_FULL_PATH >> "services/frontend/.env"
