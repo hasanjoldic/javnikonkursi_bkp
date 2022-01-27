@@ -3,8 +3,10 @@ stages:
   - deploy
 
 variables:
+  API_BUILD_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api-build:latest
   API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:$CI_COMMIT_SHORT_SHA
   API_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:latest
+  FRONTEND_BUILD_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend-build:$CI_COMMIT_SHORT_SHA
   FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
   FRONTEND_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
   PROXY_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/proxy:$CI_COMMIT_SHORT_SHA
@@ -29,20 +31,25 @@ publish:
     - echo "AWS_SECRET_ACCESS_KEY"=$AWS_SECRET_ACCESS_KEY >> "services/backend/.env"
     - echo "AWS_S3_BUCKET_NAME"=$AWS_S3_BUCKET_NAME >> "services/backend/.env"
     - echo "AWS_S3_PUBLIC_URL"=$AWS_S3_PUBLIC_URL >> "services/backend/.env"
-    - docker pull $API_TAG_LATEST || true
-    - docker build --cache-from $API_TAG_LATEST -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
+    - docker pull $API_BUILD_TAG_LATEST || true
+    - docker build --cache-from $API_BUILD_TAG_LATEST --target build -t $API_BUILD_TAG_LATEST -f services/backend/Dockerfile  .
+    - docker build --cache-from $API_BUILD_TAG_LATEST --target deploy -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
 
-    # - echo "API_FULL_PATH"=$API_FULL_PATH >> "services/frontend/.env"
-    # - docker build --cache-from $FRONTEND_TAG_LATEST -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_LATEST -f services/frontend/Dockerfile  .
+    - echo "API_FULL_PATH"=$API_FULL_PATH >> "services/frontend/.env"
+    - docker pull $FRONTEND_BUILD_TAG_LATEST || true
+    - docker build --cache-from $FRONTEND_BUILD_TAG_LATEST --target build -t $FRONTEND_BUILD_TAG_LATEST -f services/frontend/Dockerfile  .
+    - docker build --cache-from $FRONTEND_BUILD_TAG_LATEST --target deploy -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_LATEST -f services/frontend/Dockerfile  .
 
-    # - docker build --cache-from $PROXY_TAG_LATEST -t $PROXY_TAG_COMMIT -t $PROXY_TAG_LATEST proxy
+    - docker build -t $PROXY_TAG_COMMIT -t $PROXY_TAG_LATEST proxy
 
-    # - docker push $API_TAG_COMMIT
+    - docker push $API_BUILD_TAG_LATEST
+    - docker push $API_TAG_COMMIT
     - docker push $API_TAG_LATEST
-    # - docker push $FRONTEND_TAG_COMMIT
-    # - docker push $FRONTEND_TAG_LATEST
-    # - docker push $PROXY_TAG_COMMIT
-    # - docker push $PROXY_TAG_LATEST
+    - docker push $FRONTEND_BUILD_TAG_LATEST
+    - docker push $FRONTEND_TAG_COMMIT
+    - docker push $FRONTEND_TAG_LATEST
+    - docker push $PROXY_TAG_COMMIT
+    - docker push $PROXY_TAG_LATEST
 
 deploy:
   image: alpine:latest
@@ -54,17 +61,17 @@ deploy:
     - apk update && apk add openssh-client
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
 
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $API_TAG_LATEST"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $API_TAG_COMMIT"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-api || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 3000:3000 --name javnikonkursi-api $API_TAG_LATEST"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 3000:3000 --name javnikonkursi-api $API_TAG_COMMIT"
 
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $FRONTEND_TAG_COMMIT"
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-frontend || true"
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name javnikonkursi-frontend $FRONTEND_TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $FRONTEND_TAG_COMMIT"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-frontend || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 8080:8080 --name javnikonkursi-frontend $FRONTEND_TAG_COMMIT"
 
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $PROXY_TAG_LATEST"
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-proxy || true"
-    # - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -dp 80:80 --env SERVER_HOST=$SERVER_HOST --env SERVER_PORT=$SERVER_PORT --add-host=host.docker.internal:host-gateway --restart always --name javnikonkursi-proxy $PROXY_TAG_LATEST"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $PROXY_TAG_LATEST"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f javnikonkursi-proxy || true"
+    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -dp 80:80 --env SERVER_HOST=$SERVER_HOST --env SERVER_PORT=$SERVER_PORT --add-host=host.docker.internal:host-gateway --restart always --name javnikonkursi-proxy $PROXY_TAG_LATEST"
   environment:
     name: development
     url: 161.35.22.37
