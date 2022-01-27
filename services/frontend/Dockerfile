@@ -19,11 +19,13 @@ RUN yarn workspace @javnikonkursi/shared build
 COPY --chown=node:node services/frontend ./services/frontend
 RUN services/frontend/scripts/docker/build.sh
 
+
 # deploy stage
 
 # FROM nginx:alpine
 
 COPY services/frontend/nginx/templates /etc/nginx/templates/
+COPY services/frontend/build /usr/share/nginx/html
 
 # COPY --from=build /home/node/code/services/frontend/build /usr/share/nginx/html
 COPY /home/node/code/services/frontend/build /usr/share/nginx/html
