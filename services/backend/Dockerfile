@@ -17,7 +17,7 @@ RUN yarn workspace @javnikonkursi/shared build
 COPY --chown=node:node services/backend ./services/backend
 RUN yarn workspace @javnikonkursi/backend build
 
-FROM node:16-alpine as deploy
+FROM node:16-alpine AS deploy
 
 USER node
 RUN mkdir -p /home/node/code
