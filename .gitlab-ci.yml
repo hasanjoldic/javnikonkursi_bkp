@@ -3,12 +3,16 @@ stages:
   - deploy
 
 variables:
-  API_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-api:latest
-  API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-api:$CI_COMMIT_SHORT_SHA
-  FRONTEND_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-frontend:$CI_COMMIT_SHORT_SHA
-  FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-frontend:$CI_COMMIT_SHORT_SHA
-  PROXY_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-proxy:$CI_COMMIT_SHORT_SHA
-  PROXY_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME-proxy:$CI_COMMIT_SHORT_SHA
+  API_BUILD_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api/build:$CI_COMMIT_SHORT_SHA
+  API_BUILD_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api/build:latest
+  API_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:$CI_COMMIT_SHORT_SHA
+  API_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/api:latest
+  FRONTEND_BUILD_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend/build:$CI_COMMIT_SHORT_SHA
+  FRONTEND_BUILD_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend/build:$CI_COMMIT_SHORT_SHA
+  FRONTEND_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
+  FRONTEND_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/frontend:$CI_COMMIT_SHORT_SHA
+  PROXY_TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/proxy:$CI_COMMIT_SHORT_SHA
+  PROXY_TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME/proxy:$CI_COMMIT_SHORT_SHA
 
 publish:
   image: docker:latest
@@ -29,16 +33,22 @@ publish:
     - echo "AWS_SECRET_ACCESS_KEY"=$AWS_SECRET_ACCESS_KEY >> "services/backend/.env"
     - echo "AWS_S3_BUCKET_NAME"=$AWS_S3_BUCKET_NAME >> "services/backend/.env"
     - echo "AWS_S3_PUBLIC_URL"=$AWS_S3_PUBLIC_URL >> "services/backend/.env"
-    - docker build --cache-from $API_TAG_LATEST -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
+    - docker build --cache-from $API_BUILD_TAG_LATEST --target build -t $API_BUILD_TAG_COMMIT -t $API_BUILD_TAG_LATEST -f services/backend/Dockerfile  .
+    - docker build --cache-from $API_BUILD_TAG_LATEST --target deploy -t $API_TAG_COMMIT -t $API_TAG_LATEST -f services/backend/Dockerfile  .
 
     - echo "API_FULL_PATH"=$API_FULL_PATH >> "services/frontend/.env"
-    - docker build --cache-from $FRONTEND_TAG_LATEST -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_COMMIT -f services/frontend/Dockerfile  .
+    - docker build --cache-from $FRONTEND_BUILD_TAG_LATEST --target build -t $FRONTEND_BUILD_TAG_COMMIT -t $FRONTEND_BUILD_TAG_LATEST -f services/frontend/Dockerfile  .
+    - docker build --cache-from $FRONTEND_BUILD_TAG_LATEST --target deploy -t $FRONTEND_TAG_COMMIT -t $FRONTEND_TAG_LATEST -f services/frontend/Dockerfile  .
 
     - docker build --cache-from $PROXY_TAG_LATEST -t $PROXY_TAG_COMMIT -t $PROXY_TAG_LATEST proxy
 
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker push $API_TAG_BUILD_COMMIT
+    - docker push $API_TAG_BUILD_LATEST
     - docker push $API_TAG_COMMIT
     - docker push $API_TAG_LATEST
+    - docker push $FRONTEND_BUILD_TAG_COMMIT
+    - docker push $FRONTEND_BUILD_TAG_LATEST
     - docker push $FRONTEND_TAG_COMMIT
     - docker push $FRONTEND_TAG_LATEST
     - docker push $PROXY_TAG_COMMIT
