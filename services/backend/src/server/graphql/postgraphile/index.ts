@@ -64,6 +64,6 @@ export default postgraphile(
     graphileBuildOptions: {
       connectionFilterAllowNullInput: true,
     },
-    enableCors: process.env.NODE_ENV === "development" ? true : false,
+    // enableCors: process.env.NODE_ENV === "development" ? true : false,
   }
 );

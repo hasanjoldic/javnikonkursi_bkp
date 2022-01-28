@@ -11,9 +11,11 @@ import postgraphile from "server/graphql/postgraphile";
 
 const app = express();
 
-if (process.env.NODE_ENV === "development") {
-  app.use(cors());
-}
+const options = {
+  origin: process.env.HOST,
+};
+app.use(cors(options));
+
 app.use(postgraphile);
 
 [...restRoutes, ...graphqlRoutes].forEach(({ path, routers }) => {
