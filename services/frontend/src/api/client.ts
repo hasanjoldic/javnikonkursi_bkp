@@ -11,8 +11,8 @@ export function createApiClient({
 }) {
   const headers: Record<string, string> = { authorization: accessToken };
 
-  const createUrl = (urlStr: string, params?: object) => {
-    const url = new URL([API_FULL_PATH, urlStr].join(","));
+  const createUrl = (path: string, params?: object) => {
+    const url = new URL(path, API_FULL_PATH);
     if (params) Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 
     return url.href;
