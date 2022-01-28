@@ -1,4 +1,4 @@
-import env from "env";
+import { API_FULL_PATH } from "env";
 
 export function createApiClient({
   accessToken,
@@ -12,7 +12,7 @@ export function createApiClient({
   const headers: Record<string, string> = { authorization: accessToken };
 
   const createUrl = (urlStr: string, params?: object) => {
-    const url = new URL([env.API_FULL_PATH, urlStr].join("/"));
+    const url = new URL([API_FULL_PATH, urlStr].join("/"));
     if (params) Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 
     return url.href;

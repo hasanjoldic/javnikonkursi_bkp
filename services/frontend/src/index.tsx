@@ -24,6 +24,7 @@ import reducers, { enqueueSnackbar, logout } from "store";
 
 import { theme } from "./theme";
 import Root from "./Root";
+import { GRAPHQL_FULL_PATH } from "env";
 
 import "index.css";
 
@@ -84,7 +85,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:3000/graphql",
+  uri: GRAPHQL_FULL_PATH,
 });
 
 // If you provide a link chain to ApolloClient, you
