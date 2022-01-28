@@ -11,10 +11,9 @@ import postgraphile from "server/graphql/postgraphile";
 
 const app = express();
 
-const options = {
-  origin: process.env.HOST,
-};
-app.use(cors(options));
+if (process.env.NODE_ENV === "development") {
+  app.use(cors());
+}
 
 app.use(postgraphile);
 

@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "tsc"
+    "build": "tsc",
+    "build:dev": "yarn build"
   }
 }
