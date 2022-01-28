@@ -1,73 +1,196 @@
-#konkursi-backend
+### Arhiva svih konkursa za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
 
-create a sudo user
-https://www.digitalocean.com/community/tutorials/how-to-create-a-sudo-user-on-ubuntu-quickstart
+# Javni konkursi
 
-https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+To se how to set up a VPN server, see `VPN.md`.
 
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04
+## 1. Provision server
 
-npm run migrate:latest
-
-CREATE EXTENSION "uuid-ossp";
-
-The easiest way is to run node's crypto hash in your terminal:
-
-node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
-
----
-
-13.01.2022
-
-## 1. Provision the server
-
-### 1.1. Install node
+### 1.1. Create a sudo user
 
 ```
-  apt-get update
-  apt-get install nodejs
-  apt-get install npm
+  # non-interactivly create user
+  adduser --disabled-password --gecos "" <USERNAME>
+  # add to sudo group
+  usermod -aG sudo <USERNAME>
+  # don't require password
+  passwd -d <USERNAME>
+```
+
+### 1.2. Install node (as sudo user)
+
+[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
+
+```
+  su <USERNAME>
+  sudo apt update
+  cd ~
+  curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+  sudo bash nodesource_setup.sh
+  sudo apt install nodejs -y
   npm install -g yarn
+  rm -rf ~/nodesource_setup.sh
 ```
 
-## 2. Install dependencies and build projects
+### 1.3. Install nginx
+
+[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04)
 
 ```
-  cd <project-root-dir> && yarn install
-  cd <frontend-root-dir> && yarn buildcd
+  su <USERNAME>
+  sudo vi /etc/nginx/sites-available/default
 ```
 
-## 3. Install docker and docker-compose
-
-https://docs.docker.com/engine/install/ubuntu/
-
-https://docs.docker.com/compose/install/
-
-set up the repository:
-
 ```
-  apt-get install ca-certificates curl gnupg lsb-release
-   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-   echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-```
+# /etc/nginx/sites-available/default
+server {
+  # server_name javnikonkursi.com www.javnikonkursi.com;
+  server_name <SERVER_HOST>;
 
-install docker:
+  root /usr/share/nginx/html;
 
-```
-  apt-get update
-  apt-get install docker-ce docker-ce-cli containerd.io
-```
+  location /graphql {
+    proxy_pass http://localhost:3000/graphql;
+  }
 
-set up the repository:
+  location /api/v1/ {
+    proxy_pass http://localhost:3000;
+  }
 
-```
-  curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+}
 ```
 
-apply executable permissions to the binary:
+```
+  sudo systemctl restart nginx
+```
+
+### 1.4. Enable HTTPS
+
+[Tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
 
 ```
-  chmod +x /usr/local/bin/docker-compose
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d <DOMAIN>.com -d www.<DOMAIN>.com
+sudo systemctl status certbot.timer
 ```
+
+### 1.5. Install pm2
+
+[Tutorial](https://www.digitalocean.com/community/tutorials/nodejs-pm2)
+
+```
+sudo npm install -g pm2
+pm2 startup
+# [PM2] You have to run this command as root. Execute the following command:
+#       sudo su -c "env PATH=$PATH:/home/unitech/.nvm/versions/node/v14.3/bin pm2 startup <distribution> -u <user> --hp <home-path>
+```
+
+### 1.6. Set up the database
+
+[How to install postgres](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-20-04)
+
+```
+sudo apt install postgresql postgresql-contrib -y
+
+sudo -i -u postgres
+
+psql -U postgres -c "CREATE DATABASE POSTGRES_DB"
+psql -U postgres -d POSTGRES_DB -c "CREATE ROLE POSTGRES_USER LOGIN SUPERUSER PASSWORD 'POSTGRES_PASSWORD';"
+```
+
+### 1.6.1. (DEV ONLY) Allow remote access to postgres db
+
+```
+# append to /etc/postgresql/<VERSION>/main/postgresql.conf
+listen_addresses = '*'
+```
+
+```
+# append to /etc/postgresql/<VERSION>/main/pg_hba.conf
+host all all 0.0.0.0/0 md5
+```
+
+### 1.7. Set up environment variables
+
+```
+# <PROJECT_ROOT>/services/backend/.env
+NODE_ENV=<development|production>
+
+POSTGRES_HOST=
+POSTGRES_PORT=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
+
+JWT_SECRET=
+
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_S3_BUCKET_NAME=
+AWS_S3_PUBLIC_URL=
+```
+
+```
+# <PROJECT_ROOT>/services/frontend/.env
+NODE_ENV=<development|production>
+
+API_FULL_PATH=
+GRAPHQL_FULL_PATH=
+
+```
+
+### 1.7. Migrate database
+
+```
+cd <PROJECT_ROOT>/services/backend
+# don't use --frozen-lockfile on local machine to get the latest package versions
+yarn install --frozen-lockfile
+node db/migrate.js
+```
+
+## 2. Run app
+
+### 2.1. Install dependencies and build project
+
+```
+cd <PROJECT_ROOT>/services/backend
+yarn install --frozen-lockfile
+yarn workspaces run build|build:dev
+```
+
+### 2.2. Serve frontend with nginx
+
+```
+sudo cp -r <PROJECT_ROOT>/services/frontend/build/* /usr/share/nginx/html/
+```
+
+### 2.3. Run backend as a service with pm2
+
+```
+pm2 delete api
+cd <PROJECT_ROOT>/services/backend
+pm2 start --name api dist/index.js
+pm2 save
+```
+
+# 3. Firewall settings
+
+## 3.1. Development
+
+| Source | Protocol | Port | Description |
+| :----- | :------: | ---: | ----------: |
+| VPN    |   TCP    |   22 |         SSH |
+| VPN    |   TCP    |   80 |        HTTP |
+| VPN    |   TCP    |  443 |       HTTPS |
+| VPN    |   TCP    | 5432 |    postgres |
+
+## 3.2. Production
+
+| Source             | Protocol | Port | Description |
+| :----------------- | :------: | ---: | ----------: |
+| VPN                |   TCP    |   22 |         SSH |
+| Any IPv4, Any IPv6 |   TCP    |   80 |        HTTP |
+| Any IPv4, Any IPv6 |   TCP    |  443 |       HTTPS |
