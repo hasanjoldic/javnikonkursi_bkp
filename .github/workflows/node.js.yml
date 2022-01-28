@@ -1,0 +1,21 @@
+name: CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install deps, build, and deploy
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: USER=${{ secrets.USER_DEV }} sudo -Hu ${{ secrets.USER_DEV }} ./home/${{ secrets.USER_DEV }}/javnikonkursi/deploy.sh
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.LOGIN_DEV }}
+        privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
