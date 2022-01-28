@@ -103,7 +103,7 @@ export const Job: React.FC<IProps> = (props) => {
             </Button>
             <Button
               target="_blank"
-              href="https://www.globalmoneyweek.org/images/flags/bosnia-and-herzegovina-flag-round.png"
+              href={job.internalUrl}
               variant="outlined"
               color="primary"
               endIcon={<OpenInNewIcon />}
