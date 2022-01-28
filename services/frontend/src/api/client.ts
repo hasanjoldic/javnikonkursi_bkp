@@ -28,7 +28,7 @@ export function createApiClient({
     uploadFile: async ({ file, fileName }: { file: File; fileName: string }): Promise<string> => {
       const errorMessage = "Error uplouding a file";
       try {
-        const url = createUrl("upload_file");
+        const url = createUrl("/upload_file");
         const formData = new FormData();
         formData.append("fileName", fileName);
         formData.append("file", file);
