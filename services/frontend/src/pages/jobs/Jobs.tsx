@@ -13,6 +13,9 @@ import { Job } from "./job";
 const Content = styled("main")(({ theme }) => ({
   flex: 1,
   padding: theme.spacing(3),
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
 }));
 
 export const Jobs: React.FC = () => {

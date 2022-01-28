@@ -1,7 +1,7 @@
 import React from "react";
 import _orderBy from "lodash/orderBy";
 
-import { Typography, IconButton, AppBar as MuiAppBar, Toolbar, DrawerProps } from "@mui/material";
+import { Box, Typography, IconButton, AppBar as MuiAppBar, Toolbar } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 
 import { drawerWidth } from "components";
@@ -32,9 +32,11 @@ export const AppBar: React.FC<IProps> = ({ onMenuClick, noMenu }) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Konkursi za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
-        </Typography>
+        <Box width="100%" display="flex" justifyContent="center">
+          <Typography variant="h6" noWrap component="div">
+            Konkursi za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
+          </Typography>
+        </Box>
       </Toolbar>
     </MuiAppBar>
   );
