@@ -15,6 +15,7 @@ To se how to set up a VPN server, see `VPN.md`.
   usermod -aG sudo <USERNAME>
   # don't require password
   passwd -d <USERNAME>
+  su <USERNAME>
 ```
 
 ### 1.2. Install node (as sudo user)
@@ -22,13 +23,12 @@ To se how to set up a VPN server, see `VPN.md`.
 [Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
 
 ```
-  su <USERNAME>
   sudo apt update
   cd ~
   curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
   sudo bash nodesource_setup.sh
   sudo apt install nodejs -y
-  npm install -g yarn
+  sudo npm install -g yarn
   rm -rf ~/nodesource_setup.sh
 ```
 
@@ -37,12 +37,14 @@ To se how to set up a VPN server, see `VPN.md`.
 [Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-20-04)
 
 ```
-  su <USERNAME>
+  sudo apt-get install nginx -y
+```
+
+```
   sudo vi /etc/nginx/sites-available/default
 ```
 
 ```
-# /etc/nginx/sites-available/default
 server {
   # server_name javnikonkursi.com www.javnikonkursi.com;
   server_name <SERVER_HOST>;
@@ -63,6 +65,18 @@ server {
 }
 ```
 
+To be able to upload larger files, add a line in the http section:
+
+```
+  sudo vi /etc/nginx/nginx.conf
+```
+
+```
+http {
+  client_max_body_size 100M;
+}
+```
+
 ```
   sudo systemctl restart nginx
 ```
@@ -72,7 +86,7 @@ server {
 [Tutorial](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04)
 
 ```
-sudo apt install certbot python3-certbot-nginx
+sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d <DOMAIN>.com -d www.<DOMAIN>.com
 sudo systemctl status certbot.timer
 ```
@@ -111,6 +125,12 @@ listen_addresses = '*'
 ```
 # append to /etc/postgresql/<VERSION>/main/pg_hba.conf
 host all all 0.0.0.0/0 md5
+```
+
+### 1.7. Clone project
+
+```
+cd ~ && git clone git@github.com:HasanJoldic/javnikonkursi.git
 ```
 
 ### 1.7. Set up environment variables
