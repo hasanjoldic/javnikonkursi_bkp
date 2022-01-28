@@ -20,10 +20,10 @@ export default postgraphile(
   },
   ["public"],
   {
-    watchPg: true,
-    graphiql: true,
+    watchPg: process.env.NODE_ENV === "development" ? true : false,
+    graphiql: process.env.NODE_ENV === "development" ? true : false,
     enhanceGraphiql: true,
-    subscriptions: true,
+    // subscriptions: true,
     dynamicJson: true,
     setofFunctionsContainNulls: false,
     ignoreRBAC: false,
@@ -65,5 +65,6 @@ export default postgraphile(
       connectionFilterAllowNullInput: true,
     },
     // enableCors: process.env.NODE_ENV === "development" ? true : false,
+    enableCors: true,
   }
 );
