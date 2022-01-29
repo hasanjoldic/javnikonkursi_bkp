@@ -15,7 +15,7 @@ jobs:
     - name: Install project dependencies
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cd /home/$USER/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && yarn install --frozen-lockfile
+        command: cd /home/${{ secrets.USER_DEV }}/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && yarn install --frozen-lockfile
         host: ${{ secrets.HOST_DEV }}
         username: ${{ secrets.LOGIN_DEV }}
         privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
