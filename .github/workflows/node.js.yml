@@ -22,21 +22,21 @@ jobs:
     - name: Build project
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cd /home/$USER/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspaces run build:dev
+        command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspaces run build:dev
         host: ${{ secrets.HOST_DEV }}
         username: ${{ secrets.LOGIN_DEV }}
         privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
     - name: Serve frontend with nginx
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cd /home/$USER/javnikonkursi && cp -r /home/$USER/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
+        command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && cp -r /home/${{ secrets.USER_DEV }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
         host: ${{ secrets.HOST_DEV }}
         username: ${{ secrets.LOGIN_DEV }}
         privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
     - name: Start api server
       uses: garygrossgarten/github-action-ssh@release
       with:
-        command: cd /home/$USER/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} pm2 delete api 2> /dev/null && cd /home/$USER/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
+        command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} pm2 delete api 2> /dev/null && cd /home/${{ secrets.USER_DEV }}/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
         host: ${{ secrets.HOST_DEV }}
         username: ${{ secrets.LOGIN_DEV }}
         privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
