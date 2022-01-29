@@ -1,0 +1,42 @@
+name: production pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install project dependencies
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && sudo -Hu ${{ secrets.USER_PROD }} yarn install --frozen-lockfile
+        host: ${{ secrets.HOST_PROD }}
+        username: ${{ secrets.LOGIN_PROD }}
+        privateKey: ${{ secrets.PRIVATE_KEY_PROD }}
+    - name: Build project
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && sudo -Hu ${{ secrets.USER_PROD }} yarn workspaces run build
+        host: ${{ secrets.HOST_PROD }}
+        username: ${{ secrets.LOGIN_PROD }}
+        privateKey: ${{ secrets.PRIVATE_KEY_PROD }}
+    - name: Serve frontend with nginx
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && cp -r /home/${{ secrets.USER_PROD }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
+        host: ${{ secrets.HOST_PROD }}
+        username: ${{ secrets.LOGIN_PROD }}
+        privateKey: ${{ secrets.PRIVATE_KEY_PROD }}
+    - name: Start api server
+      uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && sudo -Hu ${{ secrets.USER_PROD }} pm2 delete api 2> /dev/null && cd /home/${{ secrets.USER_PROD }}/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
+        host: ${{ secrets.HOST_PROD }}
+        username: ${{ secrets.LOGIN_PROD }}
+        privateKey: ${{ secrets.PRIVATE_KEY_PROD }}
