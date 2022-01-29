@@ -12,8 +12,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install deps, build, and deploy
+    - name: Install project dependencies
       uses: garygrossgarten/github-action-ssh@release
+      with:
+        command: cd /home/$USER/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && yarn install --frozen-lockfile
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.LOGIN_DEV }}
+        privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
+    - name: Build project
+      uses: cd /home/$USER/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && yarn workspaces run build:dev
+      with:
+        command: USER=${{ secrets.USER_DEV }} sudo -Hu ${{ secrets.USER_DEV }} ./home/${{ secrets.USER_DEV }}/javnikonkursi/deploy.sh
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.LOGIN_DEV }}
+        privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
+    - name: Serve frontend with nginx
+      uses: cd /home/$USER/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && sudo cp -r /home/$USER/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
+      with:
+        command: USER=${{ secrets.USER_DEV }} sudo -Hu ${{ secrets.USER_DEV }} ./home/${{ secrets.USER_DEV }}/javnikonkursi/deploy.sh
+        host: ${{ secrets.HOST_DEV }}
+        username: ${{ secrets.LOGIN_DEV }}
+        privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
+    - name: Start api server
+      uses: cd /home/$USER/konkursi-backend && sudo -Hu ${{ secrets.USER_DEV }} && pm2 delete api 2> /dev/null && cd /home/$USER/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
       with:
         command: USER=${{ secrets.USER_DEV }} sudo -Hu ${{ secrets.USER_DEV }} ./home/${{ secrets.USER_DEV }}/javnikonkursi/deploy.sh
         host: ${{ secrets.HOST_DEV }}
