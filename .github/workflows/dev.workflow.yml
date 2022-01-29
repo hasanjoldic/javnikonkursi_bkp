@@ -35,7 +35,7 @@ jobs:
       - name: Start api server
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && pm2 delete api 2> /dev/null && cd /home/${{ secrets.USER_DEV }}/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
+          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && pm2 delete api || true && cd /home/${{ secrets.USER_DEV }}/javnikonkursi/services/backend && pm2 start --name api dist/index.js && pm2 save
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
           privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
