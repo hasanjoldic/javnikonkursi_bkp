@@ -50,6 +50,7 @@ export default postgraphile(
     legacyRelations: "omit",
     sortExport: true,
     jwtSecret: process.env.JWT_SECRET,
+    jwtPgTypeIdentifier: null,
     jwtAudiences: process.env.JWT_AUDIENCE ? [process.env.JWT_AUDIENCE] : ["undefined"],
     pgDefaultRole: "app_user",
     jwtVerifyOptions: {},

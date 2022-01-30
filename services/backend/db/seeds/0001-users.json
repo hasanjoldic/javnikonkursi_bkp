@@ -1,0 +1,7 @@
+[
+  {
+    "email": "user_not_whitelisted@test.com",
+    "password": "a_valid_password",
+    "fullName": "User - not whitelisted"
+  }
+]

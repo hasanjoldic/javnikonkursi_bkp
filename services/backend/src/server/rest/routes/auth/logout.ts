@@ -11,7 +11,7 @@ const router = Router();
 const jsonParser = json();
 
 router.post(
-  "/logout",
+  "/v1/logout",
 
   jsonParser,
 

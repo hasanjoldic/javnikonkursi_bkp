@@ -1,3 +1,8 @@
+"use strict";
+
+require("core-js/stable");
+require("regenerator-runtime/runtime");
+
 import { Client } from "pg";
 
 const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } = process.env;
@@ -10,11 +15,11 @@ const config = {
   database: POSTGRES_DB,
 };
 
-export const client = new Client(config);
+const client = new Client(config);
 
 client
   .connect()
-  .then(() => console.info(`Connected to database ${config.user}@${config.host}:${config.port}`))
+  .then(() => {
+    console.info(`Connected to database ${config.user}@${config.host}:${config.port}`);
+  })
   .catch((err) => console.error("connection error", err.stack));
-
-export * from "./queries";

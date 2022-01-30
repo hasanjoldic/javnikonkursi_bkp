@@ -11,7 +11,7 @@ const upload = multer();
 const s3 = new AWS.S3();
 
 router.post(
-  "/api/v1/upload_file",
+  "/v1/upload_file",
   jsonParser,
 
   upload.single("file"),

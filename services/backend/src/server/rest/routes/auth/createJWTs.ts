@@ -7,11 +7,6 @@ import { IAuthResponseBody } from "@javnikonkursi/shared";
 import { IDBUser } from "./types";
 
 export async function createJWTs({ user, res }: { user: IDBUser; res: Response }) {
-  if (!process.env.JWT_SECRET) {
-    console.error("JWT_SECRET env variable not set!");
-    process.exit(1);
-  }
-
   const newAccessToken = jsonwebtoken.sign({ user_id: user.id, role: user.role }, process.env.JWT_SECRET, {
     // audience: process.env.JWT_AUDIENCE,
     expiresIn: "10m",

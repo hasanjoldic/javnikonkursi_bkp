@@ -1,4 +1,4 @@
-import express, { Router } from "express";
+import express, { request, Router } from "express";
 import { json } from "body-parser";
 import { StatusCodes, getReasonPhrase } from "http-status-codes";
 import { body, validationResult } from "express-validator";
@@ -14,49 +14,59 @@ import { dbUserReturnColumns, IDBUser } from "./types";
 const router = Router();
 const jsonParser = json();
 
-router.post(
-  "/api/v1/login",
-  jsonParser,
-
+export const loginValidators = [
   body("email").isEmail(),
-  body("password").isLength({ min: 10 }),
+  body("password").isLength({ min: 8 }).withMessage("Password minimum length is 8."),
+];
 
-  async (req: express.Request<{}, any, ILoginRequestBody>, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors.array() });
-    }
+export const loginHandler = async (req: express.Request<{}, any, ILoginRequestBody>, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ errors: errors.array() });
+    return;
+  }
 
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    const loginQuery = await client.query<IDBUser>(
-      `
+  const whitelistedEmailQuery = await client.query<{ email: string }>(
+    `
+      SELECT email
+      FROM whitelisted_emails
+      WHERE email = $1;
+    `,
+    [email]
+  );
+
+  const isEmailWhitelisted = whitelistedEmailQuery.rows.length === 1;
+
+  const getUserQuery = await client.query<IDBUser>(
+    `
       SELECT ${dbUserReturnColumns.join(", ")}
       FROM users
       WHERE email = $1;
     `,
-      [email]
-    );
-    const user = loginQuery.rows[0];
+    [email]
+  );
+  const user = getUserQuery.rows[0];
 
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET env variable not set!");
-      process.exit(1);
-    }
-
-    const isValidPassword = await compareHash(password, user?.password);
-
-    if (!user || !isValidPassword) {
-      res.status(StatusCodes.BAD_REQUEST).send(getReasonPhrase(StatusCodes.BAD_REQUEST));
-
-      return;
-    }
-
-    await createJWTs({
-      user,
-      res,
-    });
+  if (!isEmailWhitelisted || !user) {
+    res.status(StatusCodes.UNAUTHORIZED).send(getReasonPhrase(StatusCodes.UNAUTHORIZED));
+    return;
   }
-);
+
+  const isValidPassword = await compareHash(password, user?.password);
+
+  if (!isValidPassword) {
+    res.status(StatusCodes.UNAUTHORIZED).send(getReasonPhrase(StatusCodes.UNAUTHORIZED));
+    return;
+  }
+
+  await createJWTs({
+    user,
+    res,
+  });
+};
+
+router.post("/v1/login", jsonParser, ...loginValidators, loginHandler);
 
 export default router;
