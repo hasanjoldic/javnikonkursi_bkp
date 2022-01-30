@@ -60,7 +60,10 @@ server {
   }
 
   location / {
+    # server static files in production
     try_files $uri $uri/ /index.html;
+    # proxy to dev server in development
+    proxy_pass http://localhost:8080;
   }
 }
 ```
@@ -127,6 +130,11 @@ listen_addresses = '*'
 host all all 0.0.0.0/0 md5
 ```
 
+```
+# restart DBMS
+sudo invoke-rc.d postgresql restart
+```
+
 ### 1.7. Clone project
 
 ```
@@ -178,20 +186,32 @@ node db/migrate.js
 ```
 cd <PROJECT_ROOT>/services/backend
 yarn install --frozen-lockfile
-yarn workspaces run build|build:dev
+# prod
+yarn workspaces run build
+# dev
+yarn workspace @javnikonkursi/shared run build && yarn workspace @javnikonkursi/backend run build
 ```
 
 ### 2.2. Serve frontend with nginx
 
 ```
+# prod
 sudo cp -r <PROJECT_ROOT>/services/frontend/build/* /usr/share/nginx/html/
+```
+
+```
+# dev
+co <PROJECT_ROOT>/services/frontend/
+pm2 delete frontend
+pm2 start --name frontend npm -- start
+pm2 save
 ```
 
 ### 2.3. Run backend as a service with pm2
 
 ```
-pm2 delete api
 cd <PROJECT_ROOT>/services/backend
+pm2 delete api
 pm2 start --name api dist/index.js
 pm2 save
 ```
