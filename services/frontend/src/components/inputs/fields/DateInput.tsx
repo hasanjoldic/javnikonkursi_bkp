@@ -12,23 +12,20 @@ type TProps = TInputProps & {
   datePickerProps: Omit<DatePickerProps, "value" | "onChange" | "renderInput">;
 };
 
-export const DateInput: React.FC<TProps> = (props) => {
+export const DateInput: React.FC<TProps> = ({ color, datePickerProps, ...props }) => {
   const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
   const hasError = meta.touched === true && meta.error != null;
-  // const helperText = hasError ? meta.error : null;
-  const inputProps = { ...props };
-  delete inputProps.datePickerProps;
-  delete inputProps.color;
+  const helperText = hasError ? meta.error : null;
 
   return (
     <DatePicker
-      {...props.datePickerProps}
+      {...datePickerProps}
       {...field}
       onChange={(val: Date) => {
         setFieldValue(field.name, val?.toISOString());
       }}
-      renderInput={(params) => <TextField {...params} />}
+      renderInput={(params) => <TextField {...params} error={hasError} helperText={helperText} />}
       mask="__.__.____"
       inputFormat="dd.MM.yyyy"
     />

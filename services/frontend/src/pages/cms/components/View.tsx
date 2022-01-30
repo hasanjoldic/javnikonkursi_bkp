@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import {
-  styled,
   Paper,
   Table as MuiTable,
   TableBody,
@@ -13,6 +12,7 @@ import {
   TableRow,
   Button,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import { Add as AddIcon } from "@mui/icons-material";
 import { TableCellProps } from "@mui/material/TableCell";
 

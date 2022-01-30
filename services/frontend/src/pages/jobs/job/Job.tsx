@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Box, Divider, Chip, Typography, Paper, Button, styled } from "@mui/material";
+import { Box, Divider, Chip, Typography, Paper, Button } from "@mui/material";
+import { styled } from "@mui/system";
 import {
   Place as PlaceIcon,
   People as PeopleIcon,

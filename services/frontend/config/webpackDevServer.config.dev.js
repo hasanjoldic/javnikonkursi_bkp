@@ -4,8 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const Dotenv = require("dotenv-webpack");
 
 module.exports = (options) => {
@@ -117,16 +116,14 @@ module.exports = (options) => {
       },
     },
     plugins: [
-      new CopyWebpackPlugin([
-        { from: "static/**/*", to: "static/.", context: "./public" },
-      ]),
+      new CopyWebpackPlugin([{ from: "static/**/*", to: "static/.", context: "./public" }]),
       new HtmlWebpackPlugin({
         template: "./public/index.html",
         inject: true,
       }),
       new ForkTsCheckerWebpackPlugin(),
       new SpriteLoaderPlugin(),
-      // new BundleAnalyzerPlugin(),
+      new BundleAnalyzerPlugin(),
       new Dotenv(),
     ],
     optimization: {

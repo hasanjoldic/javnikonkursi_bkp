@@ -4,14 +4,17 @@
     "downlevelIteration": true,
     "target": "es2017",
     "jsx": "react",
-    "lib": ["es2020", "dom"],
+    "lib": ["dom", "ESNext"],
     "allowSyntheticDefaultImports": true,
-    "typeRoots": ["node_modules/@types"],
+    // "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["../../node_modules/@types", "node_modules/@types"],
     "baseUrl": "src/",
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

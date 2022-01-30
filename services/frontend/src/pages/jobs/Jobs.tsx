@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import moment from "moment";
+import { isAfter } from "date-fns";
 import _orderBy from "lodash/orderBy";
 
-import { Box, Toolbar, styled, Typography } from "@mui/material";
+import { Box, Toolbar, Typography } from "@mui/material";
+import { styled } from "@mui/system";
 
 import { IApplicationState, setIsDrawerOpen } from "store";
 
@@ -44,7 +45,7 @@ export const Jobs: React.FC = () => {
       if (companiesFilter.length && !companiesFilter.includes(job.company.id)) {
         return false;
       }
-      if (!shouldIncludeExpired && moment().isAfter(job.endDate)) {
+      if (!shouldIncludeExpired && isAfter(new Date(), new Date(job.endDate))) {
         return false;
       }
       return true;

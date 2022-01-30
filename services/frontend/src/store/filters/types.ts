@@ -1,4 +1,4 @@
-import { SelectOption } from "react-select-material-ui";
+import { ISelectOption } from "components";
 
 export enum EFiltersActionTypes {
   SET_FILTERS = "@@filters/SET_FILTERS",
@@ -7,8 +7,8 @@ export enum EFiltersActionTypes {
 }
 
 export interface IFiltersState {
-  regions: SelectOption[];
-  jobTypes: SelectOption[];
-  companies: SelectOption[];
+  regions: ISelectOption[];
+  jobTypes: ISelectOption[];
+  companies: ISelectOption[];
   shouldIncludeExpired: boolean;
 }

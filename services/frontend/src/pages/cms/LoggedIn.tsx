@@ -1,8 +1,8 @@
 import React from "react";
-import { useLocation, useHistory, Switch } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import { QueryResult } from "@apollo/client";
 
-import { Drawer, CssBaseline, List, ListItem, ListItemText, Theme } from "@mui/material";
+import { Box, Drawer, CssBaseline, List, ListItem, ListItemText, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { useGetCompanies, useGetJobs, useGetJobTypes, useGetJobTags, useGetRegions } from "store";
@@ -49,7 +49,7 @@ export const LoggedIn: React.FC = () => {
 
   return (
     <CmsContext.Provider value={{ refetchCompanies, refetchJobs, refetchJobTypes, refetchJobTags }}>
-      <div className={classes.root}>
+      <Box display="flex">
         <CssBaseline />
         <Drawer
           className={classes.drawer}
@@ -64,7 +64,7 @@ export const LoggedIn: React.FC = () => {
               <ListItem
                 key={tab[0]}
                 button
-                selected={location.pathname.includes(tab[1])}
+                selected={pathname.includes(tab[1])}
                 onClick={() => history.push(`/cms/${tab[1]}`)}
               >
                 <ListItemText primary={tab[0]} />
@@ -80,15 +80,12 @@ export const LoggedIn: React.FC = () => {
           <JobTagRoutes />
           {/* </Switch> */}
         </main>
-      </div>
+      </Box>
     </CmsContext.Provider>
   );
 };
 
 const useStyles = makeStyles<Theme>((theme) => ({
-  root: {
-    display: "flex",
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,

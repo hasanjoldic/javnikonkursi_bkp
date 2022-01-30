@@ -7,12 +7,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import { Grid } from "@mui/material";
 
-import {
-  UpdateJobTypeMutation,
-  UpdateJobTypeMutationVariables,
-  UpdateJobTypeInput,
-  JobTypeInput,
-} from "generated/types";
+import { UpdateJobTypeMutation, UpdateJobTypeMutationVariables, JobTypeInput } from "generated/types";
 
 import { IApplicationState } from "store";
 

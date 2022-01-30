@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { hot } from "react-hot-loader/root";
 import { useDispatch, useSelector } from "react-redux";
 
 import { SnackbarProvider } from "notistack";
@@ -11,7 +10,7 @@ import { createApiClient, ApiProvider } from "api";
 import { Notifier, Footer, ScrollToTop } from "components";
 import { Jobs, JobDetail, Cms, VerifyEmail } from "./pages";
 
-const AppContainer = () => {
+export const Root: React.FC = () => {
   const dispatch = useDispatch();
 
   const accessToken = useSelector((state: IApplicationState) => state.auth.accessToken);
@@ -56,5 +55,3 @@ const AppContainer = () => {
     </SnackbarProvider>
   );
 };
-
-export default hot(AppContainer);

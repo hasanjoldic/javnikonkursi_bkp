@@ -20,11 +20,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
+import { GRAPHQL_FULL_PATH } from "env";
 import reducers, { enqueueSnackbar, logout } from "store";
 
 import { theme } from "./theme";
-import Root from "./Root";
-import { GRAPHQL_FULL_PATH } from "env";
+import { Root } from "./Root";
 
 import "index.css";
 
@@ -115,11 +115,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
-
-declare const module: { hot: any };
-if (module.hot) {
-  module.hot.accept("./Root", () => {
-    const HotApp = require("./Root").default;
-    ReactDOM.render(<HotApp />, document.getElementById("root"));
-  });
-}

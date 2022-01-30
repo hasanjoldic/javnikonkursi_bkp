@@ -2,12 +2,13 @@ import React from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-import { Box, Typography, Paper, Divider, Button, styled, Toolbar, Chip } from "@mui/material";
+import { Box, Typography, Paper, Divider, Button, Toolbar, Chip } from "@mui/material";
+import { styled } from "@mui/system";
 import { Place as PlaceIcon, People as PeopleIcon, BusinessRounded as BusinessRoundedIcon } from "@mui/icons-material";
 
 import { momentFormat, EDateFormat } from "utils";
-
-import { RouterButton } from "components";
+import { IApplicationState } from "store";
+import { Main, RouterButton } from "components";
 
 const Header = styled("div")(({ theme }) => ({
   padding: "1rem 0",
@@ -37,10 +38,6 @@ const Chips = styled("div")(({ theme }) => ({
     backgroundColor: "#fff",
   },
 }));
-
-import { IApplicationState } from "store";
-
-import { Main } from "components";
 
 export const JobDetail: React.FC = () => {
   const { id: jobId } = useParams<{ id: string }>();

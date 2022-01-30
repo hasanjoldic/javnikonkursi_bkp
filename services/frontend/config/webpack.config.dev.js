@@ -37,46 +37,6 @@ module.exports = function (options) {
                 loader: "babel-loader",
                 options: {
                   cacheDirectory: true,
-                  babelrc: false,
-                  presets: [
-                    [
-                      "@babel/preset-env",
-                      { targets: { browsers: "last 2 versions" } },
-                    ],
-                    "@babel/preset-typescript",
-                    "@babel/preset-react",
-                  ],
-                  plugins: [
-                    [
-                      "@babel/plugin-proposal-class-properties",
-                      { loose: true },
-                    ],
-                    [
-                      "@babel/plugin-proposal-private-property-in-object",
-                      { loose: true },
-                    ],
-                    ["@babel/plugin-proposal-private-methods", { loose: true }],
-                    [
-                      "babel-plugin-import",
-                      {
-                        libraryName: "@material-ui/core",
-                        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
-                        libraryDirectory: "esm",
-                        camel2DashComponentName: false,
-                      },
-                      "core",
-                    ],
-                    [
-                      "babel-plugin-import",
-                      {
-                        libraryName: "@material-ui/icons",
-                        // Use "'libraryDirectory': ''," if your bundler does not support ES modules
-                        libraryDirectory: "esm",
-                        camel2DashComponentName: false,
-                      },
-                      "icons",
-                    ],
-                  ],
                 },
               },
             },
@@ -151,9 +111,7 @@ module.exports = function (options) {
       hot: true,
     },
     plugins: [
-      new CopyWebpackPlugin([
-        { from: "static/**/*", to: "static/.", context: "./public" },
-      ]),
+      new CopyWebpackPlugin([{ from: "static/**/*", to: "static/.", context: "./public" }]),
       new HtmlWebpackPlugin({
         template: "./public/index.html",
         inject: true,

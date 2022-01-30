@@ -1,5 +1,5 @@
 import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectOption } from "react-select-material-ui";
 import { FormikConfig } from "formik";

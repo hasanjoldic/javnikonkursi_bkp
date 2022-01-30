@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import _orderBy from "lodash/orderBy";
 
 import { Box, CssBaseline } from "@mui/material";
 

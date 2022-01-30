@@ -5,7 +5,7 @@ import { FormikConfig } from "formik";
 import * as Yup from "yup";
 
 import { gql, useMutation } from "@apollo/client";
-import { CreateCompanyMutation, CreateCompanyMutationVariables, Company, CreateCompanyInput } from "generated/types";
+import { CreateCompanyMutation, CreateCompanyMutationVariables, Company } from "generated/types";
 
 import { Grid } from "@mui/material";
 

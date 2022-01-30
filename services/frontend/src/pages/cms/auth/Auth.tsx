@@ -8,16 +8,13 @@ import SwipeableViews from "react-swipeable-views";
 import AuthForm, { EAuthFormTab, authFormTitles } from "./Form";
 import { blue } from "@mui/material/colors";
 
-interface TabPanelProps {
+interface ITabPanelProps {
   children: React.ReactNode;
   currentIndex: number;
   index: number;
 }
 
-const TabPanel = (props: TabPanelProps) => {
-  const { children, currentIndex, index } = props;
-  const classes = useStyles();
-
+const TabPanel: React.FC<ITabPanelProps> = ({ children, currentIndex, index }) => {
   return <div hidden={currentIndex !== index}>{currentIndex === index && <Box p={3}>{children}</Box>}</div>;
 };
 
@@ -26,7 +23,7 @@ export const Auth: React.FC = () => {
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
-  const handleChangeTab = (event: React.ChangeEvent<{}>, index: number) => {
+  const handleChangeTab = (_event: React.ChangeEvent<{}>, index: number) => {
     setCurrentIndex(index);
   };
 

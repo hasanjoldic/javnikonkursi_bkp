@@ -1,12 +1,7 @@
 import React from "react";
 import { useField, FieldConfig, useFormikContext } from "formik";
 
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  FormLabel,
-} from "@mui/material";
+import { FormControl, FormHelperText, FormLabel } from "@mui/material";
 
 import { grey } from "@mui/material/colors";
 
@@ -54,7 +49,7 @@ export const FileUpload: React.FC<TProps> = ({ label, ...props }) => {
       </div>
 
       <FormHelperText error={hasError}>{helperText}</FormHelperText>
-      <img src={field.value} />
+      {/* <img src={field.value} alt="" /> */}
     </FormControl>
   );
 };

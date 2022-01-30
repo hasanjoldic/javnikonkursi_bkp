@@ -6,7 +6,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import { Grid } from "@mui/material";
 
-import { CreateJobTypeMutation, CreateJobTypeMutationVariables, JobType, CreateJobTypeInput } from "generated/types";
+import { CreateJobTypeMutation, CreateJobTypeMutationVariables } from "generated/types";
 
 import { TextInput } from "components";
 import { useCmsContext } from "pages/cms";

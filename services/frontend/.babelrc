@@ -1,11 +1,10 @@
 {
   "plugins": [
-    "react-hot-loader/babel",
     [
       "babel-plugin-import",
       {
-        "libraryName": "@material-ui/core",
-        "libraryDirectory": "esm",
+        "libraryName": "@mui/material",
+        "libraryDirectory": "",
         "camel2DashComponentName": false
       },
       "core"
@@ -13,13 +12,11 @@
     [
       "babel-plugin-import",
       {
-        "libraryName": "@material-ui/icons",
-        "libraryDirectory": "esm",
+        "libraryName": "@mui/icons-material",
+        "libraryDirectory": "",
         "camel2DashComponentName": false
       },
       "icons"
-    ],
-    "@babel/plugin-proposal-optional-chaining"
-  ],
-  "presets": ["@babel/preset-typescript", "@babel/preset-react"]
+    ]
+  ]
 }

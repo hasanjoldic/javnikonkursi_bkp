@@ -1,5 +1,4 @@
 import React from "react";
-import _orderBy from "lodash/orderBy";
 
 import { Box, Typography, IconButton, AppBar as MuiAppBar, Toolbar } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";

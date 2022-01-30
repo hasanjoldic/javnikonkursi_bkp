@@ -1,6 +1,7 @@
 import React from "react";
+import { Formik, Form as FormikForm } from "formik";
+import * as Yup from "yup";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { SelectOption } from "react-select-material-ui";
 
 import {
   Box,
@@ -12,13 +13,12 @@ import {
   Switch,
   FormGroup,
   FormControlLabel,
-  useTheme,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
 
 import { IApplicationState, updateFilters } from "store";
-
-import { MultipleSearchSelectInput } from "components";
+import { SearchSelectInput, ISelectOption } from "components";
 
 import { drawerWidth } from "./utils";
 
@@ -65,9 +65,9 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose }) => {
       shallowEqual
     );
 
-  const [regionOptions, setRegionOptions] = React.useState<SelectOption[]>([]);
-  const [jobTypeOptions, setJobTypeOptions] = React.useState<SelectOption[]>([]);
-  const [companyOptions, setCompanyOptions] = React.useState<SelectOption[]>([]);
+  const [regionOptions, setRegionOptions] = React.useState<ISelectOption[]>([]);
+  const [jobTypeOptions, setJobTypeOptions] = React.useState<ISelectOption[]>([]);
+  const [companyOptions, setCompanyOptions] = React.useState<ISelectOption[]>([]);
 
   React.useEffect(() => {
     setRegionOptions(
@@ -96,6 +96,8 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose }) => {
     );
   }, [setCompanyOptions, companies]);
 
+  console.log({ jobTypeOptions });
+
   return (
     <DrawerContainer open={open} onClose={onClose}>
       <Box p={1} display="grid" rowGap="20px">
@@ -113,26 +115,52 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose }) => {
             label="Istekli konkursi"
           />
         </FormGroup>
-        <MultipleSearchSelectInput
-          label="Regija"
-          options={regionOptions}
-          values={regionsFilter}
-          onChange={(value) => dispatch(updateFilters({ regions: value || [] }))}
-          fullWidth
-        />
-        <MultipleSearchSelectInput
-          label="Vrsta posla"
-          options={jobTypeOptions}
-          values={jobTypesFilter}
-          onChange={(value) => dispatch(updateFilters({ jobTypes: value || [] }))}
-        />
-        <MultipleSearchSelectInput
-          label="Javna ustanova/preduzeće"
-          options={companyOptions}
-          values={companiesFilter}
-          onChange={(value) => dispatch(updateFilters({ companies: value || [] }))}
-          fullWidth
-        />
+        <Formik
+          initialValues={{
+            regionsFilter,
+            jobTypesFilter,
+            companiesFilter,
+          }}
+          validationSchema={Yup.object({
+            regionsFilter: Yup.array(),
+            jobTypesFilter: Yup.array(),
+            companiesFilter: Yup.array(),
+          })}
+          onSubmit={() => null}
+        >
+          <FormikForm>
+            <SearchSelectInput
+              name="regionIds"
+              selectProps={{
+                placeholder: "Regija...",
+                options: regionOptions,
+                value: regionsFilter,
+                onChange: (value: ISelectOption[]) => dispatch(updateFilters({ regions: value || [] })),
+                isMulti: true,
+              }}
+            />
+            <SearchSelectInput
+              name="jobTypeIds"
+              selectProps={{
+                placeholder: "Vrsta posla...",
+                options: jobTypeOptions,
+                value: jobTypesFilter,
+                onChange: (value: ISelectOption[]) => dispatch(updateFilters({ jobTypes: value || [] })),
+                isMulti: true,
+              }}
+            />
+            <SearchSelectInput
+              name="companyIds"
+              selectProps={{
+                placeholder: "Javna ustanova/preduzeće...",
+                options: companyOptions,
+                value: companiesFilter,
+                onChange: (value: ISelectOption[]) => dispatch(updateFilters({ companies: value || [] })),
+                isMulti: true,
+              }}
+            />
+          </FormikForm>
+        </Formik>
       </Box>
     </DrawerContainer>
   );

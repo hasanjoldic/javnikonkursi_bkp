@@ -1,41 +1,29 @@
 import React from "react";
-import { useField, FieldConfig, useFormikContext } from "formik";
-
-import { Autocomplete, AutocompleteProps, TextField, TextFieldProps } from "@mui/material";
-
-export interface ISelectOption {
-  value: string;
-  label: string;
-}
+import Select from "react-select";
+import { FieldConfig, useField, useFormikContext } from "formik";
 
 type TProps = FieldConfig<any> & {
-  autocompleteProps: Omit<AutocompleteProps<ISelectOption, undefined, false, false>, "renderInput">;
-  textFieldProps: TextFieldProps;
+  selectProps: React.ComponentProps<Select>;
 };
 
-export const AutoCompleteInput: React.FC<TProps> = ({ autocompleteProps, textFieldProps, ...props }) => {
-  const { setFieldValue, values } = useFormikContext();
-  const [field, meta] = useField(props);
-  const hasError = meta.touched === true && meta.error != null;
-  const helperText = hasError ? meta.error : null;
-
+export const SearchSelectInput: React.FC<TProps> = ({ selectProps, ...props }) => {
+  const { setFieldValue } = useFormikContext();
+  const [{ name, onBlur }] = useField(props);
+  // const hasError = meta.touched === true && meta.error != null;
+  // const helperText = hasError ? meta.error : null;
+  const { onChange } = selectProps;
   return (
-    <Autocomplete
-      {...autocompleteProps}
-      onChange={(e, value) => {
-        setFieldValue(props.name, value, true);
+    <Select
+      {...selectProps}
+      name={name}
+      onChange={(value) => {
+        if (onChange) {
+          onChange(value, null);
+        } else {
+          setFieldValue(props.name, value, true);
+        }
       }}
-      getOptionLabel={(option) => option.label}
-      renderInput={(params) => (
-        <TextField
-          name={props.name}
-          {...textFieldProps}
-          {...params}
-          {...field}
-          error={hasError}
-          helperText={helperText}
-        />
-      )}
+      onBlur={onBlur}
     />
   );
 };

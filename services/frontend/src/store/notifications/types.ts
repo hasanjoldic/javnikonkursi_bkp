@@ -1,4 +1,4 @@
-import { TransitionCloseHandler, OptionsObject } from "notistack";
+import { OptionsObject } from "notistack";
 
 export enum ENotificationActionType {
   ENQUEUE_SNACKBAR = "@@notification/ENQUEUE_SNACKBAR",
