@@ -28,7 +28,7 @@ jobs:
       - name: Build project
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspaces run build:dev
+          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspace @javnikonkursi/shared run build && sudo -Hu ${{ secrets.USER_DEV }} yarn workspace @javnikonkursi/backend run build
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
           privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
