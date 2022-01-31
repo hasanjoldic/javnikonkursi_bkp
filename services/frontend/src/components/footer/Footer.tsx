@@ -7,7 +7,6 @@ import { makeStyles, createStyles } from "@mui/styles";
 import { ERegion } from "@javnikonkursi/shared";
 
 import { darkTheme } from "theme";
-import { ThreePOutlined } from "@mui/icons-material";
 
 export const Footer: React.FC = () => {
   const classes = useStyles();

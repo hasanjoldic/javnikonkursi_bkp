@@ -1,9 +1,6 @@
 import React from "react";
 
-import { Box, Typography, IconButton, AppBar as MuiAppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
-import { Menu as MenuIcon } from "@mui/icons-material";
-
-import { drawerWidth } from "components";
+import { Box, Typography, AppBar as MuiAppBar, Toolbar, Slide, useScrollTrigger } from "@mui/material";
 
 const HideOnScroll: React.FC = ({ children }) => {
   // // Note that you normally won't need to set the window ref as useScrollTrigger

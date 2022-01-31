@@ -3,7 +3,7 @@ import { Formik, Form as FormikForm } from "formik";
 import * as Yup from "yup";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 
-import { Box, Switch, FormGroup, FormControlLabel, Grid, Paper } from "@mui/material";
+import { Box, Switch, FormGroup, FormControlLabel } from "@mui/material";
 
 import { IApplicationState, updateFilters } from "store";
 import { SearchSelectInput, ISelectOption } from "components";
