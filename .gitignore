@@ -122,6 +122,7 @@ lib/**/*
 tsconfig.tsbuildinfo
 
 schema.graphql
-generated/types.ts
+**/generated/types.ts
+**/build
 
 ansible
