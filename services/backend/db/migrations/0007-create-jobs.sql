@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS job_tags (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-  title TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
   notes TEXT,
 
   _created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   region_id UUID REFERENCES regions(id),
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
+  number_of_openings INT DEFAULT 1,
 
   external_url TEXT,
   internal_url TEXT,
@@ -74,8 +75,8 @@ CREATE TRIGGER a_jobs_timestamp_trigger
 CREATE TABLE IF NOT EXISTS jobs_job_tags (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
-  job_id UUID REFERENCES jobs(id),
-  job_tag_id UUID REFERENCES job_tags(id),
+  job_id UUID REFERENCES jobs(id) ON DELETE CASCADE,
+  job_tag_id UUID REFERENCES job_tags(id) ON DELETE CASCADE,
 
   _created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   _updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
