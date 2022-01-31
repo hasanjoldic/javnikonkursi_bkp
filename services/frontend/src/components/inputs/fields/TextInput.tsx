@@ -9,19 +9,13 @@ type TInputProps = React.ClassAttributes<HTMLInputElement> &
 
 type TProps = TInputProps & { textFieldProps: TextFieldProps };
 
-export const TextInput = (props: TProps) => {
+export const TextInput: React.FC<TProps> = ({ textFieldProps, ...props }) => {
   const [field, meta] = useField(props);
   const hasError = meta.touched === true && meta.error != null;
   const helperText = hasError ? meta.error : null;
   const inputProps = { ...props };
-  delete inputProps.textFieldProps;
 
   return (
-    <TextField
-      {...props.textFieldProps}
-      inputProps={{ ...field, ...inputProps }}
-      error={hasError}
-      helperText={helperText}
-    />
+    <TextField {...textFieldProps} inputProps={{ ...field, ...inputProps }} error={hasError} helperText={helperText} />
   );
 };

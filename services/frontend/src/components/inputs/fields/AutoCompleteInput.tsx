@@ -9,7 +9,7 @@ export interface ISelectOption {
 }
 
 type TProps = FieldConfig<any> & {
-  autocompleteProps: Omit<AutocompleteProps<ISelectOption, undefined, false, false>, "renderInput">;
+  autocompleteProps: Omit<AutocompleteProps<ISelectOption, boolean, false, false>, "renderInput">;
   textFieldProps: TextFieldProps;
 };
 
@@ -25,7 +25,7 @@ export const AutoCompleteInput: React.FC<TProps> = ({ autocompleteProps, textFie
       onChange={(e, value) => {
         setFieldValue(props.name, value, true);
       }}
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option: any) => option.label}
       renderInput={(params) => (
         <TextField
           name={props.name}

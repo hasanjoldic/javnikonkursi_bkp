@@ -6,7 +6,14 @@ import { FormikConfig } from "formik";
 import * as Yup from "yup";
 
 import { gql, useMutation } from "@apollo/client";
-import { Job, UpdateJobInput, UpdateJobMutation, UpdateJobMutationVariables } from "generated/types";
+import {
+  Job,
+  UpdateJobInput,
+  UpdateJobMutation,
+  UpdateJobMutationVariables,
+  DeleteJobMutation,
+  DeleteJobMutationVariables,
+} from "generated/types";
 
 import { Grid } from "@mui/material";
 
@@ -22,6 +29,16 @@ import { jobsUrl } from "./Routes";
 export const UPDATE_JOB = gql`
   mutation UpdateJob($input: UpdateJobInput!) {
     updateJob(input: $input) {
+      job {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_JOB = gql`
+  mutation DeleteJob($input: DeleteJobInput!) {
+    deleteJob(input: $input) {
       job {
         id
       }
@@ -59,6 +76,7 @@ export const EditJob: React.FC = () => {
   }, [setRegionOptions, regions]);
 
   const [updateJob] = useMutation<UpdateJobMutation, UpdateJobMutationVariables>(UPDATE_JOB);
+  const [deleteJob] = useMutation<DeleteJobMutation, DeleteJobMutationVariables>(DELETE_JOB);
 
   const handleSubmit = React.useCallback<FormikConfig<Job & { internalFile: File }>["onSubmit"]>(
     async ({ internalFile, ...values }, { setSubmitting }) => {
@@ -99,12 +117,18 @@ export const EditJob: React.FC = () => {
     [selectedJob, apiClient, updateJob, history, refetchJobs]
   );
 
+  const handleDelete = React.useCallback(async () => {
+    await deleteJob({ variables: { input: { id: selectedJob.id } } });
+  }, [deleteJob, selectedJob]);
+
   return (
     <Form
       initialValues={selectedJob}
       validationSchema={Yup.object({
         title: Yup.string().min(5).required("Obavezno polje"),
+        numberOfOpenings: Yup.number(),
         jobTypeId: Yup.string(),
+        jobTagIds: Yup.array().of(Yup.string()),
         companyId: Yup.string()
           .oneOf(companies.map((c) => c.id))
           .required("Obavezno polje"),
@@ -117,6 +141,7 @@ export const EditJob: React.FC = () => {
         internalFile: Yup.mixed().required(),
       })}
       onSubmit={handleSubmit}
+      onDelete={handleDelete}
     >
       <Grid item xs={12}>
         <TextInput

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { IApplicationState } from "store";
-import { EDateFormat, momentFormat } from "utils";
+import { EDateFormat, dateFormat } from "utils";
 
 import { IColumn, View } from "../View";
 
@@ -11,13 +11,13 @@ const columns: IColumn[] = [
   {
     id: "startDate",
     label: "Početak konkursa",
-    render: (value: string) => momentFormat(value, EDateFormat["DD.MM.YYYY"]),
+    render: (value: string) => dateFormat(value, EDateFormat["dd.MM.yyyy"]),
   },
-  { id: "endDate", label: "Kraj konkursa", render: (value: string) => momentFormat(value, EDateFormat["DD.MM.YYYY"]) },
+  { id: "endDate", label: "Kraj konkursa", render: (value: string) => dateFormat(value, EDateFormat["dd.MM.yyyy"]) },
   {
     id: "_updatedAt",
     label: "Ažurinano",
-    render: (value: string) => momentFormat(value, EDateFormat["DD.MM.YYYY HH:mm:ss"]),
+    render: (value: string) => dateFormat(value, EDateFormat["dd.MM.yyyy HH:mm:ss"]),
   },
 ];
 

@@ -7,7 +7,7 @@ interface IProps extends LoadingButtonProps {}
 
 export const LoadingButton: React.FC<IProps> = ({ children, ...props }) => {
   return (
-    <MuiLoadingButton {...props} loadingPosition="start" startIcon={<SaveIcon />}>
+    <MuiLoadingButton {...props} loadingPosition="start">
       {children}
     </MuiLoadingButton>
   );

@@ -2,9 +2,27 @@ import { ThemeOptions } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 // import { blueGrey, grey } from "@mui/material/colors";
 
+const defaultTheme = createTheme();
+
 const sharedThemeOptions: ThemeOptions = {
   typography: {
-    fontFamily: ["sans-serif"].join(","),
+    fontFamily: ["Open Sans", "sans-serif"].join(","),
+    allVariants: {
+      [defaultTheme.breakpoints.down("md")]: {
+        // textAlign: "center",
+      },
+    },
+  },
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          [defaultTheme.breakpoints.down("md")]: {
+            boxShadow: "none",
+          },
+        },
+      },
+    },
   },
 };
 

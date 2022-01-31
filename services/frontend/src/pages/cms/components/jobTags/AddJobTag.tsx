@@ -58,7 +58,7 @@ export const AddJobTag: React.FC = () => {
     <Form
       initialValues={initialValues}
       validationSchema={Yup.object({
-        title: Yup.string().min(5).required("Obavezno polje"),
+        title: Yup.string().required("Obavezno polje"),
         notes: Yup.string(),
       })}
       onSubmit={handleSubmit}

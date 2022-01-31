@@ -67,13 +67,13 @@ export const Auth: React.FC = () => {
 
 const useStyles = makeStyles<Theme>((theme) => ({
   root: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       height: "100vh",
     },
     backgroundImage: `linear-gradient( to top right, ${blue[800]}, ${blue[200]});`,
   },
   content: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       height: "100vh",
       display: "flex",
       flexDirection: "column",
@@ -81,12 +81,12 @@ const useStyles = makeStyles<Theme>((theme) => ({
     },
   },
   appBar: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up("lg")]: {
       borderRadius: theme.shape.borderRadius,
     },
   },
   tabContent: {
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flex: 1,
     },
     minHeight: 450,

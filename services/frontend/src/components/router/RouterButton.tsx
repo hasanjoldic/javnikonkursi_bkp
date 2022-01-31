@@ -9,7 +9,7 @@ export const RouterButton: React.FC<TProps> = ({ id, link, ...props }) => {
   const history = useHistory();
 
   const onClick = () => {
-    history.push(`#${id}`);
+    // history.push(`#${id}`);
     history.push(link);
   };
 

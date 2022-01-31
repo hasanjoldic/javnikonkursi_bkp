@@ -90,6 +90,71 @@ export enum CompaniesOrderBy {
   UpdatedAtDesc = '_UPDATED_AT_DESC'
 }
 
+/** The `company` to be created by this mutation. */
+export type CompaniesRegionIdFkeyCompaniesCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
+  title: Scalars['String'];
+  url: Scalars['String'];
+};
+
+/** Input for the nested mutation of `region` in the `CompanyInput` mutation. */
+export type CompaniesRegionIdFkeyInput = {
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  connectById?: InputMaybe<RegionRegionsPkeyConnect>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<RegionRegionsTitleKeyConnect>;
+  /** A `RegionInput` object that will be created and connected to this object. */
+  create?: InputMaybe<CompaniesRegionIdFkeyRegionsCreateInput>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  deleteById?: InputMaybe<RegionRegionsPkeyDelete>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<RegionRegionsTitleKeyDelete>;
+  /** The primary key(s) and patch data for `region` for the far side of the relationship. */
+  updateById?: InputMaybe<RegionOnCompanyForCompaniesRegionIdFkeyUsingRegionsPkeyUpdate>;
+  /** The primary key(s) and patch data for `region` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<RegionOnCompanyForCompaniesRegionIdFkeyUsingRegionsTitleKeyUpdate>;
+};
+
+/** Input for the nested mutation of `company` in the `RegionInput` mutation. */
+export type CompaniesRegionIdFkeyInverseInput = {
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<CompanyCompaniesPkeyConnect>>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<Array<CompanyCompaniesTitleKeyConnect>>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectByUrl?: InputMaybe<Array<CompanyCompaniesUrlKeyConnect>>;
+  /** A `CompanyInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<CompaniesRegionIdFkeyCompaniesCreateInput>>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<CompanyCompaniesPkeyDelete>>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<Array<CompanyCompaniesTitleKeyDelete>>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteByUrl?: InputMaybe<Array<CompanyCompaniesUrlKeyDelete>>;
+  /** Flag indicating whether all other `company` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesPkeyUpdate>>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<Array<CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesTitleKeyUpdate>>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateByUrl?: InputMaybe<Array<CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesUrlKeyUpdate>>;
+};
+
+/** The `region` to be created by this mutation. */
+export type CompaniesRegionIdFkeyRegionsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
+  title: Scalars['String'];
+};
+
 export type Company = {
   __typename?: 'Company';
   _createdAt: Scalars['Datetime'];
@@ -144,6 +209,36 @@ export type CompanyRegionsByJobCompanyIdAndRegionIdArgs = {
   orderBy?: InputMaybe<Array<RegionsOrderBy>>;
 };
 
+/** The fields on `company` to look up the row to connect. */
+export type CompanyCompaniesPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `company` to look up the row to delete. */
+export type CompanyCompaniesPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `company` to look up the row to connect. */
+export type CompanyCompaniesTitleKeyConnect = {
+  title: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to delete. */
+export type CompanyCompaniesTitleKeyDelete = {
+  title: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to connect. */
+export type CompanyCompaniesUrlKeyConnect = {
+  url: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to delete. */
+export type CompanyCompaniesUrlKeyDelete = {
+  url: Scalars['String'];
+};
+
 /** A condition to be used against `Company` object types. All fields are tested for equality and combined with a logical ‘and.’ */
 export type CompanyCondition = {
   /** Checks for equality with the object’s `_createdAt` field. */
@@ -187,7 +282,9 @@ export type CompanyInput = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
   regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -229,12 +326,56 @@ export type CompanyJobTypesByJobCompanyIdAndJobTypeIdManyToManyEdgeJobsArgs = {
   orderBy?: InputMaybe<Array<JobsOrderBy>>;
 };
 
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnCompanyForCompaniesRegionIdFkeyPatch;
+};
+
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnCompanyForCompaniesRegionIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnCompanyForCompaniesRegionIdFkeyUsingCompaniesUrlKeyUpdate = {
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnCompanyForCompaniesRegionIdFkeyPatch;
+  url: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnJobForJobsCompanyIdFkeyPatch;
+};
+
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnJobForJobsCompanyIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `company` to look up the row to update. */
+export type CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesUrlKeyUpdate = {
+  /** An object where the defined keys will be set on the `company` being updated. */
+  patch: UpdateCompanyOnJobForJobsCompanyIdFkeyPatch;
+  url: Scalars['String'];
+};
+
 /** Represents an update to a `Company`. Fields that are set will be updated. */
 export type CompanyPatch = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
   regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -1080,6 +1221,7 @@ export type Job = {
   jobTypeId?: Maybe<Scalars['UUID']>;
   /** Reads and enables pagination through a set of `JobsJobTag`. */
   jobsJobTags: JobsJobTagsConnection;
+  numberOfOpenings?: Maybe<Scalars['Int']>;
   /** Reads a single `Region` that is related to this `Job`. */
   region?: Maybe<Region>;
   regionId?: Maybe<Scalars['UUID']>;
@@ -1129,6 +1271,8 @@ export type JobCondition = {
   internalUrl?: InputMaybe<Scalars['String']>;
   /** Checks for equality with the object’s `jobTypeId` field. */
   jobTypeId?: InputMaybe<Scalars['UUID']>;
+  /** Checks for equality with the object’s `numberOfOpenings` field. */
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
   /** Checks for equality with the object’s `regionId` field. */
   regionId?: InputMaybe<Scalars['UUID']>;
   /** Checks for equality with the object’s `startDate` field. */
@@ -1159,6 +1303,8 @@ export type JobFilter = {
   jobTypeId?: InputMaybe<UuidFilter>;
   /** Negates the expression. */
   not?: InputMaybe<JobFilter>;
+  /** Filter by the object’s `numberOfOpenings` field. */
+  numberOfOpenings?: InputMaybe<IntFilter>;
   /** Checks for any expressions in this list. */
   or?: InputMaybe<Array<JobFilter>>;
   /** Filter by the object’s `regionId` field. */
@@ -1174,12 +1320,17 @@ export type JobInput = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
   endDate: Scalars['Date'];
   externalUrl?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['UUID']>;
   internalUrl?: InputMaybe<Scalars['String']>;
   jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
   regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
   startDate: Scalars['Date'];
   title: Scalars['String'];
 };
@@ -1221,17 +1372,98 @@ export type JobJobTagsByJobsJobTagJobIdAndJobTagIdManyToManyEdgeJobsJobTagsArgs 
   orderBy?: InputMaybe<Array<JobsJobTagsOrderBy>>;
 };
 
+/** The fields on `job` to look up the row to connect. */
+export type JobJobsPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `job` to look up the row to delete. */
+export type JobJobsPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `job` to look up the row to connect. */
+export type JobJobsTitleKeyConnect = {
+  title: Scalars['String'];
+};
+
+/** The fields on `job` to look up the row to delete. */
+export type JobJobsTitleKeyDelete = {
+  title: Scalars['String'];
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsCompanyIdFkeyUsingJobsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsCompanyIdFkeyPatch;
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsCompanyIdFkeyUsingJobsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsCompanyIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsJobTypeIdFkeyUsingJobsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsJobTypeIdFkeyPatch;
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsJobTypeIdFkeyUsingJobsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsJobTypeIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsRegionIdFkeyUsingJobsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsRegionIdFkeyPatch;
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobForJobsRegionIdFkeyUsingJobsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobForJobsRegionIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobsJobTagForJobsJobTagsJobIdFkeyPatch;
+};
+
+/** The fields on `job` to look up the row to update. */
+export type JobOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `job` being updated. */
+  patch: UpdateJobOnJobsJobTagForJobsJobTagsJobIdFkeyPatch;
+  title: Scalars['String'];
+};
+
 /** Represents an update to a `Job`. Fields that are set will be updated. */
 export type JobPatch = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
   endDate?: InputMaybe<Scalars['Date']>;
   externalUrl?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['UUID']>;
   internalUrl?: InputMaybe<Scalars['String']>;
   jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
   regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
   startDate?: InputMaybe<Scalars['Date']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1312,7 +1544,28 @@ export type JobTagInput = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobTagIdFkeyInverseInput>;
   notes?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+/** The fields on `jobTag` to look up the row to connect. */
+export type JobTagJobTagsPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobTag` to look up the row to delete. */
+export type JobTagJobTagsPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobTag` to look up the row to connect. */
+export type JobTagJobTagsTitleKeyConnect = {
+  title: Scalars['String'];
+};
+
+/** The fields on `jobTag` to look up the row to delete. */
+export type JobTagJobTagsTitleKeyDelete = {
   title: Scalars['String'];
 };
 
@@ -1353,11 +1606,26 @@ export type JobTagJobsByJobsJobTagJobTagIdAndJobIdManyToManyEdgeJobsJobTagsArgs 
   orderBy?: InputMaybe<Array<JobsJobTagsOrderBy>>;
 };
 
+/** The fields on `jobTag` to look up the row to update. */
+export type JobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobTagsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `jobTag` being updated. */
+  patch: UpdateJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyPatch;
+};
+
+/** The fields on `jobTag` to look up the row to update. */
+export type JobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobTagsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `jobTag` being updated. */
+  patch: UpdateJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyPatch;
+  title: Scalars['String'];
+};
+
 /** Represents an update to a `JobTag`. Fields that are set will be updated. */
 export type JobTagPatch = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobTagIdFkeyInverseInput>;
   notes?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1528,7 +1796,42 @@ export type JobTypeInput = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsJobTypeIdFkeyInverseInput>;
   notes?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+/** The fields on `jobType` to look up the row to connect. */
+export type JobTypeJobTypesPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobType` to look up the row to delete. */
+export type JobTypeJobTypesPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobType` to look up the row to connect. */
+export type JobTypeJobTypesTitleKeyConnect = {
+  title: Scalars['String'];
+};
+
+/** The fields on `jobType` to look up the row to delete. */
+export type JobTypeJobTypesTitleKeyDelete = {
+  title: Scalars['String'];
+};
+
+/** The fields on `jobType` to look up the row to update. */
+export type JobTypeOnJobForJobsJobTypeIdFkeyUsingJobTypesPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `jobType` being updated. */
+  patch: UpdateJobTypeOnJobForJobsJobTypeIdFkeyPatch;
+};
+
+/** The fields on `jobType` to look up the row to update. */
+export type JobTypeOnJobForJobsJobTypeIdFkeyUsingJobTypesTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `jobType` being updated. */
+  patch: UpdateJobTypeOnJobForJobsJobTypeIdFkeyPatch;
   title: Scalars['String'];
 };
 
@@ -1537,6 +1840,7 @@ export type JobTypePatch = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsJobTypeIdFkeyInverseInput>;
   notes?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -1617,6 +1921,81 @@ export enum JobTypesOrderBy {
   UpdatedAtDesc = '_UPDATED_AT_DESC'
 }
 
+/** The `company` to be created by this mutation. */
+export type JobsCompanyIdFkeyCompaniesCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
+  title: Scalars['String'];
+  url: Scalars['String'];
+};
+
+/** Input for the nested mutation of `company` in the `JobInput` mutation. */
+export type JobsCompanyIdFkeyInput = {
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectById?: InputMaybe<CompanyCompaniesPkeyConnect>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<CompanyCompaniesTitleKeyConnect>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  connectByUrl?: InputMaybe<CompanyCompaniesUrlKeyConnect>;
+  /** A `CompanyInput` object that will be created and connected to this object. */
+  create?: InputMaybe<JobsCompanyIdFkeyCompaniesCreateInput>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteById?: InputMaybe<CompanyCompaniesPkeyDelete>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<CompanyCompaniesTitleKeyDelete>;
+  /** The primary key(s) for `company` for the far side of the relationship. */
+  deleteByUrl?: InputMaybe<CompanyCompaniesUrlKeyDelete>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateById?: InputMaybe<CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesPkeyUpdate>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesTitleKeyUpdate>;
+  /** The primary key(s) and patch data for `company` for the far side of the relationship. */
+  updateByUrl?: InputMaybe<CompanyOnJobForJobsCompanyIdFkeyUsingCompaniesUrlKeyUpdate>;
+};
+
+/** Input for the nested mutation of `job` in the `CompanyInput` mutation. */
+export type JobsCompanyIdFkeyInverseInput = {
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<JobJobsPkeyConnect>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<Array<JobJobsTitleKeyConnect>>;
+  /** A `JobInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<JobsCompanyIdFkeyJobsCreateInput>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<JobJobsPkeyDelete>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<Array<JobJobsTitleKeyDelete>>;
+  /** Flag indicating whether all other `job` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<JobOnJobForJobsCompanyIdFkeyUsingJobsPkeyUpdate>>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<Array<JobOnJobForJobsCompanyIdFkeyUsingJobsTitleKeyUpdate>>;
+};
+
+/** The `job` to be created by this mutation. */
+export type JobsCompanyIdFkeyJobsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate: Scalars['Date'];
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
 /** A connection to a list of `Job` values. */
 export type JobsConnection = {
   __typename?: 'JobsConnection';
@@ -1696,6 +2075,32 @@ export type JobsJobTagInput = {
   id?: InputMaybe<Scalars['UUID']>;
   jobId?: InputMaybe<Scalars['UUID']>;
   jobTagId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
+};
+
+/** The fields on `jobsJobTag` to look up the row to connect. */
+export type JobsJobTagJobsJobTagsPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobsJobTag` to look up the row to delete. */
+export type JobsJobTagJobsJobTagsPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `jobsJobTag` to look up the row to update. */
+export type JobsJobTagOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsJobTagsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `jobsJobTag` being updated. */
+  patch: UpdateJobsJobTagOnJobsJobTagForJobsJobTagsJobIdFkeyPatch;
+};
+
+/** The fields on `jobsJobTag` to look up the row to update. */
+export type JobsJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobsJobTagsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `jobsJobTag` being updated. */
+  patch: UpdateJobsJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyPatch;
 };
 
 /** Represents an update to a `JobsJobTag`. Fields that are set will be updated. */
@@ -1705,6 +2110,8 @@ export type JobsJobTagPatch = {
   id?: InputMaybe<Scalars['UUID']>;
   jobId?: InputMaybe<Scalars['UUID']>;
   jobTagId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
 };
 
 /** A connection to a list of `JobsJobTag` values. */
@@ -1729,6 +2136,120 @@ export type JobsJobTagsEdge = {
   node: JobsJobTag;
 };
 
+/** Input for the nested mutation of `job` in the `JobsJobTagInput` mutation. */
+export type JobsJobTagsJobIdFkeyInput = {
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectById?: InputMaybe<JobJobsPkeyConnect>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<JobJobsTitleKeyConnect>;
+  /** A `JobInput` object that will be created and connected to this object. */
+  create?: InputMaybe<JobsJobTagsJobIdFkeyJobsCreateInput>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteById?: InputMaybe<JobJobsPkeyDelete>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<JobJobsTitleKeyDelete>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateById?: InputMaybe<JobOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsPkeyUpdate>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<JobOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsTitleKeyUpdate>;
+};
+
+/** Input for the nested mutation of `jobsJobTag` in the `JobInput` mutation. */
+export type JobsJobTagsJobIdFkeyInverseInput = {
+  /** The primary key(s) for `jobsJobTag` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<JobsJobTagJobsJobTagsPkeyConnect>>;
+  /** A `JobsJobTagInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<JobsJobTagsJobIdFkeyJobsJobTagsCreateInput>>;
+  /** The primary key(s) for `jobsJobTag` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<JobsJobTagJobsJobTagsPkeyDelete>>;
+  /** Flag indicating whether all other `jobsJobTag` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `jobsJobTag` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<JobsJobTagOnJobsJobTagForJobsJobTagsJobIdFkeyUsingJobsJobTagsPkeyUpdate>>;
+};
+
+/** The `job` to be created by this mutation. */
+export type JobsJobTagsJobIdFkeyJobsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate: Scalars['Date'];
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
+/** The `jobsJobTag` to be created by this mutation. */
+export type JobsJobTagsJobIdFkeyJobsJobTagsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobTagId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
+};
+
+/** Input for the nested mutation of `jobTag` in the `JobsJobTagInput` mutation. */
+export type JobsJobTagsJobTagIdFkeyInput = {
+  /** The primary key(s) for `jobTag` for the far side of the relationship. */
+  connectById?: InputMaybe<JobTagJobTagsPkeyConnect>;
+  /** The primary key(s) for `jobTag` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<JobTagJobTagsTitleKeyConnect>;
+  /** A `JobTagInput` object that will be created and connected to this object. */
+  create?: InputMaybe<JobsJobTagsJobTagIdFkeyJobTagsCreateInput>;
+  /** The primary key(s) for `jobTag` for the far side of the relationship. */
+  deleteById?: InputMaybe<JobTagJobTagsPkeyDelete>;
+  /** The primary key(s) for `jobTag` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<JobTagJobTagsTitleKeyDelete>;
+  /** The primary key(s) and patch data for `jobTag` for the far side of the relationship. */
+  updateById?: InputMaybe<JobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobTagsPkeyUpdate>;
+  /** The primary key(s) and patch data for `jobTag` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<JobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobTagsTitleKeyUpdate>;
+};
+
+/** Input for the nested mutation of `jobsJobTag` in the `JobTagInput` mutation. */
+export type JobsJobTagsJobTagIdFkeyInverseInput = {
+  /** The primary key(s) for `jobsJobTag` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<JobsJobTagJobsJobTagsPkeyConnect>>;
+  /** A `JobsJobTagInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<JobsJobTagsJobTagIdFkeyJobsJobTagsCreateInput>>;
+  /** The primary key(s) for `jobsJobTag` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<JobsJobTagJobsJobTagsPkeyDelete>>;
+  /** Flag indicating whether all other `jobsJobTag` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `jobsJobTag` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<JobsJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyUsingJobsJobTagsPkeyUpdate>>;
+};
+
+/** The `jobTag` to be created by this mutation. */
+export type JobsJobTagsJobTagIdFkeyJobTagsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobTagIdFkeyInverseInput>;
+  notes?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+/** The `jobsJobTag` to be created by this mutation. */
+export type JobsJobTagsJobTagIdFkeyJobsJobTagsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
+};
+
 /** Methods to use when ordering `JobsJobTag`. */
 export enum JobsJobTagsOrderBy {
   IdAsc = 'ID_ASC',
@@ -1746,6 +2267,73 @@ export enum JobsJobTagsOrderBy {
   UpdatedAtDesc = '_UPDATED_AT_DESC'
 }
 
+/** Input for the nested mutation of `jobType` in the `JobInput` mutation. */
+export type JobsJobTypeIdFkeyInput = {
+  /** The primary key(s) for `jobType` for the far side of the relationship. */
+  connectById?: InputMaybe<JobTypeJobTypesPkeyConnect>;
+  /** The primary key(s) for `jobType` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<JobTypeJobTypesTitleKeyConnect>;
+  /** A `JobTypeInput` object that will be created and connected to this object. */
+  create?: InputMaybe<JobsJobTypeIdFkeyJobTypesCreateInput>;
+  /** The primary key(s) for `jobType` for the far side of the relationship. */
+  deleteById?: InputMaybe<JobTypeJobTypesPkeyDelete>;
+  /** The primary key(s) for `jobType` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<JobTypeJobTypesTitleKeyDelete>;
+  /** The primary key(s) and patch data for `jobType` for the far side of the relationship. */
+  updateById?: InputMaybe<JobTypeOnJobForJobsJobTypeIdFkeyUsingJobTypesPkeyUpdate>;
+  /** The primary key(s) and patch data for `jobType` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<JobTypeOnJobForJobsJobTypeIdFkeyUsingJobTypesTitleKeyUpdate>;
+};
+
+/** Input for the nested mutation of `job` in the `JobTypeInput` mutation. */
+export type JobsJobTypeIdFkeyInverseInput = {
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<JobJobsPkeyConnect>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<Array<JobJobsTitleKeyConnect>>;
+  /** A `JobInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<JobsJobTypeIdFkeyJobsCreateInput>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<JobJobsPkeyDelete>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<Array<JobJobsTitleKeyDelete>>;
+  /** Flag indicating whether all other `job` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<JobOnJobForJobsJobTypeIdFkeyUsingJobsPkeyUpdate>>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<Array<JobOnJobForJobsJobTypeIdFkeyUsingJobsTitleKeyUpdate>>;
+};
+
+/** The `jobType` to be created by this mutation. */
+export type JobsJobTypeIdFkeyJobTypesCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsJobTypeIdFkeyInverseInput>;
+  notes?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+/** The `job` to be created by this mutation. */
+export type JobsJobTypeIdFkeyJobsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate: Scalars['Date'];
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
 /** Methods to use when ordering `Job`. */
 export enum JobsOrderBy {
   CompanyIdAsc = 'COMPANY_ID_ASC',
@@ -1761,6 +2349,8 @@ export enum JobsOrderBy {
   JobTypeIdAsc = 'JOB_TYPE_ID_ASC',
   JobTypeIdDesc = 'JOB_TYPE_ID_DESC',
   Natural = 'NATURAL',
+  NumberOfOpeningsAsc = 'NUMBER_OF_OPENINGS_ASC',
+  NumberOfOpeningsDesc = 'NUMBER_OF_OPENINGS_DESC',
   PrimaryKeyAsc = 'PRIMARY_KEY_ASC',
   PrimaryKeyDesc = 'PRIMARY_KEY_DESC',
   RegionIdAsc = 'REGION_ID_ASC',
@@ -1774,6 +2364,73 @@ export enum JobsOrderBy {
   UpdatedAtAsc = '_UPDATED_AT_ASC',
   UpdatedAtDesc = '_UPDATED_AT_DESC'
 }
+
+/** Input for the nested mutation of `region` in the `JobInput` mutation. */
+export type JobsRegionIdFkeyInput = {
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  connectById?: InputMaybe<RegionRegionsPkeyConnect>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<RegionRegionsTitleKeyConnect>;
+  /** A `RegionInput` object that will be created and connected to this object. */
+  create?: InputMaybe<JobsRegionIdFkeyRegionsCreateInput>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  deleteById?: InputMaybe<RegionRegionsPkeyDelete>;
+  /** The primary key(s) for `region` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<RegionRegionsTitleKeyDelete>;
+  /** The primary key(s) and patch data for `region` for the far side of the relationship. */
+  updateById?: InputMaybe<RegionOnJobForJobsRegionIdFkeyUsingRegionsPkeyUpdate>;
+  /** The primary key(s) and patch data for `region` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<RegionOnJobForJobsRegionIdFkeyUsingRegionsTitleKeyUpdate>;
+};
+
+/** Input for the nested mutation of `job` in the `RegionInput` mutation. */
+export type JobsRegionIdFkeyInverseInput = {
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectById?: InputMaybe<Array<JobJobsPkeyConnect>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  connectByTitle?: InputMaybe<Array<JobJobsTitleKeyConnect>>;
+  /** A `JobInput` object that will be created and connected to this object. */
+  create?: InputMaybe<Array<JobsRegionIdFkeyJobsCreateInput>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteById?: InputMaybe<Array<JobJobsPkeyDelete>>;
+  /** The primary key(s) for `job` for the far side of the relationship. */
+  deleteByTitle?: InputMaybe<Array<JobJobsTitleKeyDelete>>;
+  /** Flag indicating whether all other `job` records that match this relationship should be removed. */
+  deleteOthers?: InputMaybe<Scalars['Boolean']>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateById?: InputMaybe<Array<JobOnJobForJobsRegionIdFkeyUsingJobsPkeyUpdate>>;
+  /** The primary key(s) and patch data for `job` for the far side of the relationship. */
+  updateByTitle?: InputMaybe<Array<JobOnJobForJobsRegionIdFkeyUsingJobsTitleKeyUpdate>>;
+};
+
+/** The `job` to be created by this mutation. */
+export type JobsRegionIdFkeyJobsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate: Scalars['Date'];
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate: Scalars['Date'];
+  title: Scalars['String'];
+};
+
+/** The `region` to be created by this mutation. */
+export type JobsRegionIdFkeyRegionsCreateInput = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
+  title: Scalars['String'];
+};
 
 export type Migration = {
   __typename?: 'Migration';
@@ -2653,7 +3310,9 @@ export type RegionFilter = {
 export type RegionInput = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
   title: Scalars['String'];
 };
 
@@ -2694,12 +3353,62 @@ export type RegionJobTypesByJobRegionIdAndJobTypeIdManyToManyEdgeJobsArgs = {
   orderBy?: InputMaybe<Array<JobsOrderBy>>;
 };
 
+/** The fields on `region` to look up the row to update. */
+export type RegionOnCompanyForCompaniesRegionIdFkeyUsingRegionsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `region` being updated. */
+  patch: UpdateRegionOnCompanyForCompaniesRegionIdFkeyPatch;
+};
+
+/** The fields on `region` to look up the row to update. */
+export type RegionOnCompanyForCompaniesRegionIdFkeyUsingRegionsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `region` being updated. */
+  patch: UpdateRegionOnCompanyForCompaniesRegionIdFkeyPatch;
+  title: Scalars['String'];
+};
+
+/** The fields on `region` to look up the row to update. */
+export type RegionOnJobForJobsRegionIdFkeyUsingRegionsPkeyUpdate = {
+  id: Scalars['UUID'];
+  /** An object where the defined keys will be set on the `region` being updated. */
+  patch: UpdateRegionOnJobForJobsRegionIdFkeyPatch;
+};
+
+/** The fields on `region` to look up the row to update. */
+export type RegionOnJobForJobsRegionIdFkeyUsingRegionsTitleKeyUpdate = {
+  /** An object where the defined keys will be set on the `region` being updated. */
+  patch: UpdateRegionOnJobForJobsRegionIdFkeyPatch;
+  title: Scalars['String'];
+};
+
 /** Represents an update to a `Region`. Fields that are set will be updated. */
 export type RegionPatch = {
   _createdAt?: InputMaybe<Scalars['Datetime']>;
   _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
   id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+/** The fields on `region` to look up the row to connect. */
+export type RegionRegionsPkeyConnect = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `region` to look up the row to delete. */
+export type RegionRegionsPkeyDelete = {
+  id: Scalars['UUID'];
+};
+
+/** The fields on `region` to look up the row to connect. */
+export type RegionRegionsTitleKeyConnect = {
+  title: Scalars['String'];
+};
+
+/** The fields on `region` to look up the row to delete. */
+export type RegionRegionsTitleKeyDelete = {
+  title: Scalars['String'];
 };
 
 /** A connection to a list of `Region` values. */
@@ -3536,6 +4245,166 @@ export enum WhitelistedEmailsOrderBy {
   UpdatedAtDesc = '_UPDATED_AT_DESC'
 }
 
+/** An object where the defined keys will be set on the `company` being updated. */
+export type UpdateCompanyOnCompanyForCompaniesRegionIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `company` being updated. */
+export type UpdateCompanyOnJobForJobsCompanyIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsCompanyIdFkeyInverseInput>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<CompaniesRegionIdFkeyInput>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `job` being updated. */
+export type UpdateJobOnJobForJobsCompanyIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `job` being updated. */
+export type UpdateJobOnJobForJobsJobTypeIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `job` being updated. */
+export type UpdateJobOnJobForJobsRegionIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `job` being updated. */
+export type UpdateJobOnJobsJobTagForJobsJobTagsJobIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companyId?: InputMaybe<Scalars['UUID']>;
+  companyToCompanyId?: InputMaybe<JobsCompanyIdFkeyInput>;
+  endDate?: InputMaybe<Scalars['Date']>;
+  externalUrl?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  internalUrl?: InputMaybe<Scalars['String']>;
+  jobTypeId?: InputMaybe<Scalars['UUID']>;
+  jobTypeToJobTypeId?: InputMaybe<JobsJobTypeIdFkeyInput>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobIdFkeyInverseInput>;
+  numberOfOpenings?: InputMaybe<Scalars['Int']>;
+  regionId?: InputMaybe<Scalars['UUID']>;
+  regionToRegionId?: InputMaybe<JobsRegionIdFkeyInput>;
+  startDate?: InputMaybe<Scalars['Date']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `jobTag` being updated. */
+export type UpdateJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsJobTagsUsingId?: InputMaybe<JobsJobTagsJobTagIdFkeyInverseInput>;
+  notes?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `jobType` being updated. */
+export type UpdateJobTypeOnJobForJobsJobTypeIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsJobTypeIdFkeyInverseInput>;
+  notes?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `jobsJobTag` being updated. */
+export type UpdateJobsJobTagOnJobsJobTagForJobsJobTagsJobIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobTagId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `jobsJobTag` being updated. */
+export type UpdateJobsJobTagOnJobsJobTagForJobsJobTagsJobTagIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobId?: InputMaybe<Scalars['UUID']>;
+  jobTagToJobTagId?: InputMaybe<JobsJobTagsJobTagIdFkeyInput>;
+  jobToJobId?: InputMaybe<JobsJobTagsJobIdFkeyInput>;
+};
+
+/** An object where the defined keys will be set on the `region` being updated. */
+export type UpdateRegionOnCompanyForCompaniesRegionIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+/** An object where the defined keys will be set on the `region` being updated. */
+export type UpdateRegionOnJobForJobsRegionIdFkeyPatch = {
+  _createdAt?: InputMaybe<Scalars['Datetime']>;
+  _updatedAt?: InputMaybe<Scalars['Datetime']>;
+  companiesUsingId?: InputMaybe<CompaniesRegionIdFkeyInverseInput>;
+  id?: InputMaybe<Scalars['UUID']>;
+  jobsUsingId?: InputMaybe<JobsRegionIdFkeyInverseInput>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
 export type CreateCompanyMutationVariables = Exact<{
   input: CreateCompanyInput;
 }>;
@@ -3592,6 +4461,13 @@ export type UpdateJobMutationVariables = Exact<{
 
 export type UpdateJobMutation = { __typename?: 'Mutation', updateJob?: { __typename?: 'UpdateJobPayload', job?: { __typename?: 'Job', id: any } | null | undefined } | null | undefined };
 
+export type DeleteJobMutationVariables = Exact<{
+  input: DeleteJobInput;
+}>;
+
+
+export type DeleteJobMutation = { __typename?: 'Mutation', deleteJob?: { __typename?: 'DeleteJobPayload', job?: { __typename?: 'Job', id: any } | null | undefined } | null | undefined };
+
 export type GetCompaniesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3610,7 +4486,7 @@ export type GetJobTypesQuery = { __typename?: 'Query', jobTypes?: { __typename?:
 export type GetJobsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetJobsQuery = { __typename?: 'Query', jobs?: { __typename?: 'JobsConnection', nodes: Array<{ __typename?: 'Job', id: any, title: string, startDate: any, endDate: any, externalUrl?: string | null | undefined, internalUrl?: string | null | undefined, _createdAt: any, _updatedAt: any, jobType?: { __typename?: 'JobType', id: any, title: string } | null | undefined, region?: { __typename?: 'Region', id: any, title: string } | null | undefined, company?: { __typename?: 'Company', id: any, title: string } | null | undefined }> } | null | undefined };
+export type GetJobsQuery = { __typename?: 'Query', jobs?: { __typename?: 'JobsConnection', nodes: Array<{ __typename?: 'Job', id: any, title: string, startDate: any, endDate: any, externalUrl?: string | null | undefined, internalUrl?: string | null | undefined, numberOfOpenings?: number | null | undefined, _createdAt: any, _updatedAt: any, jobType?: { __typename?: 'JobType', id: any, title: string } | null | undefined, region?: { __typename?: 'Region', id: any, title: string } | null | undefined, company?: { __typename?: 'Company', id: any, title: string } | null | undefined }> } | null | undefined };
 
 export type GetRegionsQueryVariables = Exact<{ [key: string]: never; }>;
 

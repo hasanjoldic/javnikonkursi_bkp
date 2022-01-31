@@ -42,11 +42,6 @@ export const LoggedIn: React.FC = () => {
   const { refetch: refetchJobTypes } = useGetJobTypes();
   const { refetch: refetchJobTags } = useGetJobTags();
 
-  React.useEffect(() => {
-    if (!pathname.includes("add") && !pathname.includes("edit")) {
-    }
-  }, [pathname]);
-
   return (
     <CmsContext.Provider value={{ refetchCompanies, refetchJobs, refetchJobTypes, refetchJobTags }}>
       <Box display="flex">

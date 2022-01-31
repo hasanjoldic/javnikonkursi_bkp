@@ -42,6 +42,7 @@ const GET_JOBS = gql`
           id
           title
         }
+        numberOfOpenings
         _createdAt
         _updatedAt
       }

@@ -33,14 +33,14 @@ export const AddJobType: React.FC = () => {
   const history = useHistory();
   const { refetchJobTypes } = useCmsContext();
 
-  const [CreateJobType] = useMutation<CreateJobTypeMutation, CreateJobTypeMutationVariables>(CREATE_JOB_TYPE);
+  const [createJobType] = useMutation<CreateJobTypeMutation, CreateJobTypeMutationVariables>(CREATE_JOB_TYPE);
 
   const handleSubmit = React.useCallback<FormikConfig<typeof initialValues>["onSubmit"]>(
     async (values, { setSubmitting }) => {
       values = parseFormValues(values);
       setSubmitting(true);
 
-      const { data: updateData } = await CreateJobType({
+      const { data: updateData } = await createJobType({
         variables: { input: { jobType: values } },
       });
 
@@ -51,7 +51,7 @@ export const AddJobType: React.FC = () => {
 
       setSubmitting(false);
     },
-    [CreateJobType, history, refetchJobTypes]
+    [createJobType, history, refetchJobTypes]
   );
 
   return (

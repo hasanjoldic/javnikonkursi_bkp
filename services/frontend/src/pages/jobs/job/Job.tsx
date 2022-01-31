@@ -4,6 +4,7 @@ import { Box, Divider, Chip, Typography, Paper, Button } from "@mui/material";
 import { styled } from "@mui/system";
 import {
   Place as PlaceIcon,
+  Work as WorkIcon,
   People as PeopleIcon,
   BusinessRounded as BusinessRoundedIcon,
   OpenInNew as OpenInNewIcon,
@@ -12,13 +13,14 @@ import {
 import { ArrayElement } from "@javnikonkursi/shared";
 
 import { GetJobsQuery } from "generated/types";
-import { momentFormat, EDateFormat } from "utils";
+import { dateFormat, EDateFormat } from "utils";
 
 import { RouterButton } from "components";
+import { useLocation } from "react-router-dom";
 
 const Header = styled("div")(({ theme }) => ({
   padding: "1rem 0",
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("lg")]: {
     "& > div": {
       display: "flex",
       alignItems: "center",
@@ -28,12 +30,12 @@ const Header = styled("div")(({ theme }) => ({
 
 const Chips = styled("div")(({ theme }) => ({
   display: "flex",
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("lg")]: {
     "& > .MuiChip-root": {
       marginRight: "2rem",
     },
   },
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     flexDirection: "column",
 
     "& > .MuiChip-root": {
@@ -65,36 +67,46 @@ interface IProps {
 }
 
 export const Job: React.FC<IProps> = (props) => {
+  const { pathname } = useLocation();
   const { job } = props;
 
+  const isDetailPage = pathname.includes("job");
+
   return (
-    <Paper id={job.id} sx={{ maxWidth: "50rem", padding: "2rem 1rem", marginBottom: "2rem" }} square={true}>
-      <Typography variant="h5">{job.title}</Typography>
+    <Paper
+      id={job?.id}
+      elevation={4}
+      sx={{ maxWidth: "50rem", padding: "2rem 1rem", margin: "0 auto", marginBottom: "2rem" }}
+      // square={true}
+    >
+      <Typography variant="h5">{job?.title}</Typography>
       <Divider />
       <Header>
         <Chips>
-          <Chip icon={<PlaceIcon />} label={job.region.title} />
-          <Chip icon={<PeopleIcon />} label={job.jobType?.title} />
-          <Chip icon={<BusinessRoundedIcon />} label={job.company.title} />
+          <Chip icon={<PlaceIcon />} label={job?.region.title} />
+          <Chip icon={<BusinessRoundedIcon />} label={job?.company.title} />
+          {job?.jobType && <Chip icon={<WorkIcon />} label={job?.jobType.title} />}
+          <Chip icon={<PeopleIcon />} label={job?.numberOfOpenings} />
         </Chips>
         <div></div>
       </Header>
       <Divider />
       <Box pt={1}>
-        <Typography>Objavljeno: {momentFormat(job.startDate, EDateFormat["DD.MM.YYYY"])}</Typography>
-        <br />
-        <Typography>Ističe: {momentFormat(job.endDate, EDateFormat["DD.MM.YYYY"])}</Typography>
+        <Typography>Objavljeno: {dateFormat(job?.startDate, EDateFormat["dd.MM.yyyy"])}</Typography>
+        <Typography>Ističe: {dateFormat(job?.endDate, EDateFormat["dd.MM.yyyy"])}</Typography>
         <br />
         <Buttons>
           <Box>
-            <RouterButton variant="contained" color="primary" id={job.id} link={`job/${job.id}`}>
-              Opširnije
-            </RouterButton>
+            {!isDetailPage && (
+              <RouterButton variant="contained" color="primary" id={job?.id} link={`job/${job?.id}`}>
+                Otvori
+              </RouterButton>
+            )}
           </Box>
           <Box>
             <Button
               target="_blank"
-              href={job.externalUrl}
+              href={job?.externalUrl}
               variant="outlined"
               color="primary"
               endIcon={<OpenInNewIcon />}
@@ -104,7 +116,7 @@ export const Job: React.FC<IProps> = (props) => {
             </Button>
             <Button
               target="_blank"
-              href={job.internalUrl}
+              href={job?.internalUrl}
               variant="outlined"
               color="primary"
               endIcon={<OpenInNewIcon />}

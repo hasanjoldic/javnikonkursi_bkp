@@ -1,7 +1,6 @@
 import React from "react";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { SelectOption } from "react-select-material-ui";
 import * as Yup from "yup";
 
 import { gql, useMutation } from "@apollo/client";
@@ -14,10 +13,12 @@ import {
 
 import { Grid } from "@mui/material";
 
+import { createOptions } from "@javnikonkursi/shared";
+
 import { useApiClient } from "api";
 import { IApplicationState } from "store";
 
-import { TextInput, AutoCompleteInput, DateInput, FileUpload } from "components";
+import { TextInput, AutoCompleteInput, DateInput, FileUpload, ISelectOption } from "components";
 import { useCmsContext } from "pages/cms";
 
 import { Form, parseFormValues } from "../Form";
@@ -27,6 +28,8 @@ import { UPDATE_JOB } from "./EditJob";
 const initialValues = {
   title: "",
   jobTypeId: "",
+  numberOfOpenings: 1,
+  jobTagIds: [],
   companyId: "",
   regionId: "",
   startDate: null,
@@ -50,37 +53,54 @@ export const AddJob: React.FC = () => {
   const apiClient = useApiClient();
   const { refetchJobs } = useCmsContext();
 
-  const [regionOptions, setRegionOptions] = React.useState<SelectOption[]>([]);
+  const [regionOptions, setRegionOptions] = React.useState<ISelectOption[]>([]);
+  const [companyOptions, setCompanyOptions] = React.useState<ISelectOption[]>([]);
+  const [jobTagOptions, setJobTagOptions] = React.useState<ISelectOption[]>([]);
+  const [jobTypeOptions, setJobTypeOptions] = React.useState<ISelectOption[]>([]);
 
-  const { regions, companies, jobTypes } = useSelector(
+  const { regions, companies, jobTags, jobTypes } = useSelector(
     (state: IApplicationState) => ({
       regions: state.regions.data,
       companies: state.companies.data,
+      jobTags: state.jobTags.data,
       jobTypes: state.jobTypes.data,
     }),
     shallowEqual
   );
 
   React.useEffect(() => {
-    setRegionOptions(
-      regions.map((region) => ({
-        label: region.title,
-        value: region.id,
-      }))
-    );
+    setRegionOptions(createOptions(regions, "id", "title"));
   }, [setRegionOptions, regions]);
 
-  const [createJob] = useMutation<CreateJobMutation, CreateJobMutationVariables>(CREATE_JOB);
+  React.useEffect(() => {
+    setCompanyOptions(createOptions(companies, "id", "title"));
+  }, [setCompanyOptions, companies]);
 
+  React.useEffect(() => {
+    setJobTagOptions(createOptions(jobTags, "id", "title"));
+  }, [setJobTagOptions, jobTags]);
+
+  React.useEffect(() => {
+    setJobTypeOptions(createOptions(jobTypes, "id", "title"));
+  }, [setJobTypeOptions, jobTypes]);
+
+  const [createJob] = useMutation<CreateJobMutation, CreateJobMutationVariables>(CREATE_JOB);
   const [updateJob] = useMutation<UpdateJobMutation, UpdateJobMutationVariables>(UPDATE_JOB);
 
   const handleSubmit = React.useCallback(
-    async ({ internalFile, ...values }, { setSubmitting }) => {
+    async ({ internalFile, jobTagIds, ...values }, { setSubmitting }) => {
       setSubmitting(true);
 
-      values = parseFormValues(values);
+      values = parseFormValues(values, (input) => {
+        input["numberOfOpenings"] = Number.parseInt(input["numberOfOpenings"]);
+        return input;
+      });
       const { data } = await createJob({
-        variables: { input: { job: values } },
+        variables: {
+          input: {
+            job: { ...values, jobsJobTagsUsingId: { create: jobTagIds.map((jobTag) => ({ jobTagId: jobTag.value })) } },
+          },
+        },
       });
       const job = data?.createJob?.job;
 
@@ -109,10 +129,12 @@ export const AddJob: React.FC = () => {
       initialValues={initialValues}
       validationSchema={Yup.object({
         title: Yup.string().min(5).required("Obavezno polje"),
+        numberOfOpenings: Yup.string().required("Obavezno polje"),
         jobTypeId: Yup.string(),
+        jobTagIds: Yup.string(),
         companyId: Yup.string().required("Obavezno polje"),
         regionId: Yup.string().required("Obavezno polje"),
-        startDate: Yup.string().required("Obavezno polje"),
+        startDate: Yup.date().required("Obavezno polje"),
         endDate: Yup.date().required("Obavezno polje"),
         externalUrl: Yup.string()
           .url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html")
@@ -138,10 +160,7 @@ export const AddJob: React.FC = () => {
         <AutoCompleteInput
           name="jobTypeId"
           autocompleteProps={{
-            options: jobTypes.map((o) => ({
-              value: o.id,
-              label: o.title,
-            })),
+            options: jobTypeOptions,
           }}
           textFieldProps={{
             label: "Vrsta posla",
@@ -154,18 +173,44 @@ export const AddJob: React.FC = () => {
 
       <Grid item xs={12}>
         <AutoCompleteInput
+          name="jobTagIds"
+          autocompleteProps={{
+            options: jobTagOptions,
+            multiple: true,
+          }}
+          textFieldProps={{
+            label: "Oznaka posla",
+            variant: "outlined",
+            fullWidth: true,
+            placeholder: "VSS",
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <AutoCompleteInput
           name="companyId"
           autocompleteProps={{
-            options: companies.map((o) => ({
-              value: o.id,
-              label: o.title,
-            })),
+            options: companyOptions,
           }}
           textFieldProps={{
             label: "Javna ustanova/preduzeće",
             variant: "outlined",
             fullWidth: true,
             placeholder: "https://www.bhtelecom.ba/karijere.html",
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextInput
+          name="numberOfOpenings"
+          type="number"
+          placeholder="1"
+          textFieldProps={{
+            label: "Broj otvorenih mjesta",
+            variant: "outlined",
+            fullWidth: true,
           }}
         />
       </Grid>
@@ -191,7 +236,6 @@ export const AddJob: React.FC = () => {
           placeholder="01.01.2000"
           datePickerProps={{
             label: "Pocetak konkursa",
-            // inputVariant: "outlined",
           }}
         />
       </Grid>
@@ -202,7 +246,6 @@ export const AddJob: React.FC = () => {
           placeholder="01.01.2000"
           datePickerProps={{
             label: "Kraj konkursa",
-            // inputVariant: "outlined",
           }}
         />
       </Grid>

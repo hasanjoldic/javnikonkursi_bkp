@@ -1,30 +1,30 @@
 import React from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { useSelector, shallowEqual } from "react-redux";
 import { isAfter } from "date-fns";
 import _orderBy from "lodash/orderBy";
 
-import { Box, Toolbar, Typography } from "@mui/material";
+import { Box, Divider, Toolbar, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
-import { IApplicationState, setIsDrawerOpen } from "store";
+import { IApplicationState } from "store";
 
-import { Main, Drawer } from "components";
+import { Main } from "components";
 import { Job } from "./job";
+import { Filters } from "./Filters";
 
 const Content = styled("main")(({ theme }) => ({
   flex: 1,
-  padding: theme.spacing(3),
+  [theme.breakpoints.up("lg")]: {
+    padding: theme.spacing(3),
+  },
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
 }));
 
 export const Jobs: React.FC = () => {
-  const dispatch = useDispatch();
-
-  const { isDrawerOpen, jobs, regionsFilter, jobTypesFilter, companiesFilter, shouldIncludeExpired } = useSelector(
+  const { jobs, regionsFilter, jobTypesFilter, companiesFilter, shouldIncludeExpired } = useSelector(
     (state: IApplicationState) => ({
-      isDrawerOpen: state.app.isDrawerOpen,
       jobs: state.jobs.data,
       regionsFilter: state.filters.regions,
       jobTypesFilter: state.filters.jobTypes,
@@ -56,7 +56,6 @@ export const Jobs: React.FC = () => {
 
   return (
     <Main>
-      <Drawer open={isDrawerOpen} onClose={() => dispatch(setIsDrawerOpen(false))} />
       <Content>
         <Toolbar />
         <Box
@@ -66,31 +65,15 @@ export const Jobs: React.FC = () => {
             },
           }}
         >
-          {!filteredJobs.length && <Typography variant="h3">Nema konkursa za date filtere.</Typography>}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
-          {filteredJobs.map((job) => (
-            <Job key={job.id} job={job} />
-          ))}
+          <Filters />
+          <Box marginY={2}>
+            <Divider />
+          </Box>
+          {!filteredJobs.length && (
+            <Typography variant="h3" padding={1}>
+              Nema konkursa za date filtere.
+            </Typography>
+          )}
           {filteredJobs.map((job) => (
             <Job key={job.id} job={job} />
           ))}
