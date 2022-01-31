@@ -28,7 +28,6 @@ jobs:
       - name: Serve frontend with nginx
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && cp -r /home/${{ secrets.USER_DEV }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
           command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && cd /home/${{ secrets.USER_DEV }}/javnikonkursi/services/frontend && pm2 delete frontend || true && pm2 start --name frontend npm -- start && pm2 save
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
