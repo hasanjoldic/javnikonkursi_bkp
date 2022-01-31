@@ -120,8 +120,8 @@ sudo apt install postgresql postgresql-contrib -y
 
 sudo -i -u postgres
 
-psql -U postgres -c "CREATE DATABASE javnikonkursi"
-psql -U postgres -d javnikonkursi -c "CREATE ROLE default_superuser LOGIN SUPERUSER PASSWORD '5dee1e23e7f975faae7027db47972d3a27927790fcdc68d51bc51ead4cf6aa38';"
+psql -U postgres -c "CREATE DATABASE POSTGRES_DB"
+psql -U postgres -d POSTGRES_DB -c "CREATE ROLE POSTGRES_USER LOGIN SUPERUSER PASSWORD 'POSTGRES_PASSWORD';"
 ```
 
 ### 1.6.1. (DEV ONLY) Allow remote access to postgres db
