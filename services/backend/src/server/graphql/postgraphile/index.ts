@@ -1,12 +1,12 @@
 import postgraphile from "postgraphile";
-// import { makePgSmartTagsFromFilePlugin } from "postgraphile/plugins";
 import PgSimplifyInflectorPlugin from "@graphile-contrib/pg-simplify-inflector";
 import ConnectionFilterPlugin from "postgraphile-plugin-connection-filter";
 import PgManyToManyPlugin from "@graphile-contrib/pg-many-to-many";
+import PostGraphileNestedMutations from "postgraphile-plugin-nested-mutations";
 import { NodePlugin } from "graphile-build";
 
 // import extendSchemaPlugins from "./extend";
-// import simplifyManyToManyPlugin from "./simplifyManyToManyPlugin";
+import simplifyManyToManyPlugin from "./simplifyManyToManyPlugin";
 
 const { POSTGRES_HOST, POSTGRES_PORT, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB } = process.env;
 
@@ -57,15 +57,14 @@ export default postgraphile(
     appendPlugins: [
       PgSimplifyInflectorPlugin,
       ConnectionFilterPlugin,
-      // makePgSmartTagsFromFilePlugin(),
-      // simplifyManyToManyPlugin,
+      simplifyManyToManyPlugin,
       PgManyToManyPlugin,
+      PostGraphileNestedMutations,
     ],
     skipPlugins: [NodePlugin],
     graphileBuildOptions: {
       connectionFilterAllowNullInput: true,
     },
-    // enableCors: process.env.NODE_ENV === "development" ? true : false,
-    enableCors: true,
+    enableCors: process.env.NODE_ENV !== "production" ? true : false,
   }
 );

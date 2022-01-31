@@ -46,6 +46,7 @@
     "pg": "^8.7.1",
     "postgraphile": "^4.12.8",
     "postgraphile-plugin-connection-filter": "^2.2.2",
+    "postgraphile-plugin-nested-mutations": "^1.1.0",
     "ts-node": "^10.4.0"
   },
   "devDependencies": {
