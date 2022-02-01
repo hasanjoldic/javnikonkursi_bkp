@@ -29,7 +29,6 @@ router.post(
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: req.body.fileName,
         Body: req.file.buffer,
-        ACL: "public-read",
         ContentType: req.file.mimetype,
       })
       .promise();
