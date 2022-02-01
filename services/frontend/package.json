@@ -9,7 +9,7 @@
     "start": "webpack-dev-server --config ./config/webpackDevServer.js --hot",
     "react-scripts:start": "PORT=8080 react-scripts start",
     "build": "yarn clean && webpack --config ./config/webpack.prod.js",
-    "build:dev": "yarn clean && webpack --config ./config/webpack.prod.js",
+    "build:dev": "yarn clean && webpack --config ./config/webpack.dev.js",
     "react-scripts:build": "react-scripts build",
     "codegen": "graphql-codegen --config codegen.yml",
     "test": "jest",
