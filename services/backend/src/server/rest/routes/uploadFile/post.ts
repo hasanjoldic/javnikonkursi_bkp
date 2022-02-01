@@ -24,12 +24,10 @@ router.post(
       return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors.array() });
     }
 
-    const ext = req.file.originalname.split(".").reverse()[0];
-    const s3FileName = `${req.body.fileName}.${ext}`;
     const upload = await s3
       .putObject({
         Bucket: process.env.AWS_S3_BUCKET_NAME,
-        Key: s3FileName,
+        Key: req.body.fileName,
         Body: req.file.buffer,
         ACL: "public-read",
         ContentType: req.file.mimetype,
@@ -39,8 +37,7 @@ router.post(
       console.error(upload.$response.error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     } else {
-      const s3PublicPath = `${process.env.AWS_S3_PUBLIC_URL}/${s3FileName}`;
-      res.status(StatusCodes.OK).send(s3PublicPath);
+      res.status(StatusCodes.OK).send();
     }
   }
 );
