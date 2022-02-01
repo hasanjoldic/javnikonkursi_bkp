@@ -84,14 +84,6 @@ export const EditJob: React.FC = () => {
 
       values = parseFormValues(values);
 
-      let internalUrl: string;
-      if (internalFile) {
-        internalUrl = await apiClient.uploadFile({
-          file: internalFile,
-          fileName: `${selectedJob.id}`,
-        });
-      }
-
       const updatedFields = Object.entries(values).reduce((sum, entry) => {
         const [key, value] = entry;
         if (selectedJob[key] !== value) {
@@ -99,13 +91,17 @@ export const EditJob: React.FC = () => {
         }
         return sum;
       }, {} as UpdateJobInput["patch"]);
-      if (internalUrl) {
-        updatedFields.internalUrl = internalUrl;
-      }
 
       const { data: updateData } = await updateJob({
         variables: { input: { id: selectedJob.id, patch: updatedFields } },
       });
+
+      if (internalFile) {
+        await apiClient.uploadFile({
+          file: internalFile,
+          fileName: `${selectedJob.id}`,
+        });
+      }
 
       if (updateData?.updateJob?.job) {
         refetchJobs();

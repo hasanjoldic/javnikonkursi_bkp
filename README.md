@@ -166,10 +166,8 @@ AWS_S3_PUBLIC_URL=
 
 ```
 # <PROJECT_ROOT>/services/frontend/.env
-NODE_ENV=<development|production>
-
-API_FULL_PATH=
-GRAPHQL_FULL_PATH=
+API_PATH=
+GRAPHQL_PATH=
 
 ```
 

@@ -1,3 +1,5 @@
+const webpack = require("webpack");
+
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
@@ -16,7 +18,14 @@ module.exports = merge(common, {
       "Access-Control-Allow-Origin": "*",
     },
   },
-  plugins: [new ForkTsCheckerWebpackPlugin(), new BundleAnalyzerPlugin()],
+  plugins: [
+    new ForkTsCheckerWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: "development",
+      DEBUG: true,
+    }),
+  ],
   performance: {
     hints: false,
   },

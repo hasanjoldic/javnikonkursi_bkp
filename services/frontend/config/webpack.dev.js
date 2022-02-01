@@ -1,7 +1,4 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
-const Dotenv = require("dotenv-webpack");
+const webpack = require("webpack");
 
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common.js");
@@ -10,13 +7,10 @@ module.exports = merge(common, {
   mode: "development",
   devtool: "eval-cheap-module-source-map",
   plugins: [
-    new Dotenv(),
-    new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      inject: true,
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: "development",
+      DEBUG: false,
     }),
-    new CleanWebpackPlugin(),
-    new SpriteLoaderPlugin(),
   ],
   performance: {
     hints: false,

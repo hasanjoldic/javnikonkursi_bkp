@@ -37,7 +37,6 @@ const GET_JOBS = gql`
           title
         }
         externalUrl
-        internalUrl
         company {
           id
           title

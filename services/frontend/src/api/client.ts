@@ -1,4 +1,4 @@
-import { API_FULL_PATH } from "env";
+import { API_PATH } from "env";
 
 export function createApiClient({
   accessToken,
@@ -12,7 +12,7 @@ export function createApiClient({
   const headers: Record<string, string> = { authorization: accessToken };
 
   const createUrl = (urlStr: string, params?: object) => {
-    const url = new URL([API_FULL_PATH, urlStr].join(""));
+    const url = new URL([API_PATH, urlStr].join(""));
     if (params) Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 
     return url.href;
@@ -25,7 +25,7 @@ export function createApiClient({
   };
 
   return {
-    uploadFile: async ({ file, fileName }: { file: File; fileName: string }): Promise<string> => {
+    uploadFile: async ({ file, fileName }: { file: File; fileName: string }): Promise<boolean> => {
       const errorMessage = "Error uplouding a file";
       try {
         const url = createUrl("/upload_file");
@@ -43,11 +43,12 @@ export function createApiClient({
         if (!res.ok) {
           handleErrorResponse(res, errorMessage);
         } else {
-          return res.text();
+          return true;
         }
       } catch (err) {
         onError(err, errorMessage);
       }
+      return false;
     },
     request: async ({
       path,

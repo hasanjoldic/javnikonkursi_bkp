@@ -17,6 +17,7 @@ import { dateFormat, EDateFormat } from "utils";
 
 import { RouterButton } from "components";
 import { useLocation } from "react-router-dom";
+import { getJobInternalUrl } from "store";
 
 const Header = styled("div")(({ theme }) => ({
   padding: "1rem 0",
@@ -116,7 +117,7 @@ export const Job: React.FC<IProps> = (props) => {
             </Button>
             <Button
               target="_blank"
-              href={job?.internalUrl}
+              href={getJobInternalUrl(job?.id)}
               variant="outlined"
               color="primary"
               endIcon={<OpenInNewIcon />}

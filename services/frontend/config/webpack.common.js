@@ -1,6 +1,5 @@
 const path = require("path");
 
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
@@ -95,22 +94,17 @@ module.exports = {
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "../build"),
-    publicPath: "/",
+    // publicPath: "/",
     clean: true,
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       inject: true,
     }),
     new CleanWebpackPlugin(),
     new SpriteLoaderPlugin(),
-    new webpack.EnvironmentPlugin({
-      NODE_ENV: "development",
-      DEBUG: false,
-    }),
-
-    new Dotenv(),
   ],
   optimization: {
     splitChunks: {

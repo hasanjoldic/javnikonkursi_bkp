@@ -20,7 +20,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
-import { GRAPHQL_FULL_PATH, NODE_ENV } from "env";
+import { GRAPHQL_PATH, NODE_ENV } from "env";
 import reducers, { enqueueSnackbar, logout } from "store";
 
 import { theme } from "./theme";
@@ -86,7 +86,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: GRAPHQL_FULL_PATH,
+  uri: GRAPHQL_PATH,
 });
 
 // If you provide a link chain to ApolloClient, you

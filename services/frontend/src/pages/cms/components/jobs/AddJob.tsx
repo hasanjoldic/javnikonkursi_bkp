@@ -4,12 +4,7 @@ import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 import { gql, useMutation } from "@apollo/client";
-import {
-  CreateJobMutation,
-  CreateJobMutationVariables,
-  UpdateJobMutation,
-  UpdateJobMutationVariables,
-} from "generated/types";
+import { CreateJobMutation, CreateJobMutationVariables } from "generated/types";
 
 import { Grid } from "@mui/material";
 
@@ -23,7 +18,6 @@ import { useCmsContext } from "pages/cms";
 
 import { Form, parseFormValues } from "../Form";
 import { jobsUrl } from "./Routes";
-import { UPDATE_JOB } from "./EditJob";
 
 const initialValues = {
   title: "",
@@ -85,7 +79,6 @@ export const AddJob: React.FC = () => {
   }, [setJobTypeOptions, jobTypes]);
 
   const [createJob] = useMutation<CreateJobMutation, CreateJobMutationVariables>(CREATE_JOB);
-  const [updateJob] = useMutation<UpdateJobMutation, UpdateJobMutationVariables>(UPDATE_JOB);
 
   const handleSubmit = React.useCallback(
     async ({ internalFile, jobTagIds, ...values }, { setSubmitting }) => {
@@ -104,24 +97,18 @@ export const AddJob: React.FC = () => {
       });
       const job = data?.createJob?.job;
 
-      const internalUrl = await apiClient.uploadFile({
+      const isSuccess = await apiClient.uploadFile({
         file: internalFile,
         fileName: `${job.id}`,
       });
 
-      if (typeof internalUrl === "string") {
-        const { data: updateData } = await updateJob({
-          variables: { input: { id: job.id, patch: { internalUrl } } },
-        });
-
-        if (updateData?.updateJob?.job) {
-          refetchJobs();
-          history.push(`/cms/${jobsUrl}`);
-        }
+      if (isSuccess) {
+        refetchJobs();
+        history.push(`/cms/${jobsUrl}`);
       }
       setSubmitting(false);
     },
-    [createJob, apiClient, updateJob, history, refetchJobs]
+    [createJob, apiClient, history, refetchJobs]
   );
 
   return (
