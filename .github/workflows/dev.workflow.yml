@@ -28,14 +28,14 @@ jobs:
       - name: Build project
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspace @javnikonkursi/shared run build && sudo -Hu ${{ secrets.USER_DEV }} yarn workspace @javnikonkursi/backend run build
+          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} yarn workspaces run build:dev
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
           privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
       - name: Serve frontend with nginx
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && cd /home/${{ secrets.USER_DEV }}/javnikonkursi/services/frontend && pm2 delete frontend || true && pm2 start --name frontend npm -- start && pm2 save
+          command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && cp -r /home/${{ secrets.USER_PROD }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
           privateKey: ${{ secrets.PRIVATE_KEY_DEV }}

@@ -60,10 +60,7 @@ server {
   }
 
   location / {
-    # server static files in production
     try_files $uri $uri/ /index.html;
-    # proxy to dev server in development
-    proxy_pass http://localhost:8080;
   }
 }
 ```
