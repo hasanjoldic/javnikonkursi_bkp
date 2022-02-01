@@ -40,11 +40,13 @@
     "express": "^4.17.1",
     "express-validator": "^6.13.0",
     "graphile-build": "^4.12.2",
+    "graphql": "^15.7.2",
     "http-status-codes": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.3",
     "pg": "^8.7.1",
     "postgraphile": "^4.12.8",
+    "postgraphile-core": "^4.12.2",
     "postgraphile-plugin-connection-filter": "^2.2.2",
     "postgraphile-plugin-nested-mutations": "^1.1.0",
     "ts-node": "^10.4.0"

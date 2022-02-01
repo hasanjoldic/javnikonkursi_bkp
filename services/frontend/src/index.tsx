@@ -20,7 +20,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
-import { GRAPHQL_FULL_PATH } from "env";
+import { GRAPHQL_FULL_PATH, NODE_ENV } from "env";
 import reducers, { enqueueSnackbar, logout } from "store";
 
 import { theme } from "./theme";
@@ -29,7 +29,8 @@ import { Root } from "./Root";
 import "index.css";
 
 const middlewares = [thunk];
-if (process.env.NODE_ENV === "development") {
+if (NODE_ENV === "development") {
+  console.log("Looks like we are in development mode!");
   // DEV
   // const { createLogger } = require("redux-logger");
   // const logger = createLogger();
