@@ -12,12 +12,7 @@ jobs:
 
     steps:
       - name: Pull repo
-        uses: garygrossgarten/github-action-ssh@release
-        with:
-          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} git pull
-          host: ${{ secrets.HOST_DEV }}
-          username: ${{ secrets.LOGIN_DEV }}
-          privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
+        uses: actions/checkout@v2
       - name: Install project dependencies
         uses: garygrossgarten/github-action-ssh@release
         with:

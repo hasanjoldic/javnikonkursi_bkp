@@ -8,7 +8,7 @@ const common = require("./webpack.common.js");
 
 module.exports = merge(common, {
   mode: "development",
-  devtool: "cheap-eval-source-map",
+  devtool: "eval-cheap-module-source-map",
   plugins: [
     new Dotenv(),
     new HtmlWebpackPlugin({
