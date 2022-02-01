@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS regions (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
   title TEXT UNIQUE NOT NULL,
+  order_priority INT NOT NULL DEFAULT 0,
 
   _created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   _updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -17,18 +18,18 @@ CREATE TRIGGER a_regions_timestamp_trigger
   BEFORE UPDATE ON regions
   FOR EACH ROW EXECUTE PROCEDURE timestamp_trigger();
 
-INSERT INTO regions (title) VALUES ('Unsko-sanski kanton');
-INSERT INTO regions (title) VALUES ('Posavski kanton');
-INSERT INTO regions (title) VALUES ('Tuzlanski kanton');
-INSERT INTO regions (title) VALUES ('Zenicko-dobojski kanton');
-INSERT INTO regions (title) VALUES ('Bosansko-podrinjski kanton');
-INSERT INTO regions (title) VALUES ('Srednjobosanski kanton');
-INSERT INTO regions (title) VALUES ('Hercegovacko-neretvanski kanton');
-INSERT INTO regions (title) VALUES ('Zapadnohercegovacki kanton');
-INSERT INTO regions (title) VALUES ('Kanton Sarajevo');
-INSERT INTO regions (title) VALUES ('Kanton 10');
-INSERT INTO regions (title) VALUES ('Banjalucka regija');
-INSERT INTO regions (title) VALUES ('Dobojsko-bijeljinska regija');
-INSERT INTO regions (title) VALUES ('Sarajevsko-zvornicka regija');
-INSERT INTO regions (title) VALUES ('Trebinjsko-focanska regija');
-INSERT INTO regions (title) VALUES ('Brcko distrikt');
+INSERT INTO regions (title, order_priority) VALUES ('Unsko-sanski kanton', 100);
+INSERT INTO regions (title, order_priority) VALUES ('Posavski kanton', 200);
+INSERT INTO regions (title, order_priority) VALUES ('Tuzlanski kanton', 300);
+INSERT INTO regions (title, order_priority) VALUES ('Zeničko-dobojski kanton', 400);
+INSERT INTO regions (title, order_priority) VALUES ('Bosansko-podrinjski kanton', 500);
+INSERT INTO regions (title, order_priority) VALUES ('Srednjobosanski kanton', 600);
+INSERT INTO regions (title, order_priority) VALUES ('Hercegovačko-neretvanski kanton', 700);
+INSERT INTO regions (title, order_priority) VALUES ('Zapadnohercegovački kanton', 800);
+INSERT INTO regions (title, order_priority) VALUES ('Kanton Sarajevo', 900);
+INSERT INTO regions (title, order_priority) VALUES ('Kanton 10', 1000);
+INSERT INTO regions (title, order_priority) VALUES ('Banjalučka regija', 1100);
+INSERT INTO regions (title, order_priority) VALUES ('Dobojsko-bijeljinska regija', 1200);
+INSERT INTO regions (title, order_priority) VALUES ('Sarajevsko-zvornička regija', 1300);
+INSERT INTO regions (title, order_priority) VALUES ('Trebinjsko-fočanska regija', 1400);
+INSERT INTO regions (title, order_priority) VALUES ('Brčko distrikt', 1500);
