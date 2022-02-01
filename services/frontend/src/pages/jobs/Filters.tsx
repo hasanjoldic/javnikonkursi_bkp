@@ -30,10 +30,13 @@ export const Filters: React.FC = () => {
 
   React.useEffect(() => {
     setRegionOptions(
-      regions.map((region) => ({
-        label: region.title,
-        value: region.id,
-      }))
+      regions
+        .slice()
+        .sort((o1, o2) => o1.orderPriority - o2.orderPriority)
+        .map((region) => ({
+          label: region.title,
+          value: region.id,
+        }))
     );
   }, [setRegionOptions, regions]);
 

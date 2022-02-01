@@ -13,17 +13,6 @@ const sharedThemeOptions: ThemeOptions = {
       },
     },
   },
-  components: {
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          [defaultTheme.breakpoints.down("md")]: {
-            boxShadow: "none",
-          },
-        },
-      },
-    },
-  },
 };
 
 export const theme = createTheme({

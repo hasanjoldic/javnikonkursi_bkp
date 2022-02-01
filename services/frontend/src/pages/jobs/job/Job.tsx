@@ -23,10 +23,15 @@ const Chips = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   "& > .MuiChip-root": {
+    height: "unset",
+    minHeight: theme.spacing(4),
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
     margin: "0.25rem",
+    "& > .MuiChip-label": {
+      whiteSpace: "normal",
+    },
   },
   [theme.breakpoints.up("lg")]: {
     display: "block",

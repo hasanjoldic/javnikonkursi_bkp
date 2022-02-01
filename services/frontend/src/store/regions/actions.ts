@@ -19,6 +19,9 @@ const GET_REGIONS = gql`
       nodes {
         id
         title
+        orderPriority
+
+        _createdAt
       }
     }
   }
