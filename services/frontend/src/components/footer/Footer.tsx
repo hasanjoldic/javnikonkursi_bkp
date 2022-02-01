@@ -20,7 +20,7 @@ export const Footer: React.FC = () => {
           <footer className={classes.footer}>
             <div className={classes.linksContainer}>
               <Typography variant="subtitle2">Službe za zapošljavanje:</Typography>
-              <Link href="http://usk-szz.ba/nova/oglasi.php" target="blank">
+              <Link href="https://usk-szz.ba/oglasi" target="blank">
                 <Typography variant="body1">{ERegion.USK}</Typography>
               </Link>
               <Link
@@ -111,7 +111,7 @@ export const Footer: React.FC = () => {
           </footer>
           <Box pb={2}>
             <Typography textAlign="center">
-              Javni konkursi za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
+              Konkursi za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
             </Typography>
           </Box>
         </Paper>
