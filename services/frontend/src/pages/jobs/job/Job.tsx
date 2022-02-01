@@ -19,32 +19,18 @@ import { RouterButton } from "components";
 import { useLocation } from "react-router-dom";
 import { getJobInternalUrl } from "store";
 
-const Header = styled("div")(({ theme }) => ({
-  padding: "1rem 0",
-  [theme.breakpoints.up("lg")]: {
-    "& > div": {
-      display: "flex",
-      alignItems: "center",
-    },
-  },
-}));
-
 const Chips = styled("div")(({ theme }) => ({
   display: "flex",
+  flexDirection: "column",
+  "& > .MuiChip-root": {
+    display: "inline-flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "0.25rem",
+  },
   [theme.breakpoints.up("lg")]: {
-    "& > .MuiChip-root": {
-      marginRight: "2rem",
-    },
-  },
-  [theme.breakpoints.down("md")]: {
-    flexDirection: "column",
-
-    "& > .MuiChip-root": {
-      marginBottom: ".5rem",
-    },
-  },
-  "& > *": {
-    backgroundColor: "#fff",
+    display: "block",
+    margin: "0.5rem",
   },
 }));
 
@@ -82,7 +68,7 @@ export const Job: React.FC<IProps> = (props) => {
     >
       <Typography variant="h5">{job?.title}</Typography>
       <Divider />
-      <Header>
+      <Box paddingY={1}>
         <Chips>
           <Chip icon={<PlaceIcon />} label={job?.region.title} />
           <Chip icon={<BusinessRoundedIcon />} label={job?.company.title} />
@@ -90,7 +76,7 @@ export const Job: React.FC<IProps> = (props) => {
           <Chip icon={<PeopleIcon />} label={job?.numberOfOpenings} />
         </Chips>
         <div></div>
-      </Header>
+      </Box>
       <Divider />
       <Box pt={1}>
         <Typography>Objavljeno: {dateFormat(job?.startDate, EDateFormat["dd.MM.yyyy"])}</Typography>
