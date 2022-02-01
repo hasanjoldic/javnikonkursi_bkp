@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - name: Pull repo
+        uses: actions/checkout@v2
+      - name: Pull repo
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} git pull

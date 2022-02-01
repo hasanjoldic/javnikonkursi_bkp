@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - name: Pull repo
+        uses: actions/checkout@v2
+      - name: Pull repo
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && sudo -Hu ${{ secrets.USER_DEV }} git pull
@@ -35,7 +37,7 @@ jobs:
       - name: Serve frontend with nginx
         uses: garygrossgarten/github-action-ssh@release
         with:
-          command: cd /home/${{ secrets.USER_PROD }}/javnikonkursi && cp -r /home/${{ secrets.USER_PROD }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
+          command: cd /home/${{ secrets.USER_DEV }}/javnikonkursi && cp -r /home/${{ secrets.USER_DEV }}/javnikonkursi/services/frontend/build/* /usr/share/nginx/html/
           host: ${{ secrets.HOST_DEV }}
           username: ${{ secrets.LOGIN_DEV }}
           privateKey: ${{ secrets.PRIVATE_KEY_DEV }}
