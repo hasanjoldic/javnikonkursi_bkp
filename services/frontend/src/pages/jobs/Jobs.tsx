@@ -36,13 +36,13 @@ export const Jobs: React.FC = () => {
 
   const filteredJobs = _orderBy(
     jobs.filter((job) => {
-      if (regionsFilter.length && !regionsFilter.includes(job.region.id)) {
+      if (regionsFilter.length && !regionsFilter.map((o) => o.value).includes(job.region.id)) {
         return false;
       }
-      if (jobTypesFilter.length && !jobTypesFilter.includes(job.jobType?.id)) {
+      if (jobTypesFilter.length && !jobTypesFilter.map((o) => o.value).includes(job.jobType?.id)) {
         return false;
       }
-      if (companiesFilter.length && !companiesFilter.includes(job.company.id)) {
+      if (companiesFilter.length && !companiesFilter.map((o) => o.value).includes(job.company.id)) {
         return false;
       }
       if (!shouldIncludeExpired && isAfter(new Date(), new Date(job.endDate))) {
