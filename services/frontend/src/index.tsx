@@ -38,14 +38,15 @@ if (NODE_ENV === "development") {
 }
 
 const persistConfig = {
-  key: "flare-dispatch-v1",
+  key: "javnikonkursi.com",
+  version: 1,
   whitelist: ["auth", "version", "i18n", "filters"],
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(...middlewares)));
-(window as any).__store__ = store;
 const persistor = persistStore(store);
+(window as any).__store__ = store;
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
