@@ -67,9 +67,9 @@ export const AddJobTag: React.FC = () => {
         <TextInput
           name="title"
           type="text"
-          placeholder="Doktor medicine"
+          placeholder="VSS"
           textFieldProps={{
-            label: "Vrsta posla",
+            label: "Oznaka posla",
             variant: "outlined",
             fullWidth: true,
           }}
