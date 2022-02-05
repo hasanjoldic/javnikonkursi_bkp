@@ -93,7 +93,7 @@ export const Filters: React.FC = () => {
             <SearchSelectInput
               name="regionIds"
               selectProps={{
-                placeholder: "Regija...",
+                placeholder: "Lokacija...",
                 options: regionOptions,
                 value: regionsFilter,
                 onChange: (value: ISelectOption[]) => dispatch(updateFilters({ regions: value || [] })),

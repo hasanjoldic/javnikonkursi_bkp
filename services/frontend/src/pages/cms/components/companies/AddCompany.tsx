@@ -113,7 +113,7 @@ export const AddCompany: React.FC = () => {
             options: regionOptions,
           }}
           textFieldProps={{
-            label: "Regija",
+            label: "Lokacija",
             variant: "outlined",
             fullWidth: true,
             placeholder: "Tuzlanski Kanton",

@@ -135,6 +135,7 @@ export const EditJob: React.FC = () => {
           .url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html")
           .required("Obavezno polje"),
         internalFile: Yup.mixed().required(),
+        notes: Yup.string(),
       })}
       onSubmit={handleSubmit}
       onDelete={handleDelete}
@@ -195,7 +196,7 @@ export const EditJob: React.FC = () => {
             options: regionOptions,
           }}
           textFieldProps={{
-            label: "Regija",
+            label: "Lokacija",
             variant: "outlined",
             fullWidth: true,
             placeholder: "Tuzlanski Kanton",
@@ -232,6 +233,17 @@ export const EditJob: React.FC = () => {
           placeholder="https://www.bhtelecom.ba/karijere.html"
           textFieldProps={{
             label: "Web stranica konkursa",
+            variant: "outlined",
+            fullWidth: true,
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextInput
+          name="notes"
+          textFieldProps={{
+            label: "Bilješke",
             variant: "outlined",
             fullWidth: true,
           }}

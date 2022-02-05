@@ -97,16 +97,18 @@ export const Job: React.FC<IProps> = (props) => {
             )}
           </Box>
           <Box>
-            <Button
-              target="_blank"
-              href={job?.externalUrl}
-              variant="outlined"
-              color="primary"
-              endIcon={<OpenInNewIcon />}
-              sx={{ mr: 2 }}
-            >
-              Izvorni oglas
-            </Button>
+            {job?.externalUrl && (
+              <Button
+                target="_blank"
+                href={job?.externalUrl}
+                variant="outlined"
+                color="primary"
+                endIcon={<OpenInNewIcon />}
+                sx={{ mr: 2 }}
+              >
+                Izvorni oglas
+              </Button>
+            )}
             <Button
               target="_blank"
               href={getJobInternalUrl(job?.id)}

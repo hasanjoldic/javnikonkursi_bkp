@@ -132,7 +132,7 @@ export const Drawer: React.FC<DrawerProps> = ({ open, onClose }) => {
             <SearchSelectInput
               name="regionIds"
               selectProps={{
-                placeholder: "Regija...",
+                placeholder: "Lokacija...",
                 options: regionOptions,
                 value: regionsFilter,
                 onChange: (value: ISelectOption[]) => dispatch(updateFilters({ regions: value || [] })),

@@ -30,6 +30,7 @@ const initialValues = {
   endDate: null,
   externalUrl: "",
   internalFile: null,
+  notes: "",
 };
 
 const CREATE_JOB = gql`
@@ -125,6 +126,7 @@ export const AddJob: React.FC = () => {
         endDate: Yup.date().required("Obavezno polje"),
         externalUrl: Yup.string().url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html"),
         internalFile: Yup.mixed().required(),
+        notes: Yup.string(),
       })}
       onSubmit={handleSubmit}
     >
@@ -207,7 +209,7 @@ export const AddJob: React.FC = () => {
             options: regionOptions,
           }}
           textFieldProps={{
-            label: "Regija",
+            label: "Lokacija",
             variant: "outlined",
             fullWidth: true,
             placeholder: "Tuzlanski Kanton",
@@ -242,6 +244,17 @@ export const AddJob: React.FC = () => {
           placeholder="https://www.bhtelecom.ba/karijere.html"
           textFieldProps={{
             label: "Web stranica konkursa",
+            variant: "outlined",
+            fullWidth: true,
+          }}
+        />
+      </Grid>
+
+      <Grid item xs={12}>
+        <TextInput
+          name="notes"
+          textFieldProps={{
+            label: "Bilješke",
             variant: "outlined",
             fullWidth: true,
           }}

@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS jobs (
   number_of_openings INT DEFAULT 1,
 
   external_url TEXT,
+  notes TEXT,
 
   _created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   _updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
