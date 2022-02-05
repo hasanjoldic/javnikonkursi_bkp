@@ -28,14 +28,14 @@ const Chips = styled("div")(({ theme }) => ({
     display: "inline-flex",
     justifyContent: "center",
     alignItems: "center",
-    margin: "0.25rem",
+    margin: "0.125rem",
     "& > .MuiChip-label": {
       whiteSpace: "normal",
     },
   },
   [theme.breakpoints.up("lg")]: {
     display: "block",
-    margin: "0.5rem",
+    margin: "0.25rem",
   },
 }));
 
@@ -83,10 +83,11 @@ export const Job: React.FC<IProps> = (props) => {
         <div></div>
       </Box>
       <Divider />
-      <Box pt={1}>
+      <Box paddingY={1}>
         <Typography>Objavljeno: {dateFormat(job?.startDate, EDateFormat["dd.MM.yyyy"])}</Typography>
         <Typography>Ističe: {dateFormat(job?.endDate, EDateFormat["dd.MM.yyyy"])}</Typography>
-        <br />
+      </Box>
+      <Box pt={2}>
         <Buttons>
           <Box>
             {!isDetailPage && (
@@ -104,7 +105,7 @@ export const Job: React.FC<IProps> = (props) => {
               endIcon={<OpenInNewIcon />}
               sx={{ mr: 2 }}
             >
-              Link (izvorni oglas)
+              Izvorni oglas
             </Button>
             <Button
               target="_blank"
@@ -113,7 +114,7 @@ export const Job: React.FC<IProps> = (props) => {
               color="primary"
               endIcon={<OpenInNewIcon />}
             >
-              Link (arhivirani oglas)
+              Arhivirani oglas
             </Button>
           </Box>
         </Buttons>

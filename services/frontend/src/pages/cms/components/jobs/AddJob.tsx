@@ -123,9 +123,7 @@ export const AddJob: React.FC = () => {
         regionId: Yup.string().required("Obavezno polje"),
         startDate: Yup.date().required("Obavezno polje"),
         endDate: Yup.date().required("Obavezno polje"),
-        externalUrl: Yup.string()
-          .url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html")
-          .required("Obavezno polje"),
+        externalUrl: Yup.string().url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html"),
         internalFile: Yup.mixed().required(),
       })}
       onSubmit={handleSubmit}
