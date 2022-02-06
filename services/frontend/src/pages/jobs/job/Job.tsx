@@ -54,6 +54,14 @@ const Buttons = styled("div")(({ theme }) => ({
   },
 }));
 
+const Root = styled(Paper)(({ theme }) => ({
+  width: "100%",
+  maxWidth: "50rem",
+  padding: theme.spacing(4, 2),
+  margin: "0 auto",
+  marginBottom: theme.spacing(2),
+}));
+
 interface IProps {
   job: ArrayElement<GetJobsQuery["jobs"]["nodes"]>;
   // occupation: EJobType;
@@ -66,12 +74,7 @@ export const Job: React.FC<IProps> = (props) => {
   const isDetailPage = pathname.includes("job");
 
   return (
-    <Paper
-      id={job?.id}
-      elevation={4}
-      sx={{ maxWidth: "50rem", padding: "2rem 1rem", margin: "0 auto", marginBottom: "2rem" }}
-      // square={true}
-    >
+    <Root id={job?.id} elevation={4}>
       <Typography variant="h5">{job?.title}</Typography>
       <Divider />
       <Box paddingY={1}>
@@ -131,6 +134,6 @@ export const Job: React.FC<IProps> = (props) => {
           </Box>
         </Buttons>
       </Box>
-    </Paper>
+    </Root>
   );
 };
