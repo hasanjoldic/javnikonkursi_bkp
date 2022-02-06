@@ -39,7 +39,7 @@ export const EditCompany: React.FC = () => {
 
   const handleSubmit = React.useCallback<FormikConfig<Company>["onSubmit"]>(
     async (values, { setSubmitting }) => {
-      values = parseFormValues(values);
+      values = parseFormValues(values, ["title", "url", "regionId"]);
       setSubmitting(true);
 
       const updatedFields = Object.entries(values).reduce((sum, entry) => {

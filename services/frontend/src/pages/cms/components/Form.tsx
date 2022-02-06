@@ -26,7 +26,13 @@ export const Form = <T extends object>({
   children,
 }: React.PropsWithChildren<IProps<T>>): React.ReactElement => {
   return (
-    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+    <Formik
+      key={initialValues?.["id"]}
+      enableReinitialize
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       {({ isSubmitting, isValid }: FormikProps<any>) => (
         <div>
           <FormikForm>
@@ -70,11 +76,11 @@ export const Form = <T extends object>({
   );
 };
 
-export function parseFormValues(input: any, sanitize?: (input: any) => any) {
+export function parseFormValues(input: any, fields: string[], sanitize?: (input: any) => any) {
   const inputWithFlatValues = Object.keys(input).reduce((sum, curr) => {
     sum[curr] = input[curr]?.value || input[curr];
-    if (sum[curr] === "") {
-      sum[curr] = null;
+    if (!fields.includes(curr) || sum[curr] === "") {
+      delete sum[curr];
     }
     return sum;
   }, {} as any);

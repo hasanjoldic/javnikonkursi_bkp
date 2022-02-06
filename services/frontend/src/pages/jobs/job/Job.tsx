@@ -23,6 +23,7 @@ const Chips = styled("div")(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   "& > .MuiChip-root": {
+    backgroundColor: "white",
     height: "unset",
     minHeight: theme.spacing(4),
     display: "inline-flex",
@@ -87,6 +88,15 @@ export const Job: React.FC<IProps> = (props) => {
         <Typography>Objavljeno: {dateFormat(job?.startDate, EDateFormat["dd.MM.yyyy"])}</Typography>
         <Typography>Ističe: {dateFormat(job?.endDate, EDateFormat["dd.MM.yyyy"])}</Typography>
       </Box>
+      {isDetailPage && job?.notes && (
+        <Box paddingY={1}>
+          <Divider />
+          <Box paddingY={1}>
+            <Typography>{job.notes}</Typography>
+          </Box>
+          <Divider />
+        </Box>
+      )}
       <Box pt={2}>
         <Buttons>
           <Box>

@@ -85,10 +85,25 @@ export const AddJob: React.FC = () => {
     async ({ internalFile, jobTagIds, ...values }, { setSubmitting }) => {
       setSubmitting(true);
 
-      values = parseFormValues(values, (input) => {
-        input["numberOfOpenings"] = Number.parseInt(input["numberOfOpenings"]);
-        return input;
-      });
+      values = parseFormValues(
+        values,
+        [
+          "title",
+          "jobTypeId",
+          "numberOfOpenings",
+          "jobTagIds",
+          "companyId",
+          "regionId",
+          "startDate",
+          "endDate",
+          "externalUrl",
+          "notes",
+        ],
+        (input) => {
+          input["numberOfOpenings"] = Number.parseInt(input["numberOfOpenings"]);
+          return input;
+        }
+      );
       const { data } = await createJob({
         variables: {
           input: {
@@ -124,9 +139,9 @@ export const AddJob: React.FC = () => {
         regionId: Yup.string().required("Obavezno polje"),
         startDate: Yup.date().required("Obavezno polje"),
         endDate: Yup.date().required("Obavezno polje"),
-        externalUrl: Yup.string().url("Mora biti url, npm: https://www.bhtelecom.ba/karijere.html"),
+        externalUrl: Yup.string().url("Mora biti url, npr: https://www.bhtelecom.ba/karijere.html"),
         internalFile: Yup.mixed().required(),
-        notes: Yup.string(),
+        notes: Yup.string().nullable(),
       })}
       onSubmit={handleSubmit}
     >
@@ -257,6 +272,7 @@ export const AddJob: React.FC = () => {
             label: "Bilješke",
             variant: "outlined",
             fullWidth: true,
+            multiline: true,
           }}
         />
       </Grid>

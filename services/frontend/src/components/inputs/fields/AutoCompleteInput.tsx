@@ -19,13 +19,15 @@ export const AutoCompleteInput: React.FC<TProps> = ({ autocompleteProps, textFie
   const hasError = meta.touched === true && meta.error != null;
   const helperText = hasError ? meta.error : null;
 
+  const value = field.value || undefined;
+
   return (
     <Autocomplete
       {...autocompleteProps}
+      value={value}
       onChange={(e, value) => {
         setFieldValue(props.name, value, true);
       }}
-      getOptionLabel={(option: any) => option.label}
       renderInput={(params) => (
         <TextField
           name={props.name}

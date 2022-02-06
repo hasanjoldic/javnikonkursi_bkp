@@ -37,7 +37,7 @@ export const AddJobType: React.FC = () => {
 
   const handleSubmit = React.useCallback<FormikConfig<typeof initialValues>["onSubmit"]>(
     async (values, { setSubmitting }) => {
-      values = parseFormValues(values);
+      values = parseFormValues(values, ["title", "notes"]);
       setSubmitting(true);
 
       const { data: updateData } = await createJobType({
@@ -59,7 +59,7 @@ export const AddJobType: React.FC = () => {
       initialValues={initialValues}
       validationSchema={Yup.object({
         title: Yup.string().min(5).required("Obavezno polje"),
-        notes: Yup.string(),
+        notes: Yup.string().nullable(),
       })}
       onSubmit={handleSubmit}
     >

@@ -1,8 +1,8 @@
 import React from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { QueryResult } from "@apollo/client";
 
-import { Box, Drawer, CssBaseline, List, ListItem, ListItemText, Theme } from "@mui/material";
+import { Box, CssBaseline, Theme, Tab, Tabs } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { useGetCompanies, useGetJobs, useGetJobTypes, useGetJobTags, useGetRegions } from "store";
@@ -31,10 +31,14 @@ export const useCmsContext = () => {
   return React.useContext(CmsContext);
 };
 
+const tabs = Object.entries(ENavTab);
+
 export const LoggedIn: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
   const { pathname } = useLocation();
+
+  const [value, setValue] = React.useState(tabs.findIndex((o) => pathname.includes(o[1])));
 
   useGetRegions();
   const { refetch: refetchCompanies } = useGetCompanies();
@@ -42,31 +46,20 @@ export const LoggedIn: React.FC = () => {
   const { refetch: refetchJobTypes } = useGetJobTypes();
   const { refetch: refetchJobTags } = useGetJobTags();
 
+  const handleChange = (_event, value) => {
+    setValue(value);
+    history.push(`/cms/${tabs[value][1]}`);
+  };
+
   return (
     <CmsContext.Provider value={{ refetchCompanies, refetchJobs, refetchJobTypes, refetchJobTags }}>
-      <Box display="flex">
+      <Box display="flex" flexDirection="column">
         <CssBaseline />
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          anchor="left"
-        >
-          <List>
-            {Object.entries(ENavTab).map((tab) => (
-              <ListItem
-                key={tab[0]}
-                button
-                selected={pathname.includes(tab[1])}
-                onClick={() => history.push(`/cms/${tab[1]}`)}
-              >
-                <ListItemText primary={tab[0]} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
+        <Tabs value={value} onChange={handleChange} centered>
+          {tabs.map((tab) => (
+            <Tab key={tab[0]} label={tab[0]} />
+          ))}
+        </Tabs>
         <main className={classes.content}>
           {/* <Switch> */}
           <CompanyRoutes />

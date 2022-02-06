@@ -32,18 +32,18 @@ export const EditJobType: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { refetchJobTypes } = useCmsContext();
 
-  const companies = useSelector((state: IApplicationState) => state.companies.data);
-  const selectedJobType = companies.find((company) => company.id === id);
+  const jobTypes = useSelector((state: IApplicationState) => state.jobTypes.data);
+  const selectedJobType = jobTypes.find((company) => company.id === id);
 
   const [updateJobType] = useMutation<UpdateJobTypeMutation, UpdateJobTypeMutationVariables>(UPDATE_JOB_TYPE);
 
   const handleSubmit = React.useCallback<FormikConfig<JobTypeInput>["onSubmit"]>(
     async (values, { setSubmitting }) => {
-      values = parseFormValues(values);
+      values = parseFormValues(values, ["title", "notes"]);
       setSubmitting(true);
 
       const { data: updateData } = await updateJobType({
-        variables: { input: { id: selectedJobType, patch: values } },
+        variables: { input: { id: selectedJobType.id, patch: values } },
       });
 
       if (updateData?.updateJobType?.jobType) {
@@ -61,7 +61,7 @@ export const EditJobType: React.FC = () => {
       initialValues={selectedJobType}
       validationSchema={Yup.object({
         title: Yup.string().min(5).required("Obavezno polje"),
-        notes: Yup.string(),
+        notes: Yup.string().nullable(),
       })}
       onSubmit={handleSubmit}
     >

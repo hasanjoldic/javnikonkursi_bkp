@@ -32,18 +32,18 @@ export const EditJobTag: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { refetchJobTags } = useCmsContext();
 
-  const companies = useSelector((state: IApplicationState) => state.companies.data);
-  const selectedJobType = companies.find((company) => company.id === id);
+  const jobTags = useSelector((state: IApplicationState) => state.jobTags.data);
+  const selectedJobType = jobTags.find((company) => company.id === id);
 
   const [updateJobTag] = useMutation<UpdateJobTagMutation, UpdateJobTagMutationVariables>(UPDATE_JOB_TYPE_TAGS);
 
   const handleSubmit = React.useCallback<FormikConfig<JobTypeInput>["onSubmit"]>(
     async (values, { setSubmitting }) => {
-      values = parseFormValues(values);
+      values = parseFormValues(values, ["title", "notes"]);
       setSubmitting(true);
 
       const { data: updateData } = await updateJobTag({
-        variables: { input: { id: selectedJobType, patch: values } },
+        variables: { input: { id: selectedJobType.id, patch: values } },
       });
 
       if (updateData?.updateJobTag?.jobTag) {
@@ -60,8 +60,8 @@ export const EditJobTag: React.FC = () => {
     <Form
       initialValues={selectedJobType}
       validationSchema={Yup.object({
-        title: Yup.string().min(5).required("Obavezno polje"),
-        notes: Yup.string(),
+        title: Yup.string().min(3).required("Obavezno polje"),
+        notes: Yup.string().nullable(),
       })}
       onSubmit={handleSubmit}
     >
@@ -69,9 +69,9 @@ export const EditJobTag: React.FC = () => {
         <TextInput
           name="title"
           type="text"
-          placeholder="Doktor medicine"
+          placeholder="VSS"
           textFieldProps={{
-            label: "Vrsta posla",
+            label: "Oznaka posla",
             variant: "outlined",
             fullWidth: true,
           }}

@@ -26,23 +26,35 @@ const GET_JOBS = gql`
       nodes {
         id
         title
+        numberOfOpenings
         startDate
         endDate
-        jobType {
-          id
-          title
-        }
+        externalUrl
+        notes
+
+        regionId
         region {
           id
           title
         }
-        externalUrl
-        notes
+        companyId
         company {
           id
           title
         }
-        numberOfOpenings
+        jobTypeId
+        jobType {
+          id
+          title
+        }
+        jobsJobTags {
+          nodes {
+            jobTag {
+              title
+              id
+            }
+          }
+        }
         _createdAt
         _updatedAt
       }

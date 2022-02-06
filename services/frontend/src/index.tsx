@@ -40,7 +40,7 @@ if (NODE_ENV === "development") {
 const persistConfig = {
   key: "javnikonkursi.com",
   version: 1,
-  whitelist: ["auth", "version", "i18n", "filters"],
+  whitelist: ["auth", "version", "filters"],
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, reducers);

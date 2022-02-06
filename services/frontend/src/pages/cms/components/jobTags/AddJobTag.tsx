@@ -33,14 +33,14 @@ export const AddJobTag: React.FC = () => {
   const history = useHistory();
   const { refetchJobTags } = useCmsContext();
 
-  const [CreateJobTag] = useMutation<CreateJobTagMutation, CreateJobTagMutationVariables>(CREATE_JOB_TYPE_TAGS);
+  const [createJobTag] = useMutation<CreateJobTagMutation, CreateJobTagMutationVariables>(CREATE_JOB_TYPE_TAGS);
 
   const handleSubmit = React.useCallback<FormikConfig<typeof initialValues>["onSubmit"]>(
     async (values, { setSubmitting }) => {
-      values = parseFormValues(values);
+      values = parseFormValues(values, ["title", "notes"]);
       setSubmitting(true);
 
-      const { data: updateData } = await CreateJobTag({
+      const { data: updateData } = await createJobTag({
         variables: { input: { jobTag: values } },
       });
 
@@ -51,7 +51,7 @@ export const AddJobTag: React.FC = () => {
 
       setSubmitting(false);
     },
-    [CreateJobTag, history, refetchJobTags]
+    [createJobTag, history, refetchJobTags]
   );
 
   return (
@@ -59,7 +59,7 @@ export const AddJobTag: React.FC = () => {
       initialValues={initialValues}
       validationSchema={Yup.object({
         title: Yup.string().required("Obavezno polje"),
-        notes: Yup.string(),
+        notes: Yup.string().nullable(),
       })}
       onSubmit={handleSubmit}
     >
