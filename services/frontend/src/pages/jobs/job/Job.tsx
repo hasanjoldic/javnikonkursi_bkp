@@ -27,7 +27,7 @@ const Chips = styled("div")(({ theme }) => ({
     height: "unset",
     minHeight: theme.spacing(4),
     display: "inline-flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     margin: "0.125rem",
     "& > .MuiChip-label": {
