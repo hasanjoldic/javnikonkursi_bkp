@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
               <Link href="http://zzzu-livno.ba/oglasi/page/1" target="blank">
                 <Typography variant="body1">{ERegion.K10}</Typography>
               </Link>
-              <Link
+  {/*             <Link
                 href="http://www.zzzrs.net/index.php/nezaposleni/oglasi_zavoda/search&exact-filijala=1"
                 target="blank"
               >
@@ -97,7 +97,7 @@ export const Footer: React.FC = () => {
                 target="blank"
               >
                 <Typography variant="body1">{ERegion.TREBINJSKO_FOCANSKA_REGIJA}</Typography>
-              </Link>
+              </Link> */}
               <Link href="https://zzzbrcko.org/index.php/konkursi2016" target="blank">
                 <Typography variant="body1">{ERegion.BRCKO_DISTRIKT}</Typography>
               </Link>
