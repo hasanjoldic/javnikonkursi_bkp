@@ -1,9 +1,3 @@
-| Usage | Title         | Description                |
-| ----- | ------------- | -------------------------- |
-| docs  | Documentation | Documentation only changes |
-|       |               |                            |
-|       |               |                            |
-
 ### Arhiva svih konkursa za zapošljavanje u javnim ustanovama i preduzećima u Bosni i Hercegovini
 
 # Javni konkursi
